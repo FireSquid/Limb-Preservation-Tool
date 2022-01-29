@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LimbPreservationTool.Views.PhotoPage"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+
+    <ContentPage.BindingContext>
+        <vm:PhotoViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Button x:Name="CameraBtn" Margin="0,10,0,0" Text="Take a Picture"
+                Command="{Binding TakePhotoCommand}"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White" />
+            <Image Source="{Binding LastPhoto}" />
+            <Label Text="{Binding PictureStatus}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

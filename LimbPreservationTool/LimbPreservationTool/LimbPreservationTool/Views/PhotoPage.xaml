@@ -9,13 +9,15 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Button x:Name="CameraBtn" Margin="0,10,0,0" Text="Take a Picture"
-                Command="{Binding TakePhotoCommand}"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White" />
-            <Image Source="{Binding LastPhoto}" />
-            <Label Text="{Binding PictureStatus}" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Button x:Name="CameraBtn" Margin="0,10,0,0" Text="Take a Picture"
+                    Command="{Binding TakePhotoCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White" />
+                <Image Source="{Binding LastPhoto}" />
+                <Label Text="{Binding PictureStatus}" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

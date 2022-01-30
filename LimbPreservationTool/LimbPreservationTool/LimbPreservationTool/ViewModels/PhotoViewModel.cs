@@ -20,89 +20,36 @@ namespace LimbPreservationTool.ViewModels
         {
             Title = "About";
             PictureStatus = "No Picture Found";
-            TakePhotoCommand = new Command(async () => await GetImageFromCamera());
-            		    
-            System.Diagnostics.Debug.WriteLine("Photo ViewModel\n");
+            TakePhotoCommand = new Command(async () => await TakePhoto());
         }
 
-        //private async Task<ImageSource> TakePhoto()
-        //{
-        //    var photo = await Media.CrossMedia.Current.TakePhotoAsync(new Media.Abstractions.StoreCameraMediaOptions() { });
-
-        //    if (photo != null)
-        //    {
-        //        ImageSource nextPhoto = ImageSource.FromStream(() => { return photo.GetStream(); });
-        //        
-        //        return nextPhoto;
-        //    }
-        //    return null;
-        //}
-		private ImageSource PhotoPath;
         async Task TakePhoto()
         {
+            FileResult photo = null;
             try
             {
-                
-                System.Diagnostics.Debug.WriteLine("Beging Taking Photo\n");
-                //PermissionStatus status = await MediaPicker.RequestPermissionAsync<CalendarPermission>();
-                var photo = await MediaPicker.CapturePhotoAsync();
-
-                System.Diagnostics.Debug.WriteLine("Photo Capatured\n");
-                await LoadPhotoAsync(photo);
-                Console.WriteLine($"CapturePhotoAsync COMPLETED: {PhotoPath}");
+                // Attempt to take the picture
+                photo = await MediaPicker.CapturePhotoAsync();
             }
-            catch (FeatureNotSupportedException fnsEx)
+            catch (FeatureNotSupportedException e)
             {
-
-                System.Diagnostics.Debug.WriteLine("Feature Not Supported\n");
-                // Feature is not supported on the device
+                System.Diagnostics.Debug.WriteLine($"Feature Not Supported {e.Message}");
             }
-            catch (PermissionException pEx)
+            catch (PermissionException e)
             {
-
-                System.Diagnostics.Debug.WriteLine("Permission Denied\n");
-                // Permissions not granted
+                System.Diagnostics.Debug.WriteLine($"Permission Denied: {e.Message}");
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-
-                System.Diagnostics.Debug.WriteLine($"CapturePhotoAsync THREW: {ex.Message}");
+                System.Diagnostics.Debug.WriteLine($"CapturePhotoAsync THREW: {e.Message}");
             }
-        }
 
-        async Task LoadPhotoAsync(FileResult photo)
-        {
-            // canceled
-            if (photo == null)
+            if (photo != null)
             {
-                System.Diagnostics.Debug.WriteLine("Null Photo\n");
-                PhotoPath = null;
-                return;
+                // Load the picture from a stream and set as the image source
+                var photoStream = await photo.OpenReadAsync();
+                LastPhoto = ImageSource.FromStream(() => photoStream);
             }
-            // save the file into local storage
-
-            Console.Write("Photo Taken");
-            var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-            using (var stream = await photo.OpenReadAsync())
-            using (var newStream = File.OpenWrite(newFile))
-                await stream.CopyToAsync(newStream);
-
-            PhotoPath = newFile;
-        }
-
-        private async Task GetImageFromCamera()
-        {
-            //ImageSource newImage = await TakePhoto();
-
-            //if (newImage != null)
-            //{
-            //    PictureStatus = $"Found Picture, {newImage.ToString()}";
-            //    LastPhoto = newImage;
-            //}
-
-			await TakePhoto();
-		    LastPhoto = PhotoPath;	
-            
         }
 
         public ICommand TakePhotoCommand { get; }

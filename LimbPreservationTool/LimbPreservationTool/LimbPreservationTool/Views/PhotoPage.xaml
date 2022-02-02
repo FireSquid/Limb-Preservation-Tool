@@ -15,8 +15,8 @@
                     Command="{Binding TakePhotoCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
-                <Image Source="{Binding LastPhoto}" />
                 <Label Text="{Binding PictureStatus}" />
+                <Image Source="{Binding LastPhoto}" />                
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

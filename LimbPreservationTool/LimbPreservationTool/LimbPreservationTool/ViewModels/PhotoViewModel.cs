@@ -49,6 +49,7 @@ namespace LimbPreservationTool.ViewModels
                 // Load the picture from a stream and set as the image source
                 var photoStream = await photo.OpenReadAsync();
                 LastPhoto = ImageSource.FromStream(() => photoStream);
+                PictureStatus = $"Successfully obtained photo: {LastPhoto.ToString()}";
             }
         }
 

@@ -18,7 +18,7 @@ namespace LimbPreservationTool.ViewModels
     {
         public PhotoViewModel()
         {
-            Title = "About";
+            Title = "Photo";
             PictureStatus = "No Picture Found";
             TakePhotoCommand = new Command(async () => await TakePhoto());
         }

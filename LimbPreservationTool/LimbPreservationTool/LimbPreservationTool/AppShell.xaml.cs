@@ -15,6 +15,11 @@ namespace LimbPreservationTool
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
+        private async void OnHomeItemClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//HomePage");
+        }
+
         private async void OnMenuItemClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//LoginPage");

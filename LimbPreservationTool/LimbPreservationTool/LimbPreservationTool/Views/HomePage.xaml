@@ -21,7 +21,7 @@
                                 Command="{Binding TakeNewPhotoCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White" />
-                    <Button Margin="50,20" Text="Enter Additional Info"
+                    <Button Margin="50,20" Text="Enter Additional Wifi Info"
                                 Command="{Binding EnterAdditionalInfoCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White" />

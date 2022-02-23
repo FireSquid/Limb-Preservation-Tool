@@ -42,5 +42,10 @@
 	<string>Can I use your Photo Library with Additions?</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
 	<false/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

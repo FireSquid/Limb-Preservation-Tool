@@ -14,6 +14,9 @@
     <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.5.0" />
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.0.7" />
+    <PackageReference Include="AWSSDK.RDS" Version="3.7.10.1" />
+    <PackageReference Include="AWSSDK.CognitoIdentity" Version="3.7.0.124" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,5 +30,8 @@
     <None Remove="Microsoft.AppCenter.Analytics" />
     <None Remove="sqlite-net-pcl" />
     <None Remove="SQLitePCLRaw.bundle_green" />
+    <None Remove="AWSSDK.RDS" />
+    <None Remove="AWSSDK.CognitoIdentity" />
+    <None Remove="Newtonsoft.Json" />
   </ItemGroup>
 </Project>

@@ -10,6 +10,7 @@ using Xamarin.Essentials;
 
 using System.Windows.Input;
 using System.Threading.Tasks;
+using LimbPreservationTool.Models;
 using System.IO;
 
 namespace LimbPreservationTool.ViewModels
@@ -20,12 +21,13 @@ namespace LimbPreservationTool.ViewModels
         {
             Title = "About";
             PictureStatus = "No Picture Found";
+            photo = null;
             TakePhotoCommand = new Command(async () => await TakePhoto());
+            ExaminePhotoCommand = new Command(async () => await ExaminePhoto());
         }
 
         async Task TakePhoto()
         {
-            FileResult photo = null;
             try
             {
                 // Attempt to take the picture
@@ -47,13 +49,31 @@ namespace LimbPreservationTool.ViewModels
             if (photo != null)
             {
                 // Load the picture from a stream and set as the image source
-                var photoStream = await photo.OpenReadAsync();
+                photoStream = await photo.OpenReadAsync();
                 LastPhoto = ImageSource.FromStream(() => photoStream);
                 PictureStatus = $"Successfully obtained photo: {LastPhoto.ToString()}";
+                //using (var stream = await photo.OpenReadAsync())
+                //BeginInvoke(()=>ExaminePhoto());
             }
         }
+        async Task ExaminePhoto()
+        {
 
+            if (photo == null)
+            {
+                Console.Write("Has not taken a photo");
+                return;
+            }
+            photoStream = await photo.OpenReadAsync();
+            await Doctor.GetInstance().Examine(photoStream);
+
+        }
+
+        private FileResult photo { get; set; }
+        private Stream photoStream { get; set; }
         public ICommand TakePhotoCommand { get; }
+
+        public ICommand ExaminePhotoCommand { get; }
 
         private ImageSource lastPhoto;
         public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }

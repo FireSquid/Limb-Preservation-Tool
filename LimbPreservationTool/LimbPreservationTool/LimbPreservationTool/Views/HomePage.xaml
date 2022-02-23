@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout Spacing="0" BackgroundColor="{StaticResource MainBG}">
             <StackLayout HeightRequest="60">
-                <Label Text="HOME PAGE" FontSize="30"
+                <Label Text="Limb Preservation Tool" FontSize="30"
                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
             </StackLayout>
             <ScrollView VerticalOptions="CenterAndExpand">

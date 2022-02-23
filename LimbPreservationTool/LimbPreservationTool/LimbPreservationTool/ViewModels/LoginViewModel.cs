@@ -23,7 +23,7 @@ namespace LimbPreservationTool.ViewModels
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
 
-            LoginStatus = "Login Failed - Invalid Username or Password";
+            LoginStatus = $"Login Failed - Invalid Username or Password";
         }
 
         private bool VerifyLoginEntry()
@@ -45,6 +45,6 @@ namespace LimbPreservationTool.ViewModels
         public string PasswordEntryField { get => passwordEntryField; set => SetProperty(ref passwordEntryField, value); }
 
         private string loginStatus;
-        public string LoginStatus { get => loginStatus; set => SetProperty(ref loginStatus, value); }
+        public string LoginStatus { get => loginStatus; private set => SetProperty(ref loginStatus, value); }
     }
 }

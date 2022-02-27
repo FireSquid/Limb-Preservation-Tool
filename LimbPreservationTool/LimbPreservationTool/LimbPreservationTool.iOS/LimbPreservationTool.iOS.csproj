@@ -135,8 +135,8 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
     <PackageReference Include="Xam.Plugin.Media">
       <Version>5.0.1</Version>
     </PackageReference>
@@ -154,12 +154,6 @@
     </PackageReference>
     <PackageReference Include="SQLitePCLRaw.bundle_green">
       <Version>2.0.7</Version>
-    </PackageReference>
-    <PackageReference Include="AWSSDK.CognitoIdentity">
-      <Version>3.7.0.124</Version>
-    </PackageReference>
-    <PackageReference Include="AWSSDK.RDS">
-      <Version>3.7.10.1</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

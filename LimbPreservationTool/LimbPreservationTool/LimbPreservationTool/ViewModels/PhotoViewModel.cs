@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 
 using Xamarin.Forms;
 using Xamarin.Essentials;
@@ -23,7 +24,7 @@ namespace LimbPreservationTool.ViewModels
             PictureStatus = "No Picture Found";
             photo = null;
             TakePhotoCommand = new Command(async () => await TakePhoto());
-            ExaminePhotoCommand = new Command(async () => await ExaminePhoto());
+            ExaminePhotoCommand = new Command(() => ExaminePhoto());
         }
 
         async Task TakePhoto()
@@ -56,7 +57,7 @@ namespace LimbPreservationTool.ViewModels
                 //BeginInvoke(()=>ExaminePhoto());
             }
         }
-        async Task ExaminePhoto()
+        async void ExaminePhoto()
         {
 
             if (photo == null)
@@ -65,8 +66,9 @@ namespace LimbPreservationTool.ViewModels
                 return;
             }
             photoStream = await photo.OpenReadAsync();
-            await Doctor.GetInstance().Examine(photoStream);
-
+            Task<string> e = Doctor.GetInstance().Examine(photoStream);
+            await e;
+            Console.WriteLine("Examine finished");
         }
 
         private FileResult photo { get; set; }

@@ -33,7 +33,7 @@ namespace LimbPreservationTool.Models
             password = user_password;
             client = new HttpClient
             {
-                Timeout = TimeSpan.FromSeconds(10)
+                Timeout = TimeSpan.FromSeconds(3)
             };
 
         }
@@ -56,7 +56,7 @@ namespace LimbPreservationTool.Models
             instance = null;
         }
 
-        public async Task Examine(Stream imageStream)
+        public async Task<String> Examine(Stream imageStream)
         {
             var ms = new MemoryStream();
             imageStream.CopyTo(ms);
@@ -68,23 +68,33 @@ namespace LimbPreservationTool.Models
             try
             {
 
-                HttpRequestMessage request = new HttpRequestMessage
-                {
-                    Method = HttpMethod.Post,
-                    RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze"),
-                    Content = new StringContent(jsonScan)
-                };
-                HttpResponseMessage response = await client.SendAsync(request);
-                //string score = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(score);
+                // HttpRequestMessage request = new HttpRequestMessage
+                // {
+                //     Method = HttpMethod.Get,
+                //     RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze"),
+                //     Content = new StringContent(jsonScan)
+                // };
+
+                // HttpResponseMessage response = await client.SendAsync(request);
+                var RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze");
+
+                var Content = new StringContent(jsonScan);
+                Console.WriteLine("Sending request");
+                HttpResponseMessage response = await client.PostAsync(RequestUri, Content);
+
+                Console.WriteLine("Received request!");
+                string score = await response.Content.ReadAsStringAsync();
+                Console.WriteLine(score);
+                return score;
             }
             catch (Exception e)
             {
-
+                Console.Write(e.Message);
                 Console.WriteLine("Examine timeout");
             }
-
+            return "request not finished";
         }
+
         public void LookUpRecentScore(String patientID)
         {
 

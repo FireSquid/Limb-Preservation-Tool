@@ -1,7 +1,9 @@
-﻿using LimbPreservationTool.Views;
+﻿using LimbPreservationTool.Models;
+using LimbPreservationTool.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace LimbPreservationTool.ViewModels
@@ -11,29 +13,38 @@ namespace LimbPreservationTool.ViewModels
 
         public LoginViewModel()
         {
-            LoginStatus = "Awaiting Login";
+            ResetLoginMessage();
             LoginCommand = new Command(OnLoginClicked);
         }
 
         private async void OnLoginClicked(object obj)
         {
-            if (VerifyLoginEntry())
+            LoginStatus = "Authenticating Login Information...";
+            if (await VerifyLoginEntry())
             {
                 LoginStatus = "Login Successful";
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
-
-            LoginStatus = $"Login Failed - Invalid Username or Password";
+            else
+            {
+                LoginStatus = $"Login Failed - Invalid Username or Password";
+            }
         }
 
-        private bool VerifyLoginEntry()
+        private async Task<bool> VerifyLoginEntry()
         {
-            if (UsernameEntryField == "Admin" && PasswordEntryField == "12345")
-            {
-                return true;
-            }
+            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+        }
 
-            return false;
+        public void ResetLoginMessage()
+        {
+            LoginStatus = "Awaiting Login";
+        }
+
+        public void ClearLoginInformation()
+        {
+            UsernameEntryField = "";
+            PasswordEntryField = "";
         }
 
         public Command LoginCommand { get; }

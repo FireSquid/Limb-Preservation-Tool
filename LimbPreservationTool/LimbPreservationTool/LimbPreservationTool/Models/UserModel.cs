@@ -35,28 +35,14 @@ namespace LimbPreservationTool.Models
                 {
 
                     Method = HttpMethod.Post,
+
+                    //RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID="),
                     RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                     Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json")
                 };
 
-                //RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze"),
                 messages.Add(request);
             };
-            //byte[] b = { 0x01, 0xff };
-            //var content = new Dictionary<string, string> {
-            //        { "chunk",Convert.ToBase64String(b)}
-
-            //    };
-            //HttpRequestMessage request = new HttpRequestMessage
-            //{
-
-            //    Method = HttpMethod.Post,
-            //    RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
-            //    Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json")
-            //};
-
-            //RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze"),
-            //messages.Add(request);
             return messages;
 
 
@@ -140,13 +126,11 @@ namespace LimbPreservationTool.Models
             {
                 var watch = new System.Diagnostics.Stopwatch();
                 watch.Start();
-                //await Client.GetInstance().SendRequestChunksAsync(scan);
-                //var RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze");
-                HttpResponseMessage scanResult = await Client.GetInstance().GetRequestAsync(scan);
-                //var Content = new StringContent(jsonScan);
-                //HttpResponseMessage response = client.PostAsync(RequestUri, Content).Result;
 
-                //string score = await response.Content.ReadAsStringAsync();
+                await Client.GetInstance().SendRequestChunksAsync(scan);
+                HttpResponseMessage scanResult = await Client.GetInstance().GetRequestAsync(scan);
+
+                //TODO: extra steps for decoding ResponseMessage
 
                 watch.Stop();
 
@@ -173,30 +157,4 @@ namespace LimbPreservationTool.Models
     }
 
 
-    //https://stackoverflow.com/questions/44370046/how-do-i-serialize-object-to-json-using-json-net-which-contains-an-image-propert
-    //   public class ImageConverter : JsonConverter
-    //   {
-    //       public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-    //       {
-    //           var base64 = (string)reader.Value;
-    //           // convert base64 to byte array, put that into memory stream and feed to image
-    //           return ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(base64)));
-    //       }
-
-    //       public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    //       {
-    //           var imageStream = (Stream)value;
-    //           // save to memory stream in original format
-    //           var ms = new MemoryStream();
-    //           imageStream.CopyTo(ms);
-    //           byte[] imageBytes = ms.ToArray();
-    //           // write byte array, will be converted to base64 by JSON.NET
-    //           writer.WriteValue(imageBytes);
-    //       }
-
-    //       public override bool CanConvert(Type objectType)
-    //       {
-    //           return objectType == typeof(Stream);
-    //       }
-    //   }
 }

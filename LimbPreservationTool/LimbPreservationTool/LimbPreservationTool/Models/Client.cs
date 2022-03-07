@@ -19,10 +19,12 @@ namespace LimbPreservationTool.Models
                 .Select(i => str.Substring(i * chunkSize, Math.Min(chunkSize, str.Length - i * chunkSize)));
         }
     }
+
     public interface IFetchableHttpContent
     {
         HttpRequestMessage Fetch();
     }
+
     public class Client
     {
         private static HttpClient hc = null;

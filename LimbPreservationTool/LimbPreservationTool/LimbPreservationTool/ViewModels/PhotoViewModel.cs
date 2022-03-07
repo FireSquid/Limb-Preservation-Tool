@@ -12,6 +12,7 @@ using Xamarin.Essentials;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using LimbPreservationTool.Models;
+using System.Drawing;
 using System.IO;
 
 namespace LimbPreservationTool.ViewModels
@@ -33,6 +34,7 @@ namespace LimbPreservationTool.ViewModels
             {
                 // Attempt to take the picture
                 photo = await MediaPicker.CapturePhotoAsync();
+                Console.WriteLine(photo.FileName.ToString());
             }
             catch (FeatureNotSupportedException e)
             {
@@ -51,6 +53,7 @@ namespace LimbPreservationTool.ViewModels
             {
                 // Load the picture from a stream and set as the image source
                 photoStream = await photo.OpenReadAsync();
+
                 LastPhoto = ImageSource.FromStream(() => photoStream);
                 PictureStatus = $"Successfully obtained photo: {LastPhoto.ToString()}";
                 //using (var stream = await photo.OpenReadAsync())

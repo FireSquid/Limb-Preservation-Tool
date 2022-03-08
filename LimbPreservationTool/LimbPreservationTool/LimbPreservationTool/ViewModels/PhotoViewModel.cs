@@ -28,6 +28,7 @@ namespace LimbPreservationTool.ViewModels
             ExaminePhotoCommand = new Command(() => ExaminePhoto());
         }
 
+
         async Task TakePhoto()
         {
             try
@@ -55,7 +56,7 @@ namespace LimbPreservationTool.ViewModels
                 photoStream = await photo.OpenReadAsync();
 
                 LastPhoto = ImageSource.FromStream(() => photoStream);
-                PictureStatus = $"Successfully obtained photo: {LastPhoto.ToString()}";
+                PictureStatus = $"Successfully obtained photo";
                 //using (var stream = await photo.OpenReadAsync())
                 //BeginInvoke(()=>ExaminePhoto());
             }
@@ -69,8 +70,8 @@ namespace LimbPreservationTool.ViewModels
                 return;
             }
             photoStream = await photo.OpenReadAsync();
-            Task<string> e = Doctor.GetInstance().Examine(photoStream);
-            await e;
+            Stream e = await Doctor.GetInstance().Examine(photoStream);
+            LastPhoto = ImageSource.FromStream(() => e);
             Console.WriteLine("Examine finished");
         }
 

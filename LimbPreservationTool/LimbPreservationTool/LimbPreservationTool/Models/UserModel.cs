@@ -10,19 +10,20 @@ using Xamarin.Essentials;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
+
 namespace LimbPreservationTool.Models
 {
     public class Scan : SplittableHttpContent, IFetchableHttpContent
     {
-        public Tuple<int, int> size { get; set; }
         public String patientID { get; set; }
         public String date { get; set; }
-        public byte[] image { get; set; }
+        public Stream imageStream { get; set; }
 
         public override List<HttpRequestMessage> ToHttpList()
         {
-
-            IEnumerable<string> contentchunks = Split(Convert.ToBase64String(image), 100000);
+            var ms = new MemoryStream();
+            imageStream.CopyTo(ms);
+            IEnumerable<string> contentchunks = Split(Convert.ToBase64String(ms.ToArray()), 100000);
             List<HttpRequestMessage> messages = new List<HttpRequestMessage>();
 
             foreach (string cc in contentchunks)
@@ -65,6 +66,13 @@ namespace LimbPreservationTool.Models
             return request;
         }
 
+        public static async Task<Scan> Decode(HttpResponseMessage m)
+        {
+            Scan s = new Scan();
+            s.imageStream = await m.Content.ReadAsStreamAsync();
+            return s;
+        }
+
     }
 
 
@@ -104,45 +112,36 @@ namespace LimbPreservationTool.Models
             instance = null;
         }
 
-        public async Task<String> Examine(Stream imageStream)
+        public async Task<Stream> Examine(Stream imageStream)
         {
             var ms = new MemoryStream();
             imageStream.CopyTo(ms);
-            byte[] imageBytes = ms.ToArray();
 
-            //string image = Convert.ToBase64String(imageBytes);
-            //demo id
-
-            Scan scan = new Scan() { patientID = "123456789", date = "1970-01-01_10:00:00", image = imageBytes };
-
-            string jsonScan = JsonConvert.SerializeObject(scan);
-
-            //string jsonScan = new string('*', 100000);
-
-            //Console.WriteLine("jsonScan:\n {0} ", image);
-            Console.WriteLine("jsonScan size: {0} ", jsonScan.Length);
+            Scan scan = new Scan() { patientID = "123456789", date = "1970-01-01_10:00:00", imageStream = ms };
 
             try
             {
                 var watch = new System.Diagnostics.Stopwatch();
                 watch.Start();
 
-                await Client.GetInstance().SendRequestChunksAsync(scan);
+                //await Client.GetInstance().SendRequestChunksAsync(scan);
                 HttpResponseMessage scanResult = await Client.GetInstance().GetRequestAsync(scan);
+                Scan result = await Scan.Decode(scanResult);
 
+                //Console.WriteLine(scanResult.Content.ToString());
                 //TODO: extra steps for decoding ResponseMessage
 
                 watch.Stop();
 
                 Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds } ms");
 
-                return "request finished";
+                return result.imageStream;
             }
             catch (Exception e)
             {
                 Console.Write(e.Message);
             }
-            return "request not finished";
+            return Stream.Null;
         }
 
         //public void LookUpRecentScore(String patientID)

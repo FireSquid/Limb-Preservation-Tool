@@ -105,7 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LimbPreservationTool\LimbPreservationTool.csproj">
-      <Project>{8FF37288-AD8A-4DB6-B488-DCB8BACF3A64}</Project>
+      <Project>{DAAD750B-AB34-417D-A98F-A9971755BD08}</Project>
       <Name>LimbPreservationTool</Name>
     </ProjectReference>
   </ItemGroup>

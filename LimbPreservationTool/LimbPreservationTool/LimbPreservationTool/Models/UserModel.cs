@@ -23,15 +23,18 @@ namespace LimbPreservationTool.Models
         {
             var ms = new MemoryStream();
             imageStream.CopyTo(ms);
-            IEnumerable<string> contentchunks = Split(Convert.ToBase64String(ms.ToArray()), 100000);
+            List<byte[]> contentchunks = Split(ms.ToArray(), 100000);
             List<HttpRequestMessage> messages = new List<HttpRequestMessage>();
 
-            foreach (string cc in contentchunks)
+            Console.WriteLine("chunk before conversion:{0}", ms.ToArray().Length);
+            Console.WriteLine("chunk before conversion:{0}", Convert.ToBase64String(ms.ToArray()).Length);
+            foreach (var cc in contentchunks)
             {
                 var content = new Dictionary<string, string> {
-                                { "chunk",cc}
+                                { "chunk", Convert.ToBase64String(cc)}
 
                             };
+
                 HttpRequestMessage request = new HttpRequestMessage
                 {
 
@@ -40,10 +43,12 @@ namespace LimbPreservationTool.Models
                     RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
                     //RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                     Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json")
+                    //Content = new ByteArrayContent(cc);
                 };
 
                 messages.Add(request);
             };
+
             return messages;
 
 
@@ -118,11 +123,9 @@ namespace LimbPreservationTool.Models
         public async Task<Stream> Examine(Stream imageStream)
         {
             Console.WriteLine("-------------Examining");
-            var ms = new MemoryStream();
-            imageStream.CopyTo(ms);
             Console.WriteLine("-------------Created Stream");
 
-            Scan scan = new Scan() { patientID = "123456789", date = "1970-01-01_10:00:00", imageStream = ms };
+            Scan scan = new Scan() { patientID = "123456789", date = "1970-01-01_10:00:00", imageStream = imageStream };
             Console.WriteLine("-------------Created Scan");
 
             try
@@ -131,7 +134,7 @@ namespace LimbPreservationTool.Models
                 watch.Start();
 
                 Console.WriteLine("-------------Sending Scan");
-                //await Client.GetInstance().SendRequestChunksAsync(scan);
+                await Client.GetInstance().SendRequestChunksAsync(scan);
                 HttpResponseMessage scanResult = await Client.GetInstance().GetRequestAsync(scan);
                 Console.WriteLine("-------------Received Result");
                 Scan result = await Scan.Decode(scanResult);

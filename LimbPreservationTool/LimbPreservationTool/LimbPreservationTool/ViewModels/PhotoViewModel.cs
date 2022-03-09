@@ -4,21 +4,15 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-<<<<<<< HEAD
 using System.Threading;
-=======
->>>>>>> dev
 
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
 using System.Windows.Input;
 using System.Threading.Tasks;
-<<<<<<< HEAD
 using LimbPreservationTool.Models;
 using System.Drawing;
-=======
->>>>>>> dev
 using System.IO;
 
 namespace LimbPreservationTool.ViewModels
@@ -27,7 +21,6 @@ namespace LimbPreservationTool.ViewModels
     {
         public PhotoViewModel()
         {
-<<<<<<< HEAD
             Title = "About";
             PictureStatus = "No Picture Found";
             photo = null;
@@ -38,24 +31,11 @@ namespace LimbPreservationTool.ViewModels
 
         async Task TakePhoto()
         {
-=======
-            Title = "Photo";
-            PictureStatus = "No Picture Found";
-            TakePhotoCommand = new Command(async () => await TakePhoto());
-        }
-
-        async Task TakePhoto()
-        {
-            FileResult photo = null;
->>>>>>> dev
             try
             {
                 // Attempt to take the picture
                 photo = await MediaPicker.CapturePhotoAsync();
-<<<<<<< HEAD
                 Console.WriteLine(photo.FileName.ToString());
-=======
->>>>>>> dev
             }
             catch (FeatureNotSupportedException e)
             {
@@ -73,7 +53,6 @@ namespace LimbPreservationTool.ViewModels
             if (photo != null)
             {
                 // Load the picture from a stream and set as the image source
-<<<<<<< HEAD
                 photoStream = await photo.OpenReadAsync();
 
                 LastPhoto = ImageSource.FromStream(() => photoStream);
@@ -106,16 +85,6 @@ namespace LimbPreservationTool.ViewModels
 
         public ICommand ExaminePhotoCommand { get; }
 
-=======
-                var photoStream = await photo.OpenReadAsync();
-                LastPhoto = ImageSource.FromStream(() => photoStream);
-                PictureStatus = $"Successfully obtained photo: {LastPhoto.ToString()}";
-            }
-        }
-
-        public ICommand TakePhotoCommand { get; }
-
->>>>>>> dev
         private ImageSource lastPhoto;
         public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }
 

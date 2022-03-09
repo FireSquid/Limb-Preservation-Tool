@@ -16,12 +16,16 @@
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
                 <Label Text="{Binding PictureStatus}" />
+<<<<<<< HEAD
                 <Image Source="{Binding LastPhoto}" />
 
                 <Button x:Name="ExamineBtn" Margin="0,10,0,0" Text="Examine this Picture"
                     Command="{Binding ExaminePhotoCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
+=======
+                <Image Source="{Binding LastPhoto}" />                
+>>>>>>> dev
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

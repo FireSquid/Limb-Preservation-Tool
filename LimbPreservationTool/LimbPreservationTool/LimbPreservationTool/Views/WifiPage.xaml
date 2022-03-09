@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LimbPreservationTool.Views.WifiPage"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+
+    <ContentPage.BindingContext>
+        <vm:WifiViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout Spacing="0" BackgroundColor="{StaticResource MainBG}">
+            <StackLayout HeightRequest="60">
+                <Label Text="Enter WIFI Info:" FontSize="30"
+                        HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+            </StackLayout>
+            <ScrollView VerticalOptions="CenterAndExpand">
+                <StackLayout>
+                    <Label Text="{Binding WifiStatus}" FontSize="Large" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="50,20" TextColor="Black"/>
+                    
+                    <Entry Placeholder="Wound Grade" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding WoundGrade}"/>
+                    <Entry Placeholder="Infection Grade" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding InfectionGrade}"/>
+                    <Entry Placeholder="Ischemia Grade" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding IschemiaGrade}"/>
+                    <Entry Placeholder="Toe Pressure Grade (in mm hG)" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding ToePressureGrade}"/>
+                    <Entry Placeholder="Ankle Brachial Index" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleBrachialIndex}"/>
+                    <Entry Placeholder="Ankle Systolic Pressure (in mm hG)" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleSystolicPressure}"/>
+
+                    <Button Margin="50,20" Text="View WIfi Score"
+                                Command="{Binding CalculateWiFICommand}"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White" />
+ 
+                </StackLayout>
+            </ScrollView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

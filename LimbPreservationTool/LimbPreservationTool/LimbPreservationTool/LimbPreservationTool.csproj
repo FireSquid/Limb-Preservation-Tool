@@ -16,6 +16,8 @@
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="SkiaSharp" Version="2.80.3" />
+    <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,5 +41,7 @@
     <None Remove="AWSSDK.CognitoIdentity" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Xamarin.FFImageLoading" />
+    <None Remove="SkiaSharp" />
+    <None Remove="SkiaSharp.Views.Forms" />
   </ItemGroup>
 </Project>

@@ -14,6 +14,17 @@ using System.Threading.Tasks;
 using LimbPreservationTool.Models;
 using System.Drawing;
 using System.IO;
+using SkiaSharp;
+using SkiaSharp.Views.Forms;
+#if __IOS__
+using System.Drawing;
+using UIKit;
+using CoreGraphics;
+#endif
+
+#if __ANDROID__
+using Android.Graphics;
+#endif
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -27,7 +38,6 @@ namespace LimbPreservationTool.ViewModels
             TakePhotoCommand = new Command(async () => await TakePhoto());
             ExaminePhotoCommand = new Command(() => ExaminePhoto());
         }
-
 
         async Task TakePhoto()
         {
@@ -54,7 +64,6 @@ namespace LimbPreservationTool.ViewModels
             {
                 // Load the picture from a stream and set as the image source
                 photoStream = await photo.OpenReadAsync();
-
                 LastPhoto = ImageSource.FromStream(() => photoStream);
                 PictureStatus = $"Successfully obtained photo";
                 //using (var stream = await photo.OpenReadAsync())
@@ -70,6 +79,7 @@ namespace LimbPreservationTool.ViewModels
                 return;
             }
             photoStream = await photo.OpenReadAsync();
+
             Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
             Stream e = await Doctor.GetInstance().Examine(photoStream);
             if (!e.Equals(Stream.Null))
@@ -79,7 +89,11 @@ namespace LimbPreservationTool.ViewModels
             }
         }
 
-        private FileResult photo { get; set; }
+
+
+
+        private FileResult photo
+        { get; set; }
         private Stream photoStream { get; set; }
         public ICommand TakePhotoCommand { get; }
 

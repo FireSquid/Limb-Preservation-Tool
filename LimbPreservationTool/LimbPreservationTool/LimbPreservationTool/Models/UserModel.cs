@@ -124,8 +124,12 @@ namespace LimbPreservationTool.Models
         {
             Console.WriteLine("-------------Examining");
             Console.WriteLine("-------------Created Stream");
-
-            Scan scan = new Scan() { patientID = "123456789", date = "1970-01-01_10:00:00", imageStream = imageStream };
+            Scan scan = new Scan()
+            {
+                patientID = "123456789",
+                date = DateTime.Now.ToString().Replace(' ', '_').Replace('/', '-'),
+                imageStream = imageStream
+            };
             Console.WriteLine("-------------Created Scan");
 
             try

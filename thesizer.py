@@ -8,17 +8,18 @@ import cv2
 import time
 import os
 
-while(True):
+def cv(filename, width):
+#while(True):
     # construct the argument and parse command line input
-    aparse = argparse.ArgumentParser()
-    aparse.add_argument("--image", required=True,help="image path")
-    aparse.add_argument("--width", type=float, required=True,help="width of far left object (inches)")
-    args = vars(aparse.parse_args())
+    #aparse = argparse.ArgumentParser()
+    #aparse.add_argument("--image", required=True,help="image path")
+    #aparse.add_argument("--width", type=float, required=True,help="width of far left object (inches)")
+    #args = vars(aparse.parse_args())
     #check if file exists, if not delay 5 seconds
-    image = args["image"]
-    if(os.path.exists(image)):
+    #image = args["image"]
+    if(os.path.exists(filename)):
         # load the image, convert it to grayscale, and blur it a bit
-        image = cv2.imread(args["image"])
+        image = cv2.imread(filename)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (7, 7), 0)
 
@@ -43,7 +44,10 @@ while(True):
             #print(c)
             if cv2.contourArea(c) < 100: #ignore/fly through contours that are not big enough
                 continue   # compute the rotated bounding box of the contour; should_handle cv2 or cv3..
-            orig = image.copy()
+            if(id == 1):
+                orig = image.copy()
+            #else:
+            #    orig = tempimg.copy()
             bbox = cv2.minAreaRect(c)
             bbox = cv2.cv.boxPoints(bbox) if imutils.is_cv2() else cv2.boxPoints(bbox)
             bbox = np.array(bbox, dtype="int")
@@ -74,7 +78,7 @@ while(True):
             #print("dA is " + dA + "dB is " + dB)
             # use pixel_to_size ratio to compute object size
             if pixel_to_size is None:
-                pixel_to_size = dB / args["width"]
+                pixel_to_size = dB / width
             
             distA = dA / pixel_to_size
             distB = dB / pixel_to_size
@@ -82,16 +86,19 @@ while(True):
             # draw the object sizes on the image
             cv2.putText(orig, "{:.1f}in".format(distA), (int(tltrX - 10), int(tltrY - 10)), cv2.FONT_HERSHEY_DUPLEX,0.55, (255, 255, 255), 2)
             cv2.putText(orig, "{:.1f}in".format(distB), (int(trbrX + 10), int(trbrY)), cv2.FONT_HERSHEY_DUPLEX,0.55, (255, 255, 255), 2)
-            cv2.imwrite("./hotwheel"+str(id)+".png", orig)
+            #cv2.imwrite("./hotwheel"+str(id)+".png", orig)
+            cv2.imwrite("./output.png", orig)
             id = id + 1
 
-        image = args["image"]
+        #image = args["image"]
         #print("image is " + str(image))
-        os.remove(image)
+        os.rename("hotwheel.png", "in/hotwheel.png")
 
             # show the output image
             #cv2.imshow("Image", orig)
             #cv2.waitKey(0)
 
     else:
-        time.sleep(5)
+        #time.sleep(5)
+        print("Error: Filename specified does not exist within current path")
+        #TODO: raise exception or some error messages

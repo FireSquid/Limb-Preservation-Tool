@@ -91,9 +91,13 @@ namespace LimbPreservationTool.ViewModels
                 return;
             }
             photoStream = await photo.OpenReadAsync();
+            Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
             Stream e = await Doctor.GetInstance().Examine(photoStream);
-            LastPhoto = ImageSource.FromStream(() => e);
-            Console.WriteLine("Examine finished");
+            if (!e.Equals(Stream.Null))
+            {
+                LastPhoto = ImageSource.FromStream(() => e);
+                Console.WriteLine("Examine finished");
+            }
         }
 
         private FileResult photo { get; set; }

@@ -37,8 +37,8 @@ namespace LimbPreservationTool.Models
 
                     Method = HttpMethod.Post,
 
-                    //RequestUri = new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID="),
-                    RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
+                    RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
+                    //RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                     Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json")
                 };
 
@@ -60,7 +60,8 @@ namespace LimbPreservationTool.Models
             {
 
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
+                RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
+                //RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                 //Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8)
             };
             return request;
@@ -95,7 +96,7 @@ namespace LimbPreservationTool.Models
         }
 
 
-        public static async Task<Doctor> CreateInstance(String user_id, String user_password)
+        public static Doctor CreateInstance(String user_id, String user_password)
         {
             instance = new Doctor(user_id, user_password);
             Console.WriteLine($"user model created \n{user_id} \n{user_password}");
@@ -104,6 +105,8 @@ namespace LimbPreservationTool.Models
         }
         public static Doctor GetInstance()
         {
+            if (instance == null)
+                CreateInstance("TestUser", "12345");
             return instance;
         }
 
@@ -114,19 +117,25 @@ namespace LimbPreservationTool.Models
 
         public async Task<Stream> Examine(Stream imageStream)
         {
+            Console.WriteLine("-------------Examining");
             var ms = new MemoryStream();
             imageStream.CopyTo(ms);
+            Console.WriteLine("-------------Created Stream");
 
             Scan scan = new Scan() { patientID = "123456789", date = "1970-01-01_10:00:00", imageStream = ms };
+            Console.WriteLine("-------------Created Scan");
 
             try
             {
                 var watch = new System.Diagnostics.Stopwatch();
                 watch.Start();
 
+                Console.WriteLine("-------------Sending Scan");
                 //await Client.GetInstance().SendRequestChunksAsync(scan);
                 HttpResponseMessage scanResult = await Client.GetInstance().GetRequestAsync(scan);
+                Console.WriteLine("-------------Received Result");
                 Scan result = await Scan.Decode(scanResult);
+                Console.WriteLine("-------------Decoded Result");
 
                 //Console.WriteLine(scanResult.Content.ToString());
                 //TODO: extra steps for decoding ResponseMessage

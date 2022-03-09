@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-<<<<<<< HEAD
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
@@ -33,8 +32,8 @@ namespace LimbPreservationTool.Models
         private static Client c = null;
         private Client()
         {
-            hc = new HttpClient();
-            hc.Timeout = TimeSpan.FromSeconds(120);
+            //hc = new HttpClient();
+            //hc.Timeout = TimeSpan.FromSeconds(120);
         }
         public static Client GetInstance()
         {
@@ -46,7 +45,7 @@ namespace LimbPreservationTool.Models
         }
         async public Task SendRequestChunksAsync(SplittableHttpContent s)
         {
-            if (hc == null)
+            if (TClient.client == null)
             {
                 Console.WriteLine("hc is null");
             }
@@ -60,7 +59,7 @@ namespace LimbPreservationTool.Models
                 //request.Headers.
                 try
                 {
-                    HttpResponseMessage r = await hc.SendAsync(c);
+                    HttpResponseMessage r = await TClient.client.SendAsync(c);
 
                     //string score = await r.Content.ReadAsStringAsync();
                 }
@@ -75,17 +74,13 @@ namespace LimbPreservationTool.Models
         }
         async public Task<HttpResponseMessage> GetRequestAsync(IFetchableHttpContent f)
         {
-            return await hc.SendAsync(f.Fetch());
+            return await TClient.client.SendAsync(f.Fetch());
 
         }
         //async public HttpResponseMessage Retrieve
-
-=======
-using System.Threading.Tasks;
-
-namespace LimbPreservationTool.Models
-{
-    internal class Client
+    }
+    
+    internal class TClient
     {
         private static readonly string SERVER_URL = "http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000";
 
@@ -95,6 +90,5 @@ namespace LimbPreservationTool.Models
         }
 
         internal static readonly HttpClient client = new HttpClient();
->>>>>>> dev
     }
 }

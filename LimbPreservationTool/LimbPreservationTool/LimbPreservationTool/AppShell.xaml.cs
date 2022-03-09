@@ -7,7 +7,8 @@ using Xamarin.Forms;
 namespace LimbPreservationTool
 {
     public partial class AppShell : Xamarin.Forms.Shell
-    {
+    {       
+
         public AppShell()
         {
             InitializeComponent();
@@ -15,7 +16,12 @@ namespace LimbPreservationTool
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
         }
 
-        private async void OnMenuItemClicked(object sender, EventArgs e)
+        private async void OnHomeItemClicked(object sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync("//HomePage");
+        }
+
+        private async void OnLogoutItemClicked(object sender, EventArgs e)
         {
             await Shell.Current.GoToAsync("//LoginPage");
         }

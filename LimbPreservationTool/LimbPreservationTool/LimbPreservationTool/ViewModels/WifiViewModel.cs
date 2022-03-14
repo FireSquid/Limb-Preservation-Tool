@@ -32,19 +32,63 @@ namespace LimbPreservationTool.ViewModels
 
         public WifiViewModel()
         {
-            WifiStatus = "Please Enter The Information Below";
+            WifiStatus = "Please Enter The Information Below:";
             CalculateWiFICommand = new Command(ClickWifiSubmit);
         }
 
         void ClickWifiSubmit(object obj)
         {
-            
+            // convert user input from string
+            int woundGrade;
+            int infectionGrade;
+            int ischemiaGrade;
+            int toePressureGrade;
+            double ankleBrachialIndex;
+            int ankleSystolicPressure;
+            try
+            {
+                woundGrade = Int32.Parse(woundGradeString);
+                infectionGrade = Int32.Parse(infectionGradeString);
+                ischemiaGrade = Int32.Parse(ischemiaGradeString);
+
+            } catch (Exception ex)
+            {
+                WifiStatus = $"Please fill out all fields";
+                Console.WriteLine(ex.Message);
+                return;
+            }
+
+            // check for vadility
+            bool validation = validateGrades(woundGrade, infectionGrade, ischemiaGrade);
+            if (!validation)
+            {
+                WifiStatus = $"Invalid Input, grades should range between 1-3";
+                return;
+            } else
+            {
+                // calculate ischemiaGrade if necessary
+                if (ischemiaGrade == -1)
+                {
+                    try
+                    {
+                        toePressureGrade = Int32.Parse(toePressureGradeString);
+                        ankleBrachialIndex = Double.Parse(ankleBrachialIndexString);
+                        ankleSystolicPressure = Int32.Parse(ankleSystolicPressureString);
+                    } catch (Exception ex)
+                    {
+                        WifiStatus = $"Please fill out all fields";
+                        Console.WriteLine(ex.Message);
+                        return;
+                    }
+                    ischemiaGrade = CalculateIschemia(toePressureGrade, ankleBrachialIndex, ankleSystolicPressure);
+                }
+            }
+
+            // calculate and output risk
             amputationRisk = calculateAmputationRisk(woundGrade, infectionGrade, ischemiaGrade, amputationRisk);
             revascularizationRisk = calculateRevascularizationRisk(woundGrade, infectionGrade, ischemiaGrade, revascularizationRisk);
-            WifiStatus = $"Your estimate risk for amputation at 1 year is: \n" + amputationRisk + "\n" + "Your estimate likelihood of benefit of/requirement for revascularization (assuming your infection can first be controlled) is: \n" + revascularizationRisk;
-            // output risks
-            // Console.WriteLine("Your estimate risk for amputation at 1 year is: " + amputationRisk);
-            // Console.WriteLine("Your estimate likelihood of benefit of/requirement for revascularization (assuming your infection can first be controlled) is: " + revascularizationRisk);
+            WifiStatus = $"Your estimate risk for amputation at 1 year is: \n" + amputationRisk + "\n" + "\nYour estimate requirement for revascularization is: \n" + revascularizationRisk;
+            // longer message: "Your estimate likelihood of benefit of/requirement for revascularization (assuming your infection can first be controlled) is: 
         }
 
 
@@ -54,25 +98,77 @@ namespace LimbPreservationTool.ViewModels
         Revascularization revascularizationRisk = Revascularization.VeryLow;
 
         // grades for WIFI score
-        private int woundGrade;
-        public int WoundGrade { get => woundGrade; set => SetProperty(ref woundGrade, value); }
+        private string woundGradeString;
+        public string WoundGrade { get => woundGradeString; set => SetProperty(ref woundGradeString, value); }
 
-        private int infectionGrade;
-        public int InfectionGrade { get => infectionGrade; set => SetProperty(ref infectionGrade, value); }
+        private string infectionGradeString;
+        public string InfectionGrade { get => infectionGradeString; set => SetProperty(ref infectionGradeString, value); }
 
-        private int ischemiaGrade;
-        public int IschemiaGrade { get => ischemiaGrade; set => SetProperty(ref ischemiaGrade, value); }
+        private string ischemiaGradeString;
+        public string IschemiaGrade { get => ischemiaGradeString; set => SetProperty(ref ischemiaGradeString, value); }
 
         // grades to calculate ischemia
-        private int toePressureGrade;
-        public int ToePressureGrade { get => toePressureGrade; set => SetProperty(ref toePressureGrade, value); }
+        private string toePressureGradeString;
+        public string ToePressureGrade { get => toePressureGradeString; set => SetProperty(ref toePressureGradeString, value); }
 
-        private double ankleBrachialIndex;
-        public double AnkleBrachialIndex { get => ankleBrachialIndex; set => SetProperty(ref ankleBrachialIndex, value); }
+        private string ankleBrachialIndexString;
+        public string AnkleBrachialIndex { get => ankleBrachialIndexString; set => SetProperty(ref ankleBrachialIndexString, value); }
 
-        private int ankleSystolicPressure;
-        public int AnkleSystolicPressure { get => ankleSystolicPressure; set => SetProperty(ref ankleSystolicPressure, value); }
+        private string ankleSystolicPressureString;
+        public string AnkleSystolicPressure { get => ankleSystolicPressureString; set => SetProperty(ref ankleSystolicPressureString, value); }
 
+        // function to validate that each grade falls within ranges we calculate for
+        private static bool validateGrades(int woundGrade, int infectionGrade, int ischemiaGrade)
+        {
+            bool woundGradeValid = (woundGrade > -1) && (woundGrade < 4);
+            bool infectionGradeValid = (infectionGrade > -1) && (infectionGrade < 4);
+            bool ischemiaGradeValid = (ischemiaGrade > -2) && (ischemiaGrade < 4);
+            return woundGradeValid && infectionGradeValid && ischemiaGradeValid;
+        }
+
+
+        // function to calculate ischemia grade if it wasn't yet provided
+        private static int CalculateIschemia(int toePressure, double ankleBrachialIndex, int ankleSystolicPressure)
+        {
+            int ischemiaGrade;
+            if ((toePressure > 60) && (ankleBrachialIndex > 0.8) && (ankleSystolicPressure > 100))
+            {
+                ischemiaGrade = 0;
+            }
+            else if ((toePressure > 40) && (toePressure < 59) && (ankleBrachialIndex > 0.6) && (ankleBrachialIndex < 0.79) && (ankleSystolicPressure > 70) && (ankleSystolicPressure < 100))
+            {
+                ischemiaGrade = 1;
+            }
+            else if ((toePressure > 30) && (toePressure < 39) && (ankleBrachialIndex > 0.4) && (ankleBrachialIndex < 0.59) && (ankleSystolicPressure > 50) && (ankleSystolicPressure < 70))
+            {
+                ischemiaGrade = 2;
+            }
+            else if ((toePressure < 30) && (ankleBrachialIndex < 0.39) && (ankleSystolicPressure < 30))
+            {
+                ischemiaGrade = 3;
+            }
+            else if (toePressure > 60)
+            {
+                ischemiaGrade = 0;
+            }
+            else if ((toePressure >40) && (toePressure < 59))
+            {
+                ischemiaGrade = 1;
+            }
+            else if ((toePressure > 30) && (toePressure < 39))
+            {
+                ischemiaGrade = 2;
+            }
+            else if (toePressure < 30)
+            {
+                ischemiaGrade = 3;
+            }
+            else
+            {
+                ischemiaGrade = -1;
+            }
+            return ischemiaGrade;
+        }
 
         private static Amputation calculateAmputationRisk(int woundGrade, int infectionGrade, int ischemiaGrade, Amputation ampScore)
         {
@@ -185,10 +281,6 @@ namespace LimbPreservationTool.ViewModels
             }
             return ampScore;
         }
-
-
-
-
 
         private static Revascularization calculateRevascularizationRisk(int woundGrade, int infectionGrade, int ischemiaGrade, Revascularization revScore)
         {

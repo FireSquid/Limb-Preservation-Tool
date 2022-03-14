@@ -11,23 +11,28 @@
     <ContentPage.Content>
         <StackLayout Spacing="0" BackgroundColor="{StaticResource MainBG}">
             <StackLayout HeightRequest="60">
-                <Label Text="Enter WIFI Info:" FontSize="30"
-                        HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                <Label Text="Wound, Ischemia, and Foot Infection Classification System" FontSize="30" Margin="50,20" TextColor="Black" FontAttributes= "Bold"
+                        HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
+                <BoxView   VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="2"
+                            WidthRequest="200"  
+                            Color="SeaGreen"></BoxView>
             </StackLayout>
             <ScrollView VerticalOptions="CenterAndExpand">
                 <StackLayout>
                     <Label Text="{Binding WifiStatus}" FontSize="Large" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="50,20" TextColor="Black"/>
-                    
-                    <Entry Placeholder="Wound Grade" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding WoundGrade}"/>
-                    <Entry Placeholder="Infection Grade" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding InfectionGrade}"/>
-                    <Entry Placeholder="Ischemia Grade" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding IschemiaGrade}"/>
-                    <Entry Placeholder="Toe Pressure Grade (in mm hG)" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding ToePressureGrade}"/>
-                    <Entry Placeholder="Ankle Brachial Index" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleBrachialIndex}"/>
-                    <Entry Placeholder="Ankle Systolic Pressure (in mm hG)" Margin="50,20" BackgroundColor="{StaticResource Primary}" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleSystolicPressure}"/>
+
+                    <Entry Placeholder="Wound Grade" PlaceholderColor="SlateGray" Margin="50,20" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding WoundGrade}"/>
+                    <Entry Placeholder="Infection Grade" PlaceholderColor="SlateGray" Margin="50,20" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding InfectionGrade}"/>
+                    <Entry Placeholder="Ischemia Grade (input -1 if unavailable)" PlaceholderColor="SlateGray" Margin="50,20" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding IschemiaGrade}"/>
+                    <Entry Placeholder="Toe Pressure Grade (in mm hG)" PlaceholderColor="SlateGray" Margin="50,20" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding ToePressureGrade}"/>
+                    <Entry Placeholder="Ankle Brachial Index" Margin="50,20" PlaceholderColor="SlateGray" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleBrachialIndex}"/>
+                    <Entry Placeholder="Ankle Systolic Pressure (in mm hG)" PlaceholderColor="SlateGray" Margin="50,20" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleSystolicPressure}"/>
 
                     <Button Margin="50,20" Text="View WIfi Score"
                                 Command="{Binding CalculateWiFICommand}"
-                                BackgroundColor="{StaticResource Primary}"
+                                BackgroundColor="SeaGreen"
                                 TextColor="White" />
  
                 </StackLayout>

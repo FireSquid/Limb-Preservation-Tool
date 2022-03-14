@@ -4,13 +4,27 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 
 using Xamarin.Forms;
 using Xamarin.Essentials;
 
 using System.Windows.Input;
 using System.Threading.Tasks;
+using LimbPreservationTool.Models;
+using System.Drawing;
 using System.IO;
+using SkiaSharp;
+using SkiaSharp.Views.Forms;
+#if __IOS__
+using System.Drawing;
+using UIKit;
+using CoreGraphics;
+#endif
+
+#if __ANDROID__
+using Android.Graphics;
+#endif
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -18,18 +32,20 @@ namespace LimbPreservationTool.ViewModels
     {
         public PhotoViewModel()
         {
-            Title = "Photo";
+            Title = "About";
             PictureStatus = "No Picture Found";
+            photo = null;
             TakePhotoCommand = new Command(async () => await TakePhoto());
+            ExaminePhotoCommand = new Command(() => ExaminePhoto());
         }
 
         async Task TakePhoto()
         {
-            FileResult photo = null;
             try
             {
                 // Attempt to take the picture
                 photo = await MediaPicker.CapturePhotoAsync();
+                Console.WriteLine(photo.FileName.ToString());
             }
             catch (FeatureNotSupportedException e)
             {
@@ -47,13 +63,41 @@ namespace LimbPreservationTool.ViewModels
             if (photo != null)
             {
                 // Load the picture from a stream and set as the image source
-                var photoStream = await photo.OpenReadAsync();
+                photoStream = await photo.OpenReadAsync();
                 LastPhoto = ImageSource.FromStream(() => photoStream);
-                PictureStatus = $"Successfully obtained photo: {LastPhoto.ToString()}";
+                PictureStatus = $"Successfully obtained photo";
+                //using (var stream = await photo.OpenReadAsync())
+                //BeginInvoke(()=>ExaminePhoto());
+            }
+        }
+        async void ExaminePhoto()
+        {
+
+            if (photo == null)
+            {
+                Console.Write("Has not taken a photo");
+                return;
+            }
+            photoStream = await photo.OpenReadAsync();
+
+            Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
+            Stream e = await Doctor.GetInstance().Examine(photoStream);
+            if (!e.Equals(Stream.Null))
+            {
+                LastPhoto = ImageSource.FromStream(() => e);
+                Console.WriteLine("Examine finished");
             }
         }
 
+
+
+
+        private FileResult photo
+        { get; set; }
+        private Stream photoStream { get; set; }
         public ICommand TakePhotoCommand { get; }
+
+        public ICommand ExaminePhotoCommand { get; }
 
         private ImageSource lastPhoto;
         public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }

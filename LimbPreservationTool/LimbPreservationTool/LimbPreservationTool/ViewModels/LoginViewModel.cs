@@ -9,7 +9,7 @@ using Xamarin.Forms;
 namespace LimbPreservationTool.ViewModels
 {
     public class LoginViewModel : BaseViewModel
-    {      
+    {
 
         public LoginViewModel()
         {

@@ -41,6 +41,13 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Can I use your Photo Library with Additions?</string>
 	<key>WKRunsIndependentlyOfCompanionApp</key>
-	<false/>
+	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>Custom Property</key>
+	<string></string>
 </dict>
 </plist>

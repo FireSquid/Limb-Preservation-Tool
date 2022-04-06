@@ -15,34 +15,29 @@ using LimbPreservationTool.Models;
 using System.Drawing;
 using System.IO;
 using SkiaSharp;
-using SkiaSharp.Views.Forms;
-#if __IOS__
-using System.Drawing;
-using UIKit;
-using CoreGraphics;
-#endif
-
-#if __ANDROID__
-using Android.Graphics;
-#endif
+using LimbPreservationTool.Renderers;
 
 namespace LimbPreservationTool.ViewModels
 {
     public class PhotoViewModel : BaseViewModel
     {
+
+
         public PhotoViewModel()
         {
             Title = "About";
             PictureStatus = "No Picture Found";
             photo = null;
+            PR = new Renderers.PathRenderer();
             TakePhotoCommand = new Command(async () => await TakePhoto());
-            ExaminePhotoCommand = new Command(() => ExaminePhoto());
+            ExaminePhotoCommand = new Command(async () => await ExaminePhoto());
         }
 
-        async Task TakePhoto()
+        public async Task TakePhoto()
         {
             try
             {
+
                 // Attempt to take the picture
                 photo = await MediaPicker.CapturePhotoAsync();
                 Console.WriteLine(photo.FileName.ToString());
@@ -66,11 +61,24 @@ namespace LimbPreservationTool.ViewModels
                 photoStream = await photo.OpenReadAsync();
                 LastPhoto = ImageSource.FromStream(() => photoStream);
                 PictureStatus = $"Successfully obtained photo";
+                var bitmapStream = new MemoryStream();
+                await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
+                photoStream.Seek(0, SeekOrigin.Begin);
+                bitmapStream.Seek(0, SeekOrigin.Begin);
+                PR.ImageBitmap = SKBitmap.Decode(bitmapStream);
+
                 //using (var stream = await photo.OpenReadAsync())
                 //BeginInvoke(()=>ExaminePhoto());
             }
         }
-        async void ExaminePhoto()
+
+        public void DrawHighlight(object colorArgument)
+        {
+            SKColor color = SKColor.Parse((string)colorArgument);
+            PR.FillColor = color;
+        }
+
+        public async Task ExaminePhoto()
         {
 
             if (photo == null)
@@ -81,20 +89,52 @@ namespace LimbPreservationTool.ViewModels
             photoStream = await photo.OpenReadAsync();
 
             Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
+
+            if (Device.RuntimePlatform.Equals(Device.iOS))
+            {
+
+                //var ms = new MemoryStream();
+                //photoStream.CopyTo(ms);
+                //photoStream = App.scalerInterface.ResizeImage(ms.ToArray(), 1024, 2048);
+
+                Console.WriteLine("Scaled with IOS");
+
+            }
+
             Stream e = await Doctor.GetInstance().Examine(photoStream);
+            //examineEnabled = false;
             if (!e.Equals(Stream.Null))
             {
                 LastPhoto = ImageSource.FromStream(() => e);
                 Console.WriteLine("Examine finished");
             }
         }
+        public bool DecodeToBitMap(ref SKBitmap bitmap)
+        {
+
+            if (photoStream == null)
+            {
+                return false;
+            }
+            bitmap = SKBitmap.Decode(photoStream);
+
+            return true;
+        }
 
 
-
-
-        private FileResult photo
-        { get; set; }
+        //public static readonly BindableProperty RenderProperty = BindableProperty.Create(
+        //       nameof(PR),
+        //                   typeof(Renderers.PathRenderer),
+        //                   typeof(SKRenderView),
+        //                   null
+        //                   );
+        public Renderers.PathRenderer PR { get; set; }
+        private SKBitmap scanBitmap;
+        private FileResult photo { get; set; }
         private Stream photoStream { get; set; }
+
+
+
         public ICommand TakePhotoCommand { get; }
 
         public ICommand ExaminePhotoCommand { get; }
@@ -102,6 +142,8 @@ namespace LimbPreservationTool.ViewModels
         private ImageSource lastPhoto;
         public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }
 
+        private bool examineEnabled;
+        public bool ExamineEnabled { get => examineEnabled; set => SetProperty(ref examineEnabled, value); }
         private string pictureStatus;
         public string PictureStatus { get => pictureStatus; set => SetProperty(ref pictureStatus, value); }
     }

@@ -43,5 +43,11 @@
     <None Remove="Xamarin.FFImageLoading" />
     <None Remove="SkiaSharp" />
     <None Remove="SkiaSharp.Views.Forms" />
+    <None Remove="CustomControls\" />
+    <None Remove="Renderers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="CustomControls\" />
+    <Folder Include="Renderers\" />
   </ItemGroup>
 </Project>

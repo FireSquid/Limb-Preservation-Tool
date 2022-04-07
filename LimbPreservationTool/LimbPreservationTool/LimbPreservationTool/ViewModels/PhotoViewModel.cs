@@ -66,7 +66,15 @@ namespace LimbPreservationTool.ViewModels
                 photoStream.Seek(0, SeekOrigin.Begin);
                 bitmapStream.Seek(0, SeekOrigin.Begin);
                 PR.ImageBitmap = SKBitmap.Decode(bitmapStream);
+                var rotated = new SKBitmap(PR.ImageBitmap.Height, PR.ImageBitmap.Width);
 
+                using (var surface = new SKCanvas(rotated))
+                {
+                    surface.Translate(rotated.Width, 0);
+                    surface.RotateDegrees(90);
+                    surface.DrawBitmap(PR.ImageBitmap, 0, 0);
+                }
+                PR.ImageBitmap = rotated;
                 //using (var stream = await photo.OpenReadAsync())
                 //BeginInvoke(()=>ExaminePhoto());
             }

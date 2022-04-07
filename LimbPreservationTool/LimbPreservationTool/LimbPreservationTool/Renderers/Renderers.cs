@@ -43,7 +43,7 @@ namespace LimbPreservationTool.Renderers
 
             if (imageBitmap != null)
             {
-                canvas.DrawBitmap(imageBitmap, 0, 0);
+                canvas.DrawBitmap(imageBitmap, info.Rect);
             }
         }
     }

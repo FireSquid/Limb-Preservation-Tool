@@ -122,12 +122,6 @@ namespace LimbPreservationTool.ViewModels
         }
 
 
-        //public static readonly BindableProperty RenderProperty = BindableProperty.Create(
-        //       nameof(PR),
-        //                   typeof(Renderers.PathRenderer),
-        //                   typeof(SKRenderView),
-        //                   null
-        //                   );
         public Renderers.PathRenderer PR { get; set; }
         private SKBitmap scanBitmap;
         private FileResult photo { get; set; }

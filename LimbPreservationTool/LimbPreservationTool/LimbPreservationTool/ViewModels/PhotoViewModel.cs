@@ -12,10 +12,12 @@ using Xamarin.Essentials;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using LimbPreservationTool.Models;
+using LimbPreservationTool.Views;
 using System.Drawing;
 using System.IO;
 using SkiaSharp;
 using LimbPreservationTool.Renderers;
+using LimbPreservationTool.CustomeComponents;
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -28,9 +30,14 @@ namespace LimbPreservationTool.ViewModels
             Title = "About";
             PictureStatus = "No Picture Found";
             photo = null;
-            PR = new Renderers.PathRenderer();
+            Canvas = new Renderers.PathRenderer();
+            //Receiver = new TouchReceiver();
+            // Highlither = new Renderers.PorterDuffRenderer();
             TakePhotoCommand = new Command(async () => await TakePhoto());
             ExaminePhotoCommand = new Command(async () => await ExaminePhoto());
+            HighlightCommand = new Command(() => Canvas.StartHighlight());
+            DrawHighlightCommand = new Command(() => DrawHighlight());
+            RedoHighlightCommand = new Command(() => RedoHighlight());
         }
 
         public async Task TakePhoto()
@@ -65,26 +72,26 @@ namespace LimbPreservationTool.ViewModels
                 await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
                 photoStream.Seek(0, SeekOrigin.Begin);
                 bitmapStream.Seek(0, SeekOrigin.Begin);
-                PR.ImageBitmap = SKBitmap.Decode(bitmapStream);
-                var rotated = new SKBitmap(PR.ImageBitmap.Height, PR.ImageBitmap.Width);
+                scanBitmap = SKBitmap.Decode(bitmapStream);
+                var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
 
                 using (var surface = new SKCanvas(rotated))
                 {
                     surface.Translate(rotated.Width, 0);
                     surface.RotateDegrees(90);
-                    surface.DrawBitmap(PR.ImageBitmap, 0, 0);
+                    surface.DrawBitmap(scanBitmap, 0, 0);
                 }
-                PR.ImageBitmap = rotated;
+                scanBitmap = rotated;
+
+                Canvas.RendererSize = CanvasSize;
+                Console.WriteLine("CanvasSize: " + CanvasSize.ToString());
+                Canvas.ImageBitmap = scanBitmap.Copy();
+                //PR.ImageBitmap = scanBitmap.Copy();
                 //using (var stream = await photo.OpenReadAsync())
                 //BeginInvoke(()=>ExaminePhoto());
             }
         }
 
-        public void DrawHighlight(object colorArgument)
-        {
-            SKColor color = SKColor.Parse((string)colorArgument);
-            PR.FillColor = color;
-        }
 
         public async Task ExaminePhoto()
         {
@@ -98,17 +105,6 @@ namespace LimbPreservationTool.ViewModels
 
             Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
 
-            if (Device.RuntimePlatform.Equals(Device.iOS))
-            {
-
-                //var ms = new MemoryStream();
-                //photoStream.CopyTo(ms);
-                //photoStream = App.scalerInterface.ResizeImage(ms.ToArray(), 1024, 2048);
-
-                Console.WriteLine("Scaled with IOS");
-
-            }
-
             Stream e = await Doctor.GetInstance().Examine(photoStream);
             //examineEnabled = false;
             if (!e.Equals(Stream.Null))
@@ -117,6 +113,26 @@ namespace LimbPreservationTool.ViewModels
                 Console.WriteLine("Examine finished");
             }
         }
+
+        public async Task ExamineHighlight()
+        {
+            if (scanBitmap == null)
+            {
+
+                Console.Write("Has not taken a photo as bitmap");
+                return;
+            }
+            Stream highlightStream = SKImage.FromBitmap(blendBitmap).Encode().AsStream();
+            Stream e = await Doctor.GetInstance().Examine(highlightStream);
+            //examineEnabled = false;
+            if (!e.Equals(Stream.Null))
+            {
+                LastPhoto = ImageSource.FromStream(() => e);
+                Console.WriteLine("Examine finished");
+            }
+        }
+
+
         public bool DecodeToBitMap(ref SKBitmap bitmap)
         {
 
@@ -130,16 +146,47 @@ namespace LimbPreservationTool.ViewModels
         }
 
 
-        public Renderers.PathRenderer PR { get; set; }
+        void DrawHighlight()
+        {
+            Console.WriteLine("!");
+            Canvas.StartHighlight();
+            //create overlay on canvas
+            //Highlither.Src = Canvas.ImageBitmap.Copy();
+            //await Shell.Current.GoToAsync($"//{nameof(HighlightPage)}");
+        }
+
+        void SaveHighlight()
+        {
+            //blend overlay bitmap with picture bitmap
+
+        }
+
+        void RedoHighlight()
+        {
+            Canvas.ClearPath();
+            //Canvas.RendererSize = CanvasSize;
+            //Canvas.ImageBitmap = scanBitmap.Copy();
+        }
+
+        public Renderers.PathRenderer Canvas { get; set; }
+        //public Renderers.PorterDuffRenderer Highlither { get; set; }
         private SKBitmap scanBitmap;
+        private SKBitmap blendBitmap;
         private FileResult photo { get; set; }
         private Stream photoStream { get; set; }
 
-
+        private SKSize canvasSize;
+        public SKSize CanvasSize { get => canvasSize; set => SetProperty(ref canvasSize, value); }
+        //public SKSize HighlighterSize { get; set; }
+        //public TouchReceiver Receiver { get; set; }
 
         public ICommand TakePhotoCommand { get; }
 
         public ICommand ExaminePhotoCommand { get; }
+        public ICommand HighlightCommand { get; }
+        public ICommand DrawHighlightCommand { get; }
+        public ICommand SaveHighlightCommand { get; }
+        public ICommand RedoHighlightCommand { get; }
 
         private ImageSource lastPhoto;
         public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }

@@ -110,6 +110,7 @@
     <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnLogoutItemClicked">
     </MenuItem>
 
+    <ShellContent Route="HighlightPage" ContentTemplate="{DataTemplate local:HighlightPage}" />
 
     <!-- Optional Templates 
     // These may be provided inline as below or as separate classes.

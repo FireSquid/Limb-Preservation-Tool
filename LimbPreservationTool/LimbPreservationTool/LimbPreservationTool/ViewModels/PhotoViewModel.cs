@@ -64,8 +64,10 @@ namespace LimbPreservationTool.ViewModels
             {
                 // Load the picture from a stream and set as the image source
                 photoStream = await photo.OpenReadAsync();
-                LastPhoto = ImageSource.FromStream(() => photoStream);
                 PictureStatus = $"Successfully obtained photo";
+                photoStream = await PhotoRotator(photoStream);
+                LastPhoto = ImageSource.FromStream(() => photoStream);
+
                 //using (var stream = await photo.OpenReadAsync())
                 //BeginInvoke(()=>ExaminePhoto());
             }
@@ -84,12 +86,33 @@ namespace LimbPreservationTool.ViewModels
             Stream e = await Doctor.GetInstance().Examine(photoStream);
             if (!e.Equals(Stream.Null))
             {
+                e = await PhotoRotator(e);
                 LastPhoto = ImageSource.FromStream(() => e);
                 Console.WriteLine("Examine finished");
             }
         }
 
+        private async Task<Stream> PhotoRotator(Stream pS)
+        {
 
+            var bitmapStream = new MemoryStream();
+            await pS.CopyToAsync(bitmapStream); //copying will reset neither streams' position
+            pS.Seek(0, SeekOrigin.Begin);
+            bitmapStream.Seek(0, SeekOrigin.Begin);
+            var scanBitmap = SKBitmap.Decode(bitmapStream);
+            var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
+
+            using (var surface = new SKCanvas(rotated))
+            {
+                surface.Translate(rotated.Width, 0);
+                surface.RotateDegrees(90);
+                surface.DrawBitmap(scanBitmap, 0, 0);
+            }
+            scanBitmap = rotated;
+            SKImage image = SKImage.FromBitmap(scanBitmap);
+            SKData encodedData = image.Encode(SKEncodedImageFormat.Png, 100);
+            return encodedData.AsStream();
+        }
 
 
         private FileResult photo

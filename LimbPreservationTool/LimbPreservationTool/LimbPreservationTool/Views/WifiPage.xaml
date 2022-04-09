@@ -9,8 +9,13 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout Spacing="0" BackgroundColor="{StaticResource MainBG}">
-            <StackLayout HeightRequest="60">
+
+        <Grid BackgroundColor="NavajoWhite" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <StackLayout Grid.Row="0" HeightRequest="60">
                 <Label Text="Wound, Ischemia, and Foot Infection Classification System" FontSize="30" Margin="50,20" TextColor="Black" FontAttributes= "Bold"
                         HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalOptions="CenterAndExpand" />
                 <BoxView   VerticalOptions="Center"
@@ -19,7 +24,7 @@
                             WidthRequest="200"  
                             Color="SeaGreen"></BoxView>
             </StackLayout>
-            <ScrollView VerticalOptions="CenterAndExpand">
+            <ScrollView  Grid.Row="1" VerticalOptions="CenterAndExpand">
                 <StackLayout>
                     <Label Text="{Binding WifiStatus}" FontSize="Large" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="50,20" TextColor="Black"/>
 
@@ -34,9 +39,9 @@
                                 Command="{Binding CalculateWiFICommand}"
                                 BackgroundColor="SeaGreen"
                                 TextColor="White" />
- 
+
                 </StackLayout>
             </ScrollView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

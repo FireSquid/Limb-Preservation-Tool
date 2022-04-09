@@ -9,7 +9,7 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="NavajoWhite">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.5*"/>
                 <RowDefinition Height="1*"/>
@@ -24,7 +24,7 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Text="Wound Size Evaluation" FontSize="30" TextColor="Black" FontAttributes= "Bold"
                         HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
-            
+
             <BoxView  Grid.Row="1" VerticalOptions="Center"
                             HorizontalOptions="Center"
                             HeightRequest="2"

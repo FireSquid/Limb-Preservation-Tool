@@ -86,6 +86,9 @@
     <TabBar Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
+    <TabBar Title="Home">
+        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </TabBar>
 
 
     <MenuItem Text="Home" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">

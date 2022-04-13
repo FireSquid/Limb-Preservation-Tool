@@ -8,7 +8,9 @@ using Xamarin.Forms.Xaml;
 using LimbPreservationTool.ViewModels;
 
 namespace LimbPreservationTool.Views
+
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AboutPage : ContentPage
     {
 

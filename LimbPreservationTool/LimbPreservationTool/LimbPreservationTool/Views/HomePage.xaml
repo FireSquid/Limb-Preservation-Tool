@@ -11,12 +11,17 @@
     <ContentPage.Content>
         <StackLayout Spacing="0" BackgroundColor="{StaticResource MainBG}">
             <StackLayout HeightRequest="60">
-                <Label Text="Limb Preservation Tool" FontSize="30"
+                <Label Text="Limb Preservation Tool" FontSize="35" TextColor="Black" Margin="50, 30" HorizontalTextAlignment="Center"
                         HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                <BoxView   VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="2"
+                            WidthRequest="200"  
+                            Color="SeaGreen"></BoxView>
             </StackLayout>
             <ScrollView VerticalOptions="CenterAndExpand">
                 <StackLayout>
-                    
+
                     <Button Margin="50,20" Text="Take New Photo"
                                 Command="{Binding TakeNewPhotoCommand}"
                                 BackgroundColor="{StaticResource Primary}"
@@ -25,8 +30,8 @@
                                 Command="{Binding EnterAdditionalInfoCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White" />
-                    <Button Margin="50,20" Text="View WIfi Score"
-                                Command="{Binding ViewWifiScoreCommand}"
+                    <Button Margin="50,20" Text="About this App"
+                                Command="{Binding AboutCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White" />
                 </StackLayout>

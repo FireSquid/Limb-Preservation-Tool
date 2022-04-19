@@ -10,21 +10,21 @@ namespace LimbPreservationTool.CustomControls
     {
         public static readonly BindableProperty RendererProperty = BindableProperty.Create(
             nameof(Renderer),
-            typeof(Renderers.PathRenderer),
+            typeof(Renderers.NormalRenderer),
             typeof(NormalCanvas),
             null,
             defaultBindingMode: BindingMode.TwoWay,
             propertyChanged: (bindable, oldValue, newValue) =>
             {
                 ((NormalCanvas)bindable).RendererChanged(
-                                    (Renderers.PathRenderer)oldValue, (Renderers.PathRenderer)newValue);
+                                    (Renderers.NormalRenderer)oldValue, (Renderers.NormalRenderer)newValue);
             }
         );
 
         // 2. Change the Renderer property
-        public Renderers.PathRenderer Renderer
+        public Renderers.NormalRenderer Renderer
         {
-            get { return (Renderers.PathRenderer)GetValue(RendererProperty); }
+            get { return (Renderers.NormalRenderer)GetValue(RendererProperty); }
             set { SetValue(RendererProperty, value); }
         }
 
@@ -49,15 +49,6 @@ namespace LimbPreservationTool.CustomControls
             //base.GetI/
         }
 
-        protected override void OnTouch(SKTouchEventArgs e)
-        {
-            //store the location of drawing and draw on image bitmap
-
-            Renderer.Receiver.TouchReceive(e);
-            base.OnTouch(e);
-
-            InvalidateSurface();
-        }
 
         protected override void OnPaintSurface(SKPaintSurfaceEventArgs e)
         {
@@ -67,8 +58,8 @@ namespace LimbPreservationTool.CustomControls
             base.OnPaintSurface(e);
         }
 
-        void RendererChanged(Renderers.PathRenderer currentRenderer,
-                    Renderers.PathRenderer newRenderer)
+        void RendererChanged(Renderers.NormalRenderer currentRenderer,
+                    Renderers.NormalRenderer newRenderer)
         {
             if (currentRenderer != newRenderer)
             {

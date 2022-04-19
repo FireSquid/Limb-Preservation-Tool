@@ -3,26 +3,30 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+    xmlns:tk="http://xamarin.com/schemas/2020/toolkit"
     xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
-    x:Class="LimbPreservationTool.Views.HighlightPage">
+    x:Class="LimbPreservationTool.Views.HighlightPage"
+		>
     <ContentPage.BindingContext>
-        <vm:PhotoViewModel/>
+        <Binding Source= "{StaticResource sharedPhotoViewModel}"/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height = "9*"/>
-                <RowDefinition Height = "1*"/>
+
+                <RowDefinition Height="1* "/>
+                <RowDefinition Height="7.5* "/>
+                <RowDefinition Height = "1.5*"/>
             </Grid.RowDefinitions>
-            <customcontrols:HighlightCanvas Grid.Row= "0" Renderer="{Binding Highlither}" >
+            <customcontrols:HighlightCanvas Grid.Row= "1" Renderer="{Binding Highlighter, Source={ StaticResource sharedPhotoViewModel} , Mode=TwoWay}"  >
             </customcontrols:HighlightCanvas >
-            <Grid Grid.Row ="1">
+            <Grid Grid.Row ="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width = "5*"/>
                     <ColumnDefinition Width = "5*"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name = "SaveBtn" Grid.Column= "0" Text= "Save" Command = "{Binding SaveHighlightCommand}" BackgroundColor="DarkGreen" TextColor="White"/>
-                <Button x:Name = "RedoBtn" Grid.Column= "1" Text= "Redo" Command = "{Binding RedoHighlightCommand}" BackgroundColor="IndianRed" TextColor="White"/>
+                <Button x:Name = "SaveBtn" Grid.Column= "0" Text= "Save" Command = "{Binding SaveHighlightCommand,Source={ StaticResource sharedPhotoViewModel}}" BackgroundColor="DarkGreen" TextColor="White"/>
+                <Button x:Name = "RedoBtn" Grid.Column= "1" Text= "Redo" Command = "{Binding RedoHighlightCommand ,Source={ StaticResource sharedPhotoViewModel}}" BackgroundColor="IndianRed" TextColor="White"/>
             </Grid>
 
 

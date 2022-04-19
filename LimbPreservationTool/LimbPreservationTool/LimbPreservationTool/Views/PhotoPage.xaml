@@ -2,13 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
-             xmlns:tk="http://xamarin.com/schemas/2020/toolkit"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="LimbPreservationTool.Views.PhotoPage"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             >
 
     <ContentPage.BindingContext>
-        <vm:PhotoViewModel />
+        <Binding Source="{StaticResource sharedPhotoViewModel}" />
+
     </ContentPage.BindingContext>
     <ContentPage.Content>
         <!--<ScrollView>
@@ -33,7 +33,7 @@
                 <customcontrols:NormalCanvas  x:Name = "scanCanvas"   
 										      Renderer="{Binding Canvas}" 
 											  Size="{Binding CanvasSize}" 
-											  tk:TouchEffect.Command="{Binding DrawHighlightCommand}">
+											  >
                 </customcontrols:NormalCanvas>
                 <Grid.Effects >
 
@@ -41,19 +41,14 @@
             </Grid>
 
             <Grid Grid.Row= "2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width = "5*"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
-                <Button x:Name = "HighLightBtn"  Grid.Column="0" Text="Hightlight Detail"
+                <Button x:Name = "HighLightBtn"   Text="Hightlight Detail"
                     Command="{Binding HighlightCommand}"
                     BackgroundColor="Yellow"
-                    TextColor="Black"/>
+                    TextColor="Black"
+					IsEnabled="{Binding Highlightable}"
+												
+												/>
 
-                <Button x:Name = "Clear"  Grid.Column="1" Text="Redo Highlight"
-                    Command="{Binding RedoHighlightCommand}"
-                    BackgroundColor="OrangeRed"
-                    TextColor="White"/>
             </Grid>
             <Button x:Name="ExamineBtn"  Grid.Row="3" Margin="0,10,0,0" Text="Examine this Picture"
                     Command="{Binding ExaminePhotoCommand}"

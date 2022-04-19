@@ -18,6 +18,7 @@ using System.IO;
 using SkiaSharp;
 using LimbPreservationTool.Renderers;
 using LimbPreservationTool.CustomeComponents;
+using Xamarin.CommunityToolkit.Extensions;
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -30,12 +31,14 @@ namespace LimbPreservationTool.ViewModels
             Title = "About";
             PictureStatus = "No Picture Found";
             photo = null;
-            Canvas = new Renderers.PathRenderer();
+            Canvas = new Renderers.NormalRenderer();
+            highlightable = false;
             //Receiver = new TouchReceiver();
-            // Highlither = new Renderers.PorterDuffRenderer();
+            Highlighter = new Renderers.PathRenderer();
             TakePhotoCommand = new Command(async () => await TakePhoto());
             ExaminePhotoCommand = new Command(async () => await ExaminePhoto());
-            HighlightCommand = new Command(() => Canvas.StartHighlight());
+            HighlightCommand = new Command(async () => await StartHighlight());
+            SaveHighlightCommand = new Command(async () => await SaveHighlight());
             DrawHighlightCommand = new Command(() => DrawHighlight());
             RedoHighlightCommand = new Command(() => RedoHighlight());
         }
@@ -85,7 +88,10 @@ namespace LimbPreservationTool.ViewModels
 
                 Canvas.RendererSize = CanvasSize;
                 Console.WriteLine("CanvasSize: " + CanvasSize.ToString());
+
                 Canvas.ImageBitmap = scanBitmap.Copy();
+                Highlightable = true;
+
                 //PR.ImageBitmap = scanBitmap.Copy();
                 //using (var stream = await photo.OpenReadAsync())
                 //BeginInvoke(()=>ExaminePhoto());
@@ -133,43 +139,52 @@ namespace LimbPreservationTool.ViewModels
         }
 
 
-        public bool DecodeToBitMap(ref SKBitmap bitmap)
-        {
-
-            if (photoStream == null)
-            {
-                return false;
-            }
-            bitmap = SKBitmap.Decode(photoStream);
-
-            return true;
-        }
 
 
         void DrawHighlight()
         {
             Console.WriteLine("!");
-            Canvas.StartHighlight();
             //create overlay on canvas
-            //Highlither.Src = Canvas.ImageBitmap.Copy();
-            //await Shell.Current.GoToAsync($"//{nameof(HighlightPage)}");
         }
 
-        void SaveHighlight()
+        async Task StartHighlight()
         {
-            //blend overlay bitmap with picture bitmap
 
+            if (Canvas.ImageBitmap == null) { return; }
+            //var page = Activator.CreateInstance<HighlightPage>();
+            //page.BindingContext = this;
+            await Shell.Current.GoToAsync($"//{nameof(HighlightPage)}");
+            RedoHighlight();
+            Highlighter.StartHighlight();
+            Highlightable = false;
+            Highlighter.Src = Canvas.ImageBitmap.Copy();
+            if (Highlighter.Src == null)
+            {
+                Console.WriteLine("Src is null");
+            }
+            //Highlighter.Src = Canvas.ImageBitmap.Copy();
+        }
+
+        async Task SaveHighlight()
+        {
+
+            //Highlightable = false;//this won't update the property here 
+            //Canvas.ImageBitmap = Highlighter.Save().Copy();
+            await Shell.Current.GoToAsync($"//{nameof(PhotoPage)}");
+            Canvas.ImageBitmap = Highlighter.PorterDuff();
+            //blend overlay bitmap with picture bitmap
+            //Highlightable = false;//this won't update the property possibily due to 2 way binding
         }
 
         void RedoHighlight()
         {
-            Canvas.ClearPath();
+            Highlighter.ClearPath();
             //Canvas.RendererSize = CanvasSize;
             //Canvas.ImageBitmap = scanBitmap.Copy();
         }
 
-        public Renderers.PathRenderer Canvas { get; set; }
-        //public Renderers.PorterDuffRenderer Highlither { get; set; }
+        public Renderers.NormalRenderer Canvas { get; set; }
+        public Renderers.PathRenderer Highlighter { get; set; }
         private SKBitmap scanBitmap;
         private SKBitmap blendBitmap;
         private FileResult photo { get; set; }
@@ -191,6 +206,8 @@ namespace LimbPreservationTool.ViewModels
         private ImageSource lastPhoto;
         public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }
 
+        public bool Highlightable { get => highlightable; set => SetProperty(ref highlightable, value); }
+        private bool highlightable;
         private bool examineEnabled;
         public bool ExamineEnabled { get => examineEnabled; set => SetProperty(ref examineEnabled, value); }
         private string pictureStatus;

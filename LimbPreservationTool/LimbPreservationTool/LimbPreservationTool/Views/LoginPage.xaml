@@ -8,6 +8,13 @@
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" VerticalOptions="Center">
+            <Label Text="Limb Preservation Tool" FontSize="35" TextColor="Black" Margin="50, 30" HorizontalTextAlignment="Center"
+                        HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+            <BoxView   VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            HeightRequest="2"
+                            WidthRequest="200"  
+                            Color="SeaGreen"></BoxView>
             <Entry Placeholder="Enter username..." Text="{Binding UsernameEntryField}" />
             <Entry Placeholder="Enter password..." Text="{Binding PasswordEntryField}" IsPassword="True" />
             <Button VerticalOptions="Center" Text="Login" Command="{Binding LoginCommand}"/>

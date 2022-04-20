@@ -2,7 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.WifiPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+
+
 
     <ContentPage.BindingContext>
         <vm:WifiViewModel />
@@ -27,18 +30,26 @@
 
             <ScrollView  Grid.Row="1" VerticalOptions="CenterAndExpand">
                 <StackLayout>
-                    <Label Text="{Binding WifiStatus}" FontSize="Subtitle" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="50,10" TextColor="Black"/>
+                    <Label Text="{Binding WifiStatus}" FontSize="Subtitle" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" Margin="50,10" TextColor="{Binding WifiColor}"/>
 
-                    <Entry Placeholder="Wound Grade" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding WoundGrade}"/>
+                    <Entry Placeholder="Wound Grade" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" TextColor="Black" xct:CornerRadiusEffect.CornerRadius="10" Keyboard="Numeric" Text="{Binding WoundGrade}"/>
 
-                    <Button HorizontalOptions="Center" VerticalOptions="Center" Clicked="woundInfoOn" Text="Show Wound Info"></Button>
-                    <Entry Placeholder="Infection Grade" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding InfectionGrade}"/>
+                    <Button HorizontalOptions="Center" VerticalOptions="Center" Clicked="woundInfoOn"  xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" Text="Show Wound Info"></Button>
+                    <Entry Placeholder="Infection Grade" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" xct:CornerRadiusEffect.CornerRadius="10" TextColor="Black" Keyboard="Numeric" Text="{Binding InfectionGrade}"/>
 
-                    <Button HorizontalOptions="Center" VerticalOptions="Center" Clicked="infectionInfoOn" Text="Show Infection Info"></Button>
-                    <Entry Placeholder="Ischemia Grade (input -1 if unavailable)" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding IschemiaGrade}"/>
-                    <Entry Placeholder="Toe Pressure Grade (in mm hG)" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding ToePressureGrade}"/>
-                    <Entry Placeholder="Ankle Brachial Index" Margin="50,10" PlaceholderColor="SlateGray" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleBrachialIndex}"/>
-                    <Entry Placeholder="Ankle Systolic Pressure (in mm hG)" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleSystolicPressure}"/>
+                    <Button HorizontalOptions="Center" VerticalOptions="Center" Clicked="infectionInfoOn" xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" Text="Show Infection Info"></Button>
+                    <Entry Placeholder="Ischemia Grade (input -1 if unavailable)" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" xct:CornerRadiusEffect.CornerRadius="10" TextColor="Black" Keyboard="Numeric" Text="{Binding IschemiaGrade}"/>
+                    <Entry Placeholder="Toe Pressure Grade (in mm hG)" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" TextColor="Black" xct:CornerRadiusEffect.CornerRadius="10" Keyboard="Numeric" Text="{Binding ToePressureGrade}"/>
+                    <Entry Placeholder="Ankle Brachial Index" Margin="50,10" PlaceholderColor="SlateGray" BackgroundColor="WhiteSmoke" TextColor="Black" xct:CornerRadiusEffect.CornerRadius="10" Keyboard="Numeric" Text="{Binding AnkleBrachialIndex}"/>
+                    <Entry Placeholder="Ankle Systolic Pressure (in mm hG)" PlaceholderColor="SlateGray" Margin="50,10" BackgroundColor="WhiteSmoke" xct:CornerRadiusEffect.CornerRadius="10" TextColor="Black" Keyboard="Numeric" Text="{Binding AnkleSystolicPressure}"/>
 
                     <Button Margin="50,20" Text="View WIfi Score"
                                 Command="{Binding CalculateWiFICommand}"

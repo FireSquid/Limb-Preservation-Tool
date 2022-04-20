@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2337" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.7.1" />
     <PackageReference Include="Microsoft.AppCenter" Version="4.5.0" />
@@ -43,5 +44,10 @@
     <None Remove="Xamarin.FFImageLoading" />
     <None Remove="SkiaSharp" />
     <None Remove="SkiaSharp.Views.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\WifiResultPage.xaml.cs">
+      <DependentUpon>WifiResultPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 </Project>

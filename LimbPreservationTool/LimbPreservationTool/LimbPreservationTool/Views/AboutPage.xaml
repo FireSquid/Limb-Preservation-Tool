@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.AboutPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
              Title="{Binding Title}">
 
@@ -17,8 +18,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.75*" />
+            <RowDefinition Height="1*" />
             <RowDefinition Height="3*" />
+            <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         <StackLayout BackgroundColor="{StaticResource Accent}" VerticalOptions="FillAndExpand" HorizontalOptions="Fill">
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" VerticalOptions="Center">
@@ -30,27 +32,29 @@
         <ScrollView Grid.Row="1">
             <StackLayout Orientation="Vertical" Padding="30,24,30,24" Spacing="10">
                 <Label Text="This app was developed by a team from the ECS 193 class to be used by the UC Davis Health Department, and created using Xamarin Forms.  You can learn more about Xamarin below." TextColor="Black" FontSize="16" Padding="0,0,0,0"/>
-                <Label FontSize="16" Padding="0,24,0,0">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <FormattedString.Spans>
-                                <Span Text="Learn more at " TextColor="Black"/>
-                                <Span Text="https://aka.ms/xamarin-quickstart" FontAttributes="Bold" TextColor="Blue"/>
-                            </FormattedString.Spans>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <Button Margin="0,10,0,0" Text="Learn more"
-                        Command="{Binding OpenWebCommand}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White" />
-                <Button Margin="0,10,0,0" Text="Back to Home"
-                        Command="{Binding BacktoHome}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White" />
-
             </StackLayout>
         </ScrollView>
+        <StackLayout Grid.Row="2">
+            <Button Margin="20,0,20,0" Text="Learn more"
+                        Command="{Binding OpenWebCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10"/>
+            <Button Margin="40,10,40,0" Text="Back to Home"
+                        Command="{Binding BacktoHome}"
+                        BackgroundColor="{StaticResource Primary}"
+                        xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10"
+                        TextColor="White" />
+
+        </StackLayout>
     </Grid>
 
 </ContentPage>

@@ -23,7 +23,7 @@
                 <RowDefinition Height="1* "/>
             </Grid.RowDefinitions>
             <Button x:Name="CameraBtn" Grid.Row="0" Margin="0,10,0,0" Text="Take a Picture"
-                    Command="{Binding TakePhotoCommand}"
+                    Command="{Binding TakePhotoCommand, Source={StaticResource sharedPhotoViewModel}}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
             <Grid  Grid.Row="1">
@@ -31,8 +31,8 @@
                 <!--<Image Grid.Row="1" Source="{Binding LastPhoto}" />-->
 
                 <customcontrols:NormalCanvas  x:Name = "scanCanvas"   
-										      Renderer="{Binding Canvas}" 
-											  Size="{Binding CanvasSize}" 
+										      Renderer="{Binding Canvas , Source={ StaticResource sharedPhotoViewModel} }" 
+											  Size="{Binding CanvasSize,  Source={ StaticResource sharedPhotoViewModel} }" 
 											  >
                 </customcontrols:NormalCanvas>
                 <Grid.Effects >
@@ -42,16 +42,16 @@
 
             <Grid Grid.Row= "2">
                 <Button x:Name = "HighLightBtn"   Text="Hightlight Detail"
-                    Command="{Binding HighlightCommand}"
+                    Command="{Binding HighlightCommand,  Source={ StaticResource sharedPhotoViewModel} }"
                     BackgroundColor="Yellow"
                     TextColor="Black"
-					IsEnabled="{Binding Highlightable}"
+					IsEnabled="{Binding Highlightable,  Source={ StaticResource sharedPhotoViewModel} }"
 												
 												/>
 
             </Grid>
             <Button x:Name="ExamineBtn"  Grid.Row="3" Margin="0,10,0,0" Text="Examine this Picture"
-                    Command="{Binding ExaminePhotoCommand}"
+                    Command="{Binding ExaminePhotoCommand,  Source={ StaticResource sharedPhotoViewModel} }"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
         </Grid>

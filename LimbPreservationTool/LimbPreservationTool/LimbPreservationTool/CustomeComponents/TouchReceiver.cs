@@ -10,6 +10,9 @@ namespace LimbPreservationTool.CustomeComponents
 
         public event EventHandler RefreshRequested;
         public bool highlightmode = false;
+        public SKSize CanvasSize { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
         Dictionary<long, SKPath> inProgressPaths;
         List<SKPath> completedPaths;
         SKPaint paint = new SKPaint
@@ -59,7 +62,11 @@ namespace LimbPreservationTool.CustomeComponents
             }
 
         }
-
+        SKPoint ConvertToPixel(SKPoint pt)
+        {
+            return new SKPoint((float)(CanvasSize.Width * pt.X / Width),
+                               (float)(CanvasSize.Height * pt.Y / Height));
+        }
         public void TouchReceive(SKTouchEventArgs e)
         {
             if (!highlightmode)

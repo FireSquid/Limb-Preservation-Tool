@@ -82,6 +82,21 @@ namespace LimbPreservationTool.Renderers
             }
         }
 
+        private SKPaint paint = new SKPaint
+        {
+            //TextSize = 64.0f,
+            //IsAntialias = true,
+            //Color = new SKColor(255, 255, 0).WithAlpha(0x50),
+            //Style = SKPaintStyle.Fill
+            Style = SKPaintStyle.Stroke,
+            Color = SKColors.Yellow.WithAlpha((byte)(0xFF * (1 - 0.5))),
+            StrokeWidth = 100,
+            StrokeCap = SKStrokeCap.Round,
+            StrokeJoin = SKStrokeJoin.Round
+
+
+        };
+
         private SKBitmap dest { get; set; }
         public SKBitmap Dest
         {
@@ -121,34 +136,15 @@ namespace LimbPreservationTool.Renderers
             using (SKCanvas view = new SKCanvas(tmp))
             {
 
-                using (SKPaint paint = new SKPaint
-                {
-                    //TextSize = 64.0f,
-                    //IsAntialias = true,
-                    //Color = new SKColor(255, 255, 0).WithAlpha(0x50),
-                    //Style = SKPaintStyle.Fill
-                    Style = SKPaintStyle.Stroke,
-                    Color = SKColors.Blue,
-                    StrokeWidth = 50,
-                    StrokeCap = SKStrokeCap.Round,
-                    StrokeJoin = SKStrokeJoin.Round
+                //paint.BlendMode = SKBlendMode.SrcIn;
+                paint.BlendMode = SKBlendMode.SrcATop;
+                //paint.BlendMode = SKBlendMode.SrcIn;
+                receiver.DrawAllPath(view, paint);
 
-
-                })
-                {
-
-
-
-                    //paint.BlendMode = SKBlendMode.SrcIn;
-                    paint.BlendMode = SKBlendMode.SrcATop;
-                    //paint.BlendMode = SKBlendMode.SrcIn;
-                    receiver.DrawAllPath(view, paint);
-
-                    //canvas.DrawBitmap(matteBitmap, info.Rect);
-                    //canvas.DrawBitmap(imageBitmap, info.Rect, paint);
-                    //canvas.DrawBitmap(imageBitmap, info.Rect);
-                    // canvas.DrawPaint(paint);
-                }
+                //canvas.DrawBitmap(matteBitmap, info.Rect);
+                //canvas.DrawBitmap(imageBitmap, info.Rect, paint);
+                //canvas.DrawBitmap(imageBitmap, info.Rect);
+                // canvas.DrawPaint(paint);
 
             }
 
@@ -186,37 +182,22 @@ namespace LimbPreservationTool.Renderers
                 canvas.DrawBitmap(tmp, info.Rect);
 
 
-                using (SKPaint paint = new SKPaint
-                {
-                    //TextSize = 64.0f,
-                    //IsAntialias = true,
-                    //Color = new SKColor(255, 255, 0).WithAlpha(0x50),
-                    //Style = SKPaintStyle.Fill
-                    Style = SKPaintStyle.Stroke,
-                    Color = SKColors.Blue,
-                    StrokeWidth = 50,
-                    StrokeCap = SKStrokeCap.Round,
-                    StrokeJoin = SKStrokeJoin.Round
 
-
-                })
+                using (SKCanvas view = new SKCanvas(tmp))
                 {
 
-                    using (SKCanvas view = new SKCanvas(tmp))
-                    {
+                    //canvas.Clear();
+                    receiver.DrawAllPath(canvas, paint);
+                    //receiver.DrawAllPath(canvas,info, paint);
 
-                        //canvas.Clear();
-                        receiver.DrawAllPath(canvas, paint);
-                        //receiver.DrawAllPath(canvas,info, paint);
-
-                        //canvas.DrawBitmap(matteBitmap, info.Rect);
-                        //paint.BlendMode = SKBlendMode.DstIn;
-                        //canvas.DrawBitmap(imageBitmap, info.Rect, paint);
-                        //canvas.DrawBitmap(imageBitmap, info.Rect);
-                        // canvas.DrawPaint(paint);
-                    }
-
+                    //canvas.DrawBitmap(matteBitmap, info.Rect);
+                    //paint.BlendMode = SKBlendMode.DstIn;
+                    //canvas.DrawBitmap(imageBitmap, info.Rect, paint);
+                    //canvas.DrawBitmap(imageBitmap, info.Rect);
+                    // canvas.DrawPaint(paint);
                 }
+
+
 
             }
         }

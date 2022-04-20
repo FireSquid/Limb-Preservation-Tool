@@ -85,6 +85,9 @@ namespace LimbPreservationTool.CustomControls
             Receiver = new TouchReceiver();
             EnableTouchEvents = true;
             //Touch += OnTouch;
+            Receiver.Width = Width;
+            Receiver.Height = Height;
+            Receiver.CanvasSize = CanvasSize;
 
         }
 

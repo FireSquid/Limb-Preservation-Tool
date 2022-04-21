@@ -41,6 +41,7 @@ namespace LimbPreservationTool.ViewModels
             SaveHighlightCommand = new Command(async () => await SaveHighlight());
             DrawHighlightCommand = new Command(() => DrawHighlight());
             RedoHighlightCommand = new Command(() => RedoHighlight());
+            PreviewCommand = new Command(() => SetPreview());
         }
 
         public async Task TakePhoto()
@@ -183,6 +184,12 @@ namespace LimbPreservationTool.ViewModels
             //Canvas.ImageBitmap = scanBitmap.Copy();
         }
 
+        void SetPreview()
+        {
+            Highlighter.PreviewMode = !Highlighter.PreviewMode;
+
+        }
+
         public Renderers.NormalRenderer Canvas { get; set; }
         public Renderers.PathRenderer Highlighter { get; set; }
         private SKBitmap scanBitmap;
@@ -202,6 +209,7 @@ namespace LimbPreservationTool.ViewModels
         public ICommand DrawHighlightCommand { get; }
         public ICommand SaveHighlightCommand { get; }
         public ICommand RedoHighlightCommand { get; }
+        public ICommand PreviewCommand { get; }
 
         private ImageSource lastPhoto;
         public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }

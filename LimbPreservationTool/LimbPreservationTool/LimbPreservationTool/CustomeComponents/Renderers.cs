@@ -97,6 +97,18 @@ namespace LimbPreservationTool.Renderers
 
         };
 
+        private bool previewmode { get; set; }
+        public bool PreviewMode
+        {
+            get => previewmode; set
+            {
+                previewmode = value;
+                RefreshRequested?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
+
         private SKBitmap dest { get; set; }
         public SKBitmap Dest
         {
@@ -106,6 +118,9 @@ namespace LimbPreservationTool.Renderers
                 RefreshRequested?.Invoke(this, EventArgs.Empty);
             }
         }
+
+        private SKBitmap result;
+
         public event EventHandler RefreshRequested;
 
         private TouchReceiver receiver { get; set; }
@@ -131,24 +146,7 @@ namespace LimbPreservationTool.Renderers
         }
         public SKBitmap PorterDuff()
         {
-
-            SKBitmap tmp = src.Copy();
-            using (SKCanvas view = new SKCanvas(tmp))
-            {
-
-                //paint.BlendMode = SKBlendMode.SrcIn;
-                paint.BlendMode = SKBlendMode.SrcATop;
-                //paint.BlendMode = SKBlendMode.SrcIn;
-                receiver.DrawAllPath(view, paint);
-
-                //canvas.DrawBitmap(matteBitmap, info.Rect);
-                //canvas.DrawBitmap(imageBitmap, info.Rect, paint);
-                //canvas.DrawBitmap(imageBitmap, info.Rect);
-                // canvas.DrawPaint(paint);
-
-            }
-
-            return tmp.Copy();
+            return result.Copy();
         }
 
         public void ClearPath()
@@ -162,6 +160,7 @@ namespace LimbPreservationTool.Renderers
 
             //src = null;
             receiver = new TouchReceiver();
+            previewmode = false;
         }
 
         public void PaintSurface(SKSurface surface, SKImageInfo info)
@@ -179,22 +178,22 @@ namespace LimbPreservationTool.Renderers
                 Console.WriteLine(src.Info.BytesSize);
                 Console.WriteLine("DrawSrc");
                 SKBitmap tmp = src.Copy();
-                canvas.DrawBitmap(tmp, info.Rect);
 
-
-
-                using (SKCanvas view = new SKCanvas(tmp))
+                SKPaint pdpaint = paint.Clone();
+                pdpaint.BlendMode = SKBlendMode.DstATop;
+                receiver.DrawAllPath(canvas, pdpaint);
+                SKPaint blend = new SKPaint();
+                blend.BlendMode = SKBlendMode.SrcIn;
+                canvas.DrawBitmap(tmp, info.Rect, blend);
+                result = SKBitmap.FromImage(surface.Snapshot());
+                canvas.DrawBitmap(result, info.Rect);
+                if (!previewmode)
                 {
 
-                    //canvas.Clear();
+                    canvas.Clear();
+                    canvas.DrawBitmap(tmp, info.Rect);
                     receiver.DrawAllPath(canvas, paint);
-                    //receiver.DrawAllPath(canvas,info, paint);
 
-                    //canvas.DrawBitmap(matteBitmap, info.Rect);
-                    //paint.BlendMode = SKBlendMode.DstIn;
-                    //canvas.DrawBitmap(imageBitmap, info.Rect, paint);
-                    //canvas.DrawBitmap(imageBitmap, info.Rect);
-                    // canvas.DrawPaint(paint);
                 }
 
 

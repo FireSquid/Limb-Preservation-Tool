@@ -18,6 +18,8 @@
                 <RowDefinition Height="7.5* "/>
                 <RowDefinition Height = "1.5*"/>
             </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Text= "Preview" Command="{Binding PreviewCommand , Source={ StaticResource sharedPhotoViewModel}}"  ></Button>
             <customcontrols:HighlightCanvas Grid.Row= "1" Renderer="{Binding Highlighter, Source={ StaticResource sharedPhotoViewModel} , Mode=TwoWay}"  >
             </customcontrols:HighlightCanvas >
             <Grid Grid.Row ="2">

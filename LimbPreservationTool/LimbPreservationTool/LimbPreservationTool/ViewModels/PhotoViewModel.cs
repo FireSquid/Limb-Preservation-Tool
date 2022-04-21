@@ -173,6 +173,7 @@ namespace LimbPreservationTool.ViewModels
             //Canvas.ImageBitmap = Highlighter.Save().Copy();
             await Shell.Current.GoToAsync($"//{nameof(PhotoPage)}");
             Canvas.ImageBitmap = Highlighter.PorterDuff();
+            blendBitmap = Canvas.ImageBitmap.Copy();
             //blend overlay bitmap with picture bitmap
             //Highlightable = false;//this won't update the property possibily due to 2 way binding
         }

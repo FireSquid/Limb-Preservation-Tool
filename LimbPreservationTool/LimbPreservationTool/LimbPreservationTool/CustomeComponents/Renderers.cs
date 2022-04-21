@@ -186,7 +186,10 @@ namespace LimbPreservationTool.Renderers
                 blend.BlendMode = SKBlendMode.SrcIn;
                 canvas.DrawBitmap(tmp, info.Rect, blend);
                 result = SKBitmap.FromImage(surface.Snapshot());
+
+                canvas.Clear(new SKColor(0, 0, 0));
                 canvas.DrawBitmap(result, info.Rect);
+                result = SKBitmap.FromImage(surface.Snapshot());
                 if (!previewmode)
                 {
 

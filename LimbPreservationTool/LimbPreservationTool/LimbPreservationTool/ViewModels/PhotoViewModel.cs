@@ -36,7 +36,7 @@ namespace LimbPreservationTool.ViewModels
             //Receiver = new TouchReceiver();
             Highlighter = new Renderers.PathRenderer();
             TakePhotoCommand = new Command(async () => await TakePhoto());
-            ExaminePhotoCommand = new Command(async () => await ExaminePhoto());
+            ExaminePhotoCommand = new Command(async () => await ExamineHighlight());
             HighlightCommand = new Command(async () => await StartHighlight());
             SaveHighlightCommand = new Command(async () => await SaveHighlight());
             DrawHighlightCommand = new Command(() => DrawHighlight());
@@ -108,7 +108,7 @@ namespace LimbPreservationTool.ViewModels
                 Console.Write("Has not taken a photo");
                 return;
             }
-            photoStream = await photo.OpenReadAsync();
+            // photoStream = await photo.OpenReadAsync();
 
             Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
 
@@ -117,7 +117,13 @@ namespace LimbPreservationTool.ViewModels
             if (!e.Equals(Stream.Null))
             {
                 LastPhoto = ImageSource.FromStream(() => e);
-                Console.WriteLine("Examine finished");
+
+                //var bitmapStream = new MemoryStream();
+
+                //await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
+
+                //bitmapStream.Seek(0, SeekOrigin.Begin);
+                Console.WriteLine("Examine  f inished");
             }
         }
 
@@ -135,6 +141,8 @@ namespace LimbPreservationTool.ViewModels
             if (!e.Equals(Stream.Null))
             {
                 LastPhoto = ImageSource.FromStream(() => e);
+
+                Canvas.ImageBitmap = SKBitmap.Decode(e);
                 Console.WriteLine("Examine finished");
             }
         }
@@ -172,7 +180,12 @@ namespace LimbPreservationTool.ViewModels
             //Highlightable = false;//this won't update the property here 
             //Canvas.ImageBitmap = Highlighter.Save().Copy();
             await Shell.Current.GoToAsync($"//{nameof(PhotoPage)}");
-            Canvas.ImageBitmap = Highlighter.PorterDuff();
+
+            if (!Highlighter.Receiver.Fresh())
+            {
+
+                Canvas.ImageBitmap = Highlighter.PorterDuff();
+            }
             blendBitmap = Canvas.ImageBitmap.Copy();
             //blend overlay bitmap with picture bitmap
             //Highlightable = false;//this won't update the property possibily due to 2 way binding

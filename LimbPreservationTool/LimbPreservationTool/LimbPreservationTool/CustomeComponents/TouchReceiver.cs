@@ -67,6 +67,19 @@ namespace LimbPreservationTool.CustomeComponents
             return new SKPoint((float)(CanvasSize.Width * pt.X / Width),
                                (float)(CanvasSize.Height * pt.Y / Height));
         }
+
+        public bool Fresh()
+        {
+
+            return inProgressPaths.Count == 0 && completedPaths.Count == 0;
+
+
+
+        }
+
+
+
+
         public void TouchReceive(SKTouchEventArgs e)
         {
             if (!highlightmode)

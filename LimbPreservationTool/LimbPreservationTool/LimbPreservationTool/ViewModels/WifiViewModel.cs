@@ -130,10 +130,6 @@ namespace LimbPreservationTool.ViewModels
             }
 
             App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
-
-
-            // WifiStatus = $"Your estimate risk for amputation at 1 year is: \n" + amputationRisk + "\n" + "\nYour estimate requirement for revascularization is: \n" + revascularizationRisk;
-            // longer message: "Your estimate likelihood of benefit of/requirement for revascularization (assuming your infection can first be controlled) is: 
         }
 
 

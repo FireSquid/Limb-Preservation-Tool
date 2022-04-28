@@ -22,15 +22,22 @@
                 <RowDefinition Height="10*"/>
                 <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Text="Wound Size Evaluation" FontSize="30" TextColor="Black" FontAttributes= "Bold"
-                        HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
 
-            <BoxView  Grid.Row="1" VerticalOptions="Center"
-                            HorizontalOptions="Center"
-                            HeightRequest="2"
-                            WidthRequest="200"  
-                           Margin="50,10"
-                            Color="SeaGreen"></BoxView>
+            <Label Grid.Row="0" 
+                   Text="Wound Size Evaluation" 
+                   FontSize="30" 
+                   TextColor="Black" 
+                   FontAttributes= "Bold"
+                   HorizontalOptions="CenterAndExpand" 
+                   HorizontalTextAlignment="Center"/>
+
+            <BoxView Grid.Row="1" 
+                     VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     HeightRequest="2"
+                     WidthRequest="200"  
+                     Margin="50,10"
+                     Color="SeaGreen"></BoxView>
 
             <Label Grid.Row="2" 
                    FontSize="24"   
@@ -40,22 +47,49 @@
                    Text="Picture Taking Instructions:" />
 
 
-            <Label Grid.Row="3" FontSize="16" HorizontalOptions="Center" TextColor="Black" Margin="20,10" HorizontalTextAlignment="Center" 
-                           Text="This page will allow you to take a photo of your wound, and  measure its size.  In order to ensure accuracy, please do the following:"/>
-            <Label Grid.Row="4" FontSize="18" HorizontalOptions="Center" TextColor="Black" Margin="20, 0" HorizontalTextAlignment="Center" 
-                           Text="1) Orient your camera parallel to the wound"/>
-            <Label Grid.Row="5" FontSize="18" HorizontalOptions="Center" TextColor="Black" Margin="20, 0" HorizontalTextAlignment="Center" 
-                           Text="2) Place the ruler to the left of the wound"/>
-            <Label Grid.Row="6" FontSize="18" HorizontalOptions="Center" TextColor="Black" Margin="20, 0" HorizontalTextAlignment="Center" 
-                           Text="3) Ensure a neutral background with no other objects within frame"/>
+            <Label Grid.Row="3" 
+                   FontSize="16" 
+                   HorizontalOptions="Center" 
+                   TextColor="Black" 
+                   Margin="20,10" 
+                   HorizontalTextAlignment="Center" 
+                   Text="This page will allow you to take a photo of your wound, and  measure its size.  In order to ensure accuracy, please do the following:"/>
+            <Label Grid.Row="4" 
+                   FontSize="18" 
+                   HorizontalOptions="Center" 
+                   TextColor="Black" 
+                   Margin="20, 0" 
+                   HorizontalTextAlignment="Center" 
+                   Text="1) Orient your camera parallel to the wound"/>
+            <Label Grid.Row="5" 
+                   FontSize="18" 
+                   HorizontalOptions="Center" 
+                   TextColor="Black" 
+                   Margin="20, 0" 
+                   HorizontalTextAlignment="Center" 
+                   Text="2) Place the ruler to the left of the wound"/>
+            <Label Grid.Row="6" 
+                   FontSize="18" 
+                   HorizontalOptions="Center" 
+                   TextColor="Black" 
+                   Margin="20, 0" 
+                   HorizontalTextAlignment="Center" 
+                   Text="3) Ensure a neutral background with no other objects within frame"/>
 
-            <Button x:Name="CameraBtn" Grid.Row="7" Margin="40,5" Text="Take a Picture"
+            <Button x:Name="CameraBtn" 
+                    Grid.Row="7" 
+                    Margin="40,5" 
+                    Text="Take a Picture"
                     Command="{Binding TakePhotoCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
-            <Image Grid.Row="8" Source="{Binding LastPhoto}" />
+            <Image Grid.Row="8" 
+                   Source="{Binding LastPhoto}" />
 
-            <Button x:Name="ExamineBtn"  Grid.Row="9" Margin="40,5" Text="Examine this Picture"
+            <Button x:Name="ExamineBtn"  
+                    Grid.Row="9" 
+                    Margin="40,5" 
+                    Text="Examine this Picture"
                     Command="{Binding ExaminePhotoCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />

@@ -11,15 +11,13 @@ namespace LimbPreservationTool.ViewModels
 {
     public class WifiResultModel : BaseViewModel
     {
+        // default constructor
         public WifiResultModel()
         {
             Title = "Wifi results";
             TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             AboutCommand = new Command(async () => await AboutPageOpen());
-
-            // WifiStatus = $"Your estimate risk for amputation at 1 year is: \n" + amputationRisk + "\n" + "\nYour estimate requirement for revascularization is: \n" + revascularizationRisk;
-            // longer message: "Your estimate likelihood of benefit of/requirement for revascularization (assuming your infection can first be controlled) is: 
 
             AmputationInfo = "Testing";
             AmputationColor = Color.Purple;
@@ -28,7 +26,7 @@ namespace LimbPreservationTool.ViewModels
             RevascColor = Color.Pink;
         }
 
-
+        // constructor that passes in information from question page
         public WifiResultModel(string ampInfo, string revInfo, Color ampColor, Color revColor)
         {
             Title = "Wifi results";
@@ -36,9 +34,6 @@ namespace LimbPreservationTool.ViewModels
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             AboutCommand = new Command(async () => await AboutPageOpen());
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
-
-            // WifiStatus = $"Your estimate risk for amputation at 1 year is: \n" + amputationRisk + "\n" + "\nYour estimate requirement for revascularization is: \n" + revascularizationRisk;
-            // longer message: "Your estimate likelihood of benefit of/requirement for revascularization (assuming your infection can first be controlled) is: 
 
             AmputationInfo = $"Your estimate risk for amputation at 1 year is: \n" + ampInfo;
             AmputationColor = ampColor;

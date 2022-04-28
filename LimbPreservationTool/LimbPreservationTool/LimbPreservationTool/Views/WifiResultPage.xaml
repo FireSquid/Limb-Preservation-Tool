@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
              x:Class="LimbPreservationTool.Views.WifiResultPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
     <ContentPage.BindingContext>
@@ -14,7 +16,7 @@
             <StackLayout>
                 <Label Text="Wound, Ischemia, and Foot Infection Classification Results" 
                        FontSize="30" 
-                       Margin="50,10" 
+                       Margin="50,30" 
                        TextColor="Black" 
                        FontAttributes= "Bold"
                        HorizontalOptions="CenterAndExpand" 
@@ -44,11 +46,21 @@
 
                     <Button Margin="50,20" 
                             Text="Enter Additional Wifi Info"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
                             Command="{Binding EnterAdditionalInfoCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,20" 
                             Text="Back Home"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
                             Command="{Binding BacktoHome}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />

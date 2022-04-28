@@ -9,18 +9,21 @@
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" 
                      VerticalOptions="Center">
-            <Label Text="Limb Preservation Tool" 
-                   FontSize="35" 
-                   TextColor="Black" 
-                   Margin="50, 30" 
-                   HorizontalTextAlignment="Center"
-                   HorizontalOptions="CenterAndExpand" 
-                   VerticalOptions="CenterAndExpand" />
-            <BoxView VerticalOptions="Center"
-                     HorizontalOptions="Center"
-                     HeightRequest="2"
-                     WidthRequest="200"  
-                     Color="SeaGreen"></BoxView>
+            <StackLayout>
+                <Label Text="Limb Preservation Tool" 
+                       FontSize="30" 
+                       Margin="50,30" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalOptions="CenterAndExpand"/>
+                <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+            </StackLayout>
             <Entry Placeholder="Enter username..." 
                    Text="{Binding UsernameEntryField}" />
             <Entry Placeholder="Enter password..." 

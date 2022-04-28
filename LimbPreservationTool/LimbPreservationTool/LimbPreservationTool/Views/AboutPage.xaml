@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid>
+    <Grid BackgroundColor="{StaticResource MainBG}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
             <RowDefinition Height="3*" />
@@ -38,17 +38,31 @@
         </StackLayout>
 
         <ScrollView Grid.Row="1">
+
             <StackLayout Orientation="Vertical" 
                          Padding="30,24,30,24" 
                          Spacing="10">
+                <Label Text="About this App" 
+                       FontSize="30" 
+                       Margin="50,30" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center"/>
+                <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
                 <Label Text="This app was developed by a team from the ECS 193 class to be used by the UC Davis Health Department, and created using Xamarin Forms.  You can learn more about Xamarin below." 
                        TextColor="Black" 
+                       Margin="0,20"
                        FontSize="16" 
                        Padding="0,0,0,0"/>
             </StackLayout>
         </ScrollView>
 
-        <StackLayout Grid.Row="2">
+        <StackLayout Grid.Row="2" >
             <Button Margin="20,0,20,0" 
                     Text="Learn more"
                     Command="{Binding OpenWebCommand}"

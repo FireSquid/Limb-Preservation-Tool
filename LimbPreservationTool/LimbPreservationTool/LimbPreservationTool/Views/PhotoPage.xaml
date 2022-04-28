@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.PhotoPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
     <ContentPage.BindingContext>
@@ -80,6 +81,11 @@
                     Grid.Row="7" 
                     Margin="40,5" 
                     Text="Take a Picture"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10" 
                     Command="{Binding TakePhotoCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
@@ -90,6 +96,11 @@
                     Grid.Row="9" 
                     Margin="40,5" 
                     Text="Examine this Picture"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10" 
                     Command="{Binding ExaminePhotoCommand}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />

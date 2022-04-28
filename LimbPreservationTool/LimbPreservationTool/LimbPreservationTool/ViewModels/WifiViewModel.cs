@@ -32,7 +32,7 @@ namespace LimbPreservationTool.ViewModels
 
         public WifiViewModel()
         {
-            WifiStatus = "Please Enter The Information Below:";
+            WifiStatus = "Please Enter The Information Below";
             WifiColor = Color.Black;
             CalculateWiFICommand = new Command(ClickWifiSubmit);
         }

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.HomePage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
     <ContentPage.BindingContext>
@@ -13,15 +14,16 @@
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout HeightRequest="60">
                 <Label Text="Limb Preservation Tool" 
-                       FontSize="35" 
+                       FontSize="30" 
+                       Margin="50,30" 
                        TextColor="Black" 
-                       Margin="50, 30" 
-                       HorizontalTextAlignment="Center"
+                       FontAttributes= "Bold"
                        HorizontalOptions="CenterAndExpand" 
-                       VerticalOptions="CenterAndExpand" />
+                       HorizontalTextAlignment="Center" 
+                       VerticalOptions="CenterAndExpand"/>
                 <BoxView VerticalOptions="Center"
                          HorizontalOptions="Center"
-                         HeightRequest="2" 
+                         HeightRequest="2"
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
             </StackLayout>
@@ -31,13 +33,28 @@
 
                     <Button Margin="50,20" Text="Take New Photo"
                             Command="{Binding TakeNewPhotoCommand}"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,20" Text="Enter Additional Wifi Info"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
                             Command="{Binding EnterAdditionalInfoCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,20" Text="About this App"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
                             Command="{Binding AboutCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />

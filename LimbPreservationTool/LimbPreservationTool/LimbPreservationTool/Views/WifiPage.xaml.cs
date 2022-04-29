@@ -22,5 +22,27 @@ namespace LimbPreservationTool.Views
             viewModel = new WifiViewModel();
             this.BindingContext = viewModel;
         }
+
+        private void woundInfoOn(object sender, EventArgs e)
+        {
+            woundView.IsVisible = true;
+
+        }
+        private void woundInfoOff(object sender, EventArgs e)
+        {
+            woundView.IsVisible = false;
+
+        }
+
+        private void infectionInfoOn(object sender, EventArgs e)
+        {
+            infectionView.IsVisible = true;
+
+        }
+        private void infectionViewOff(object sender, EventArgs e)
+        {
+            infectionView.IsVisible = false;
+
+        }
     }
 }

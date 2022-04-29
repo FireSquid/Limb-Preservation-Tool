@@ -1,19 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LimbPreservationTool.Views.HomePage"
+             xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
+             x:Class="LimbPreservationTool.Views.WifiResultPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
     <ContentPage.BindingContext>
-        <vm:HomeViewModel />
+        <vm:WifiResultModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
-            <StackLayout HeightRequest="60">
-                <Label Text="Limb Preservation Tool" 
+            <StackLayout>
+                <Label Text="Wound, Ischemia, and Foot Infection Classification Results" 
                        FontSize="30" 
                        Margin="50,30" 
                        TextColor="Black" 
@@ -27,20 +28,24 @@
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
             </StackLayout>
-
             <ScrollView VerticalOptions="CenterAndExpand">
                 <StackLayout>
+                    <Label Text="{Binding AmputationInfo}" 
+                           TextColor="{Binding AmputationColor}"  
+                           FontSize="Title" 
+                           HorizontalOptions="CenterAndExpand" 
+                           HorizontalTextAlignment="Center" 
+                           Margin="50,10"></Label>
+                    <Label Text="{Binding RevascInfo}" 
+                           TextColor="{Binding RevascColor}"  
+                           FontSize="Title" 
+                           HorizontalOptions="CenterAndExpand" 
+                           HorizontalTextAlignment="Center" 
+                           Margin="50,10">
+                    </Label>
 
-                    <Button Margin="50,20" Text="Take New Photo"
-                            Command="{Binding TakeNewPhotoCommand}"
-                            xct:ShadowEffect.Color="Black"
-                            xct:ShadowEffect.OffsetY="0"
-                            xct:ShadowEffect.Opacity="0.9"
-                            xct:CornerRadiusEffect.CornerRadius="10"
-                            xct:ShadowEffect.Radius="10" 
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White" />
-                    <Button Margin="50,20" Text="Enter Additional Wifi Info"
+                    <Button Margin="50,20" 
+                            Text="Enter Additional Wifi Info"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
@@ -49,18 +54,18 @@
                             Command="{Binding EnterAdditionalInfoCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" Text="About this App"
+                    <Button Margin="50,20" 
+                            Text="Back Home"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"
                             xct:ShadowEffect.Radius="10" 
-                            Command="{Binding AboutCommand}"
+                            Command="{Binding BacktoHome}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                 </StackLayout>
             </ScrollView>
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

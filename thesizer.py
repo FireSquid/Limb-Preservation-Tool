@@ -19,9 +19,15 @@ def cv(filename, width):
     #image = args["image"]
     if(os.path.exists(filename)):
         # load the image, convert it to grayscale, and blur it a bit
-        image = cv2.imread(filename)
+        #img = cv2.imread(filename)
+       # scale_percent = 20 #percent of original size
+        #width = int(img.shape[1] * scale_percent / 100)
+        #height = int(img.shape[0] * scale_percent / 100)
+        #dim = (width, height)
+
+        image = cv2.imread(filename)#cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        gray = cv2.GaussianBlur(gray, (7, 7), 0)
+        gray = cv2.GaussianBlur(gray, (11, 11), 0)
 
         # perform edge detection + dilation + erosion to close gaps_bt_edges
         edge_detect = cv2.Canny(gray, 15, 100) #play w/min and max values_to_finetune_edges(15, 100)
@@ -46,6 +52,8 @@ def cv(filename, width):
                 continue   # compute the rotated bounding box of the contour; should_handle cv2 or cv3..
             if(id == 1):
                 orig = image.copy()
+            if(id == 3):
+                break
             #else:
             #    orig = tempimg.copy()
             bbox = cv2.minAreaRect(c)
@@ -92,7 +100,7 @@ def cv(filename, width):
 
         #image = args["image"]
         #print("image is " + str(image))
-        os.rename("hotwheel.png", "in/hotwheel.png")
+        os.rename(filename, "in/hotwheel.png")
         os.rename("output.png", "out/output.png")
             # show the output image
             #cv2.imshow("Image", orig)

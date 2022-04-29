@@ -5,8 +5,8 @@
     xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
     xmlns:tk="http://xamarin.com/schemas/2020/toolkit"
     xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
-    x:Class="LimbPreservationTool.Views.HighlightPage"
-		>
+    x:Class="LimbPreservationTool.Views.HighlightPage">
+
     <ContentPage.BindingContext>
         <Binding Source= "{StaticResource sharedPhotoViewModel}"/>
     </ContentPage.BindingContext>

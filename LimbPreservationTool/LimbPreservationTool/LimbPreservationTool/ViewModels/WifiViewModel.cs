@@ -32,7 +32,8 @@ namespace LimbPreservationTool.ViewModels
 
         public WifiViewModel()
         {
-            WifiStatus = "Please Enter The Information Below:";
+            WifiStatus = "Please Enter The Information Below";
+            WifiColor = Color.Black;
             CalculateWiFICommand = new Command(ClickWifiSubmit);
         }
 
@@ -51,7 +52,8 @@ namespace LimbPreservationTool.ViewModels
                 infectionGrade = Int32.Parse(infectionGradeString);
                 ischemiaGrade = Int32.Parse(ischemiaGradeString);
 
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 WifiStatus = $"Please fill out all fields";
                 Console.WriteLine(ex.Message);
@@ -64,7 +66,8 @@ namespace LimbPreservationTool.ViewModels
             {
                 WifiStatus = $"Invalid Input, grades should range between 1-3";
                 return;
-            } else
+            }
+            else
             {
                 // calculate ischemiaGrade if necessary
                 if (ischemiaGrade == -1)
@@ -74,7 +77,8 @@ namespace LimbPreservationTool.ViewModels
                         toePressureGrade = Int32.Parse(toePressureGradeString);
                         ankleBrachialIndex = Double.Parse(ankleBrachialIndexString);
                         ankleSystolicPressure = Int32.Parse(ankleSystolicPressureString);
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         WifiStatus = $"Please fill out all fields";
                         Console.WriteLine(ex.Message);
@@ -87,8 +91,45 @@ namespace LimbPreservationTool.ViewModels
             // calculate and output risk
             amputationRisk = calculateAmputationRisk(woundGrade, infectionGrade, ischemiaGrade, amputationRisk);
             revascularizationRisk = calculateRevascularizationRisk(woundGrade, infectionGrade, ischemiaGrade, revascularizationRisk);
-            WifiStatus = $"Your estimate risk for amputation at 1 year is: \n" + amputationRisk + "\n" + "\nYour estimate requirement for revascularization is: \n" + revascularizationRisk;
-            // longer message: "Your estimate likelihood of benefit of/requirement for revascularization (assuming your infection can first be controlled) is: 
+
+            Color ampColor = Color.Black;
+            Color revascColor = Color.Black;
+
+            if (amputationRisk == Amputation.VeryLow)
+            {
+                ampColor = Color.Green;
+            }
+            else if (amputationRisk == Amputation.Low)
+            {
+                ampColor = Color.Yellow;
+            }
+            else if (amputationRisk == Amputation.Medium)
+            {
+                ampColor = Color.Orange;
+            }
+            else if (amputationRisk == Amputation.High)
+            {
+                ampColor = Color.Red;
+            }
+
+            if (revascularizationRisk == Revascularization.VeryLow)
+            {
+                revascColor = Color.Green;
+            }
+            else if (revascularizationRisk == Revascularization.Low)
+            {
+                revascColor = Color.Yellow;
+            }
+            else if (revascularizationRisk == Revascularization.Medium)
+            {
+                revascColor = Color.Orange;
+            }
+            else if (revascularizationRisk == Revascularization.High)
+            {
+                revascColor = Color.Red;
+            }
+
+            App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
         }
 
 
@@ -352,5 +393,11 @@ namespace LimbPreservationTool.ViewModels
 
         private string wifiStatus;
         public string WifiStatus { get => wifiStatus; private set => SetProperty(ref wifiStatus, value); }
+
+        private string testText;
+        public string TestText { get => testText; private set => SetProperty(ref testText, value); }
+
+        private Color wifiColor;
+        public Color WifiColor { get => wifiColor; private set => SetProperty(ref wifiColor, value); }
     }
 }

@@ -52,6 +52,7 @@
             </Grid>
             <Button x:Name="ExamineBtn"  Grid.Row="3" Margin="0,10,0,0" Text="Examine this Picture"
                     Command="{Binding ExaminePhotoCommand,  Source={ StaticResource sharedPhotoViewModel} }"
+
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" />
         </Grid>

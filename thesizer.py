@@ -93,7 +93,7 @@ def cv(filename, width):
         #image = args["image"]
         #print("image is " + str(image))
         os.rename("hotwheel.png", "in/hotwheel.png")
-
+        os.rename("output.png", "out/output.png")
             # show the output image
             #cv2.imshow("Image", orig)
             #cv2.waitKey(0)

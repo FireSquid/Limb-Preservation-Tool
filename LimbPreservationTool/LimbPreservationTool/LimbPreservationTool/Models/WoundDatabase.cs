@@ -1,63 +1,64 @@
 ﻿using SQLite;
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Guid;
+using System.Collections.Generic;
 
 namespace LimbPreservationTool.Models
 {
     [Serializable]
     class NonAlphaNumericInsertException : Exception
     {
-        public NonAlphaNumericInsertException() { }
+        public NonAlphaNumericInsertException() : base("Attempted to insert non-alphanumeric string into the database") { }
 
-        public NonAlphaNumericInsertException(string item, string dbname) : base("Attempted to insert non-alphanumeric string '{0}' into the database '{1}", item, dbname) { }
+        public NonAlphaNumericInsertException(string item, string dbname) : base($"Attempted to insert non-alphanumeric string '{item}' into the database '{dbname}") { }
     }
 
     internal class WoundDatabase
     {
+
         private static SQLiteAsyncConnection dbConnection;
 
         private static readonly AsyncLazy<WoundDatabase> Database = new AsyncLazy<WoundDatabase>(async () =>
         {
             var instance = new WoundDatabase();
-            CreateTableResult result = await dbConnection.CreateTableAsync<dbWound>();
-            return instance;
-        });
-    }
-
-    internal class PatientDatabase
-    {
-        private static SQLiteAsyncConnection dbConnection;
-
-        private static readonly AsyncLazy<PatientDatabase> Database = new AsyncLazy<PatientDatabase>(async () =>
-        {
-            var instance = new PatientDatabase();
-            CreateTableResult result = await dbConnection.CreateTableAsync<dbPatient>();
+            CreateTableResult woundTable = await dbConnection.CreateTableAsync<DBWound>();
+            CreateTableResult patientTable = await dbConnection.CreateTableAsync<DBPatient>();
             return instance;
         });
 
-        public Task<dbPatient> GetPatient(string name)
+        private WoundDatabase()
         {
-            return dbConnection.Table<dbPatient>().Where(patient => patient.PatientName.Equals(name)).FirstOrDefaultAsync();
+            dbConnection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+            dbConnection.EnableWriteAheadLoggingAsync();
         }
 
-        public async Task<dbPatient> GetPatient(Guid id)
+        public Task<DBPatient> GetPatient(string name)
         {
             try
             {
-                return await dbConnection.Table<dbPatient>().Where(patient => patient.PatientID.Equals(id)).FirstAsync();
+                return dbConnection.Table<DBPatient>().Where(patient => patient.PatientName.Equals(name)).FirstAsync();
             }
             catch (Exception ex)
             {
                 throw ex;
-            }            
+            }
         }
 
-        public async Task<int> SetPatient(dbPatient patient)
+        public async Task<DBPatient> GetPatient(Guid id)
+        {
+            try
+            {
+                return await dbConnection.Table<DBPatient>().Where(patient => patient.PatientID.Equals(id)).FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<int> SetPatient(DBPatient patient)
         {
             try
             {
@@ -65,7 +66,7 @@ namespace LimbPreservationTool.Models
 
                 return await dbConnection.UpdateAsync(patient);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return await dbConnection.InsertAsync(patient);
             }
@@ -76,25 +77,172 @@ namespace LimbPreservationTool.Models
             if (string.IsNullOrEmpty(patientName)) throw new ArgumentNullException(nameof(patientName));
             if (patientName.All(char.IsLetterOrDigit)) throw new NonAlphaNumericInsertException(patientName, "dbPatient");
 
-            var newPatient = dbPatient.Create(patientName);
+            var newPatient = DBPatient.Create(patientName);
 
             return await dbConnection.InsertAsync(newPatient);
         }
 
-        public async Task<int> DeletePatient(dbPatient patient)
+        public async Task<int> DeletePatient(DBPatient patient)
         {
             return await dbConnection.DeleteAsync(patient);
         }
     }
 
-    internal class dbWound
+    [Table("DBWound")]
+    internal class DBWound
     {
-        public Guid PatientID { get; }
-        public DateTime WoundDate { get; }
+        private long _woundID;
+        [Column("woundID")]
+        [PrimaryKey]
+        [NotNull]
+        [AutoIncrement]
+        public long WoundID {
+            get { return _woundID; }
+            private set { if (value != _woundID) _woundID = value; }
+        }
+
+        private Guid _woundGroup;
+        [Column("group")]
+        [NotNull]
+        public Guid WoundGroup {
+            get { return _woundGroup; }
+            private set { if (value != _woundGroup) _woundGroup = value; }
+        }
+
+        private Guid _patientID;
+        [Column("patientID")]
+        [NotNull]
+        public Guid PatientID { 
+            get { return _patientID; }
+            private set { if (value != _patientID) _patientID = value; }
+        }
+
+        private DateTime _woundDate;
+        [Column("date")]
+        public DateTime WoundDate { 
+            get { return _woundDate.Date; } 
+            private set { if (value.Date != _woundDate.Date) _woundDate = WoundDate.Date; }
+        }
+
+        private float _woundSize;
+        [Column("size")]
+        public float WoundSize
+        {
+            get { return _woundSize; }
+            private set { if (WoundSize != _woundSize) _woundSize = WoundSize; }
+        }
+
+        private string _woundImgName;
+        [Column("img")]
+        public string WoundImgName
+        {
+            get { return _woundImgName; }
+            private set { if (WoundImgName != _woundImgName) _woundImgName = WoundImgName; }
+        }
+
+        private int _wifiWound;
+        [Column("wifiWound")]
+        public int WIfiWound
+        {
+            get { return _wifiWound; }
+            private set { if (WIfiWound != _wifiWound) _wifiWound = WIfiWound; }
+        }
+
+        private int _wifiIschemia;
+        [Column("wifiIschemia")]
+        public int WIfiIschemia
+        {
+            get { return _wifiIschemia; }
+            private set { if (WIfiIschemia != _wifiIschemia) _wifiIschemia = WIfiIschemia; }
+        }
+
+        private int _wifiInfection;
+        [Column("wifiInfection")]
+        public int WIfiInfection
+        {
+            get { return _wifiInfection; }
+            private set { if (WIfiInfection != _wifiInfection) _wifiInfection = WIfiInfection; }
+        }
+
+        public static DBWound Create(Guid patientID, float size, string img)
+        {
+            DBWound db = new DBWound();
+            db.PatientID = patientID;
+            db.WoundSize = size;
+            db.WoundImgName = img;
+            db.WoundGroup = Guid.NewGuid();
+            return db;
+        }
+
+        public static DBWound Create(long woundID, Guid patientID, float size, string img)
+        {
+            DBWound db = new DBWound();
+            db.WoundID = woundID;
+            db.PatientID = patientID;
+            db.WoundSize = size;
+            db.WoundImgName = img;
+            db.WoundGroup = Guid.NewGuid();
+            return db;
+        }
+
+        public static DBWound Create(Guid patientID, int wound, int ischemia, int infection)
+        {
+            DBWound db = new DBWound();
+            db.PatientID = patientID;
+            db.WIfiWound = wound;
+            db.WIfiIschemia = ischemia;
+            db.WIfiInfection = infection;
+            db.WoundGroup = Guid.NewGuid();
+            return db;
+        }
+
+        public static DBWound Create(long woundID, Guid patientID, int wound, int ischemia, int infection)
+        {
+            DBWound db = new DBWound();
+            db.WoundID = woundID;
+            db.PatientID = patientID;
+            db.WIfiWound = wound;
+            db.WIfiIschemia = ischemia;
+            db.WIfiInfection = infection;
+            db.WoundGroup = Guid.NewGuid();
+            return db;
+        }
+
+        public static DBWound Create(Guid patientID, float size, string img, int wound, int ischemia, int infection)
+        {
+            DBWound db = new DBWound();
+            db.PatientID = patientID;
+            db.WoundSize = size;
+            db.WoundImgName = img;
+            db.WIfiWound = wound;
+            db.WIfiIschemia = ischemia;
+            db.WIfiInfection = infection;
+            db.WoundGroup = Guid.NewGuid();
+            return db;
+        }
+
+        public static DBWound Create(long woundID, Guid patientID, float size, string img, int wound, int ischemia, int infection)
+        {
+            DBWound db = new DBWound();
+            db.WoundID = woundID;
+            db.PatientID = patientID;
+            db.WoundSize = size;
+            db.WoundImgName = img;
+            db.WIfiWound = wound;
+            db.WIfiIschemia = ischemia;
+            db.WIfiInfection = infection;
+            db.WoundGroup = Guid.NewGuid();
+            return db;
+        }
+
+        public void SetGroup(Guid group)
+        {
+            WoundGroup = group;
+        }
     }
 
-    [Table("dbPatient")]
-    internal class dbPatient
+    [Table("DBPatient")]
+    internal class DBPatient
     {
 
         private Guid _patientID;
@@ -108,16 +256,25 @@ namespace LimbPreservationTool.Models
 
         private string _patientName;
         [Column("patientName")]
+        [NotNull]
         public string PatientName { 
             get { return _patientName; }
             private set { if (value != _patientName) _patientName = value; }
         }
 
-        public static dbPatient Create(string name)
+        public static DBPatient Create(string name)
         {
-            dbPatient dbPatient = new dbPatient();
+            DBPatient dbPatient = new DBPatient();
             dbPatient.PatientName = name;
             dbPatient.PatientID = Guid.NewGuid();
+            return dbPatient;
+        }
+
+        public static DBPatient Create(Guid id, string name)
+        {
+            DBPatient dbPatient = new DBPatient();
+            dbPatient.PatientName = name;
+            dbPatient.PatientID = id;
             return dbPatient;
         }
 

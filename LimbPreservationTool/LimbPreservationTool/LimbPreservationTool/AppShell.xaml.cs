@@ -7,7 +7,7 @@ using Xamarin.Forms;
 namespace LimbPreservationTool
 {
     public partial class AppShell : Xamarin.Forms.Shell
-    {       
+    {
 
         public AppShell()
         {
@@ -21,9 +21,6 @@ namespace LimbPreservationTool
             await Shell.Current.GoToAsync("//HomePage");
         }
 
-        private async void OnLogoutItemClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("//LoginPage");
-        }
+
     }
 }

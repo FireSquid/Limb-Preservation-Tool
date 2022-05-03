@@ -21,12 +21,11 @@ namespace LimbPreservationTool.ViewModels
             CreatedAccountCommand = new Command(async () => await FinalizeAccount());
         }
 
-        private string ischemiaGradeString;
-        public string IschemiaGrade { get => ischemiaGradeString; set => SetProperty(ref ischemiaGradeString, value); }
+        private string usernameString;
+        public string Username { get => usernameString; set => SetProperty(ref usernameString, value); }
 
-        // grades to calculate ischemia
-        private string toePressureGradeString;
-        public string ToePressureGrade { get => toePressureGradeString; set => SetProperty(ref toePressureGradeString, value); }
+        private string passwordString;
+        public string Password { get => passwordString; set => SetProperty(ref passwordString, value); }
 
         private async void OnLoginClicked(object obj)
         {

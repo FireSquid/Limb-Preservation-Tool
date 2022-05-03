@@ -25,6 +25,9 @@
     <EmbeddedResource Update="Views\HomePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\PatientsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\PhotoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -46,6 +49,12 @@
     <None Remove="SkiaSharp.Views.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\WoundDataPage.xaml.cs">
+      <DependentUpon>WoundDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\WoundGroupPage.xaml.cs">
+      <DependentUpon>WoundGroupPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\WifiResultPage.xaml.cs">
       <DependentUpon>WifiResultPage.xaml</DependentUpon>
     </Compile>

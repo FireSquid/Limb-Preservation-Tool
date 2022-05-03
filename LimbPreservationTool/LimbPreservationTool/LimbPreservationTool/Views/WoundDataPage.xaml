@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LimbPreservationTool.Views.WoundDataPage"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+
+    <ContentPage.BindingContext>
+        <vm:WoundDataViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <ListView x:Name="WoundData"
+            Margin="20"
+            ItemSelected="OnWoundGroupSelected"
+            ItemsSource="{Binding WoundDataListSource}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Margin="20,0,0,0"
+                                Orientation="Horizontal"
+                                HorizontalOptions="FillAndExpand">
+                            <Label Text="{Binding data.DataID}"
+                                VerticalTextAlignment="Center"
+                                HorizontalOptions="StartAndExpand" />
+                            <Label Text="{Binding date}"
+                                VerticalTextAlignment="Center"
+                                HorizontalOptions="StartAndExpand" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

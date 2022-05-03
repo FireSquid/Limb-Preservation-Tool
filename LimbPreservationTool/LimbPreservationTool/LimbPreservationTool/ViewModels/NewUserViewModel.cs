@@ -11,15 +11,22 @@ using System.Windows.Input;
 
 namespace LimbPreservationTool.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class NewUserViewModel : BaseViewModel
     {
 
-        public LoginViewModel()
+        public NewUserViewModel()
         {
             ResetLoginMessage();
             LoginCommand = new Command(OnLoginClicked);
-            NewUserCommand = new Command(async () => await NewUserPage());
+            CreatedAccountCommand = new Command(async () => await FinalizeAccount());
         }
+
+        private string ischemiaGradeString;
+        public string IschemiaGrade { get => ischemiaGradeString; set => SetProperty(ref ischemiaGradeString, value); }
+
+        // grades to calculate ischemia
+        private string toePressureGradeString;
+        public string ToePressureGrade { get => toePressureGradeString; set => SetProperty(ref toePressureGradeString, value); }
 
         private async void OnLoginClicked(object obj)
         {
@@ -52,12 +59,12 @@ namespace LimbPreservationTool.ViewModels
             PasswordEntryField = "";
         }
 
-        async Task NewUserPage()
+        async Task FinalizeAccount()
         {
-            await Shell.Current.GoToAsync("//NewUserPage");
+            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
         }
 
-        public ICommand NewUserCommand { get; }
+        public ICommand CreatedAccountCommand { get; }
 
         public Command LoginCommand { get; }
 

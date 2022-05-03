@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="LimbPreservationTool.Views.LoginPage"
+             x:Class="LimbPreservationTool.Views.NewUserPage"
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" 
                      VerticalOptions="Center">
             <StackLayout>
-                <Label Text="Limb Preservation Tool" 
+                <Label Text="Create New Account:" 
                        FontSize="30" 
                        Margin="50,30" 
                        TextColor="Black" 
@@ -29,12 +30,25 @@
             <Entry Placeholder="Enter password..." 
                    Text="{Binding PasswordEntryField}" 
                    IsPassword="True" />
-            <Button VerticalOptions="Center" 
-                    Text="Login" 
-                    Command="{Binding LoginCommand}"/>
+            <Entry Placeholder="Username" 
+                           PlaceholderColor="SlateGray" 
+                           Margin="50,10" 
+                           BackgroundColor="WhiteSmoke" 
+                           xct:CornerRadiusEffect.CornerRadius="10" 
+                           TextColor="Black" 
+                           Keyboard="Numeric" 
+                           Text="{Binding IschemiaGrade}"/>
+            <Entry Placeholder="Password" 
+                           PlaceholderColor="SlateGray" 
+                           Margin="50,10" 
+                           BackgroundColor="WhiteSmoke" 
+                           TextColor="Black" 
+                           xct:CornerRadiusEffect.CornerRadius="10" 
+                           Keyboard="Numeric" 
+                           Text="{Binding ToePressureGrade}"/>
             <Button VerticalOptions="Center" 
                     Text="Create New Account" 
-                    Command="{Binding NewUserCommand}"/>
+                    Command="{Binding CreatedAccountCommand}"/>
             <Label Text="{Binding LoginStatus}"
                    VerticalOptions="Center"
                    Margin="50,30" />

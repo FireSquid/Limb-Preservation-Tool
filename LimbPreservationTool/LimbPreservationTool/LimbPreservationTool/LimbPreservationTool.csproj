@@ -54,6 +54,9 @@
     <Folder Include="CustomControls\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\NewUserPage.xaml.cs">
+      <DependentUpon>NewUserPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\WifiResultPage.xaml.cs">
       <DependentUpon>WifiResultPage.xaml</DependentUpon>
     </Compile>

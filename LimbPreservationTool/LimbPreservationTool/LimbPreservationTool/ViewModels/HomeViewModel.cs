@@ -17,6 +17,7 @@ namespace LimbPreservationTool.ViewModels
             TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             AboutCommand = new Command(async () => await AboutPageOpen());
+            LogOutCommand = new Command(async () => await LogOutAction());
         }
 
         async Task TakeNewPhoto()
@@ -34,7 +35,14 @@ namespace LimbPreservationTool.ViewModels
             await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
 
+        async Task LogOutAction()
+        {
+            await Shell.Current.GoToAsync("//LoginPage");
+        }
+
         public ICommand TakeNewPhotoCommand { get; }
+
+        public ICommand LogOutCommand { get; }
 
         public ICommand EnterAdditionalInfoCommand { get; }
 

@@ -15,6 +15,7 @@ namespace LimbPreservationTool.ViewModels
 
         public PatientsViewModel()
         {
+            Title = "Patients";
         }
 
         public async Task Initialize()

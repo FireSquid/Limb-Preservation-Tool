@@ -14,9 +14,15 @@ namespace LimbPreservationTool.ViewModels
         public HomeViewModel()
         {
             Title = "Home";
+            ViewPatientsPageCommand = new Command(async () => await ViewPatientsPage());
             TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             AboutCommand = new Command(async () => await AboutPageOpen());
+        }
+
+        async Task ViewPatientsPage()
+        {
+            await Shell.Current.GoToAsync($"//{nameof(PatientsPage)}");
         }
 
         async Task TakeNewPhoto()
@@ -33,6 +39,8 @@ namespace LimbPreservationTool.ViewModels
         {
             await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
+
+        public ICommand ViewPatientsPageCommand { get; }
 
         public ICommand TakeNewPhotoCommand { get; }
 

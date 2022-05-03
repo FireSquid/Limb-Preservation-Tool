@@ -16,6 +16,8 @@ namespace LimbPreservationTool.ViewModels
 
         public async Task Initialize(DBPatient patient)
         {
+            Title = patient.PatientName;
+
             WoundDatabase db = await WoundDatabase.Database;
 
             WoundGroupListSource = (await db.GetAllPatientWoundData(patient.PatientID)).ToList();

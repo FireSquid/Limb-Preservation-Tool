@@ -22,6 +22,10 @@
             <ScrollView VerticalOptions="CenterAndExpand">
                 <StackLayout>
 
+                    <Button Margin="50,20" Text="View Patients"
+                            Command="{Binding ViewPatientsPageCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
                     <Button Margin="50,20" Text="Take New Photo"
                                 Command="{Binding TakeNewPhotoCommand}"
                                 BackgroundColor="{StaticResource Primary}"

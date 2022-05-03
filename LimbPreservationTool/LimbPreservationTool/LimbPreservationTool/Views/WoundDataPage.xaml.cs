@@ -12,32 +12,40 @@ using Xamarin.Forms.Xaml;
 namespace LimbPreservationTool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PatientsPage : ContentPage
+    public partial class WoundDataPage : ContentPage
     {
-        PatientsViewModel viewModel;
+        WoundDataViewModel viewModel;
 
-        public PatientsPage()
+        string groupName;
+        Guid patientID;
+
+        public WoundDataPage()
         {
             InitializeComponent();
-            viewModel = new PatientsViewModel();
+            viewModel = new WoundDataViewModel();
             this.BindingContext = viewModel;            
+        }
+
+        public void SetGroupName(string gn)
+        {
+            groupName = gn;
+        }
+
+        public void SetPatientID(Guid pID)
+        {
+            patientID = pID;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            await viewModel.Initialize();
+            await viewModel.Initialize(groupName, patientID);
         }
 
-        async void OnPatientSelected(object sender, SelectedItemChangedEventArgs e)
+        async void OnWoundGroupSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            if (e.SelectedItem != null)
-            {
-                WoundGroupPage newPage = new WoundGroupPage();
-                newPage.SetPatient(e.SelectedItem as DBPatient);
-                await Navigation.PushAsync(newPage);
-            }
+
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LimbPreservationTool.Models;
 using LimbPreservationTool.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -12,30 +13,38 @@ using Xamarin.Forms.Xaml;
 namespace LimbPreservationTool.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PatientsPage : ContentPage
+    public partial class WoundGroupPage : ContentPage
     {
-        PatientsViewModel viewModel;
+        WoundGroupViewModel viewModel;
 
-        public PatientsPage()
+        DBPatient patient;
+
+        public WoundGroupPage()
         {
             InitializeComponent();
-            viewModel = new PatientsViewModel();
+            viewModel = new WoundGroupViewModel();
             this.BindingContext = viewModel;            
+        }
+
+        public void SetPatient(DBPatient p)
+        {
+            patient = p;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            await viewModel.Initialize();
+            await viewModel.Initialize(patient);
         }
 
-        async void OnPatientSelected(object sender, SelectedItemChangedEventArgs e)
+        async void OnWoundGroupSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
             {
-                WoundGroupPage newPage = new WoundGroupPage();
-                newPage.SetPatient(e.SelectedItem as DBPatient);
+                WoundDataPage newPage = new WoundDataPage();
+                newPage.SetGroupName(((KeyValuePair<string, List<DBWoundData>>)e.SelectedItem).Key);
+                newPage.SetPatientID(patient.PatientID);
                 await Navigation.PushAsync(newPage);
             }
         }

@@ -21,25 +21,22 @@ namespace LimbPreservationTool.ViewModels
         {
             WoundDatabase db = await WoundDatabase.Database;
 
-            PatientsListSource = await db.GetPatientsList();
+            await db.DeleteAllPatients();
 
-            foreach (var patient in PatientsListSource)
-            {
-                System.Diagnostics.Debug.WriteLine($"Deleting Patient: {patient.PatientName} - {patient.PatientID}");
-                await db.DeletePatient(patient);
-            }
+            await db.CreatePatient("Alice Johnson");
+            await db.CreatePatient("Bob Smith");
 
-            await db.CreatePatient("Alice");
-            await db.CreatePatient("Bob");
+            List<DBPatient> PatientsList = await db.GetPatientsList();
 
-            System.Diagnostics.Debug.WriteLine("Updating Patients List Source");
+            await db.DeleteAllWoundData();
 
-            PatientsListSource = await db.GetPatientsList();
+            await db.SetWoundData(DBWoundData.Create().SetBase(PatientsList[0].PatientID, "Wound One").SetDate(DateTime.Today));
+            await db.SetWoundData(DBWoundData.Create().SetBase(PatientsList[0].PatientID, "Wound One").SetDate(DateTime.Today.AddDays(-5)));
+            await db.SetWoundData(DBWoundData.Create().SetBase(PatientsList[0].PatientID, "Wound Two").SetDate(DateTime.Today.AddDays(-3)));
 
-            foreach (var patient in PatientsListSource)
-            {
-                System.Diagnostics.Debug.WriteLine($"Created Patient: {patient.PatientName} - {patient.PatientID}");
-            }
+            await db.SetWoundData(DBWoundData.Create().SetBase(PatientsList[1].PatientID, "Wound One").SetDate(DateTime.Today.AddDays(-4)));
+
+            PatientsListSource = PatientsList;
         }
 
         private List<DBPatient> _patientsListSource;

@@ -12,6 +12,7 @@
     -->
     <Shell.Resources>
         <ResourceDictionary>
+
             <Style x:Key="BaseStyle" TargetType="Element">
                 <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="Shell.ForegroundColor" Value="White" />
@@ -89,6 +90,14 @@
     <TabBar Title="About">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </TabBar>
+
+    <TabBar Title="Home">
+        <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
+    </TabBar>
+
+    <TabBar Icon="icon_feed.png">
+        <ShellContent Route="HighlightPage" ContentTemplate="{DataTemplate local:HighlightPage}" />
+    </TabBar>
     <TabBar Title="Save">
         <ShellContent Route="WoundSavePage" ContentTemplate="{DataTemplate local:WoundSavePage}" />
     </TabBar>
@@ -102,19 +111,32 @@
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
         https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
     -->
-    <FlyoutItem Title="WIfi Tool" Icon="icon_feed.png">
-        <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
+    <FlyoutItem Title="How to Take a Photo" Icon="icon_feed.png">
+        <ShellContent Route="PhotoDescPage" ContentTemplate="{DataTemplate local:PhotoDescPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Pictures" Icon="icon_feed.png">
+
+    <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
         <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Patients" Icon="icon_feed.png">
         <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
     </FlyoutItem>
 
+
+    <FlyoutItem Title="WIfi Tool" Icon="icon_feed.png">
+        <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="About this App" Icon="icon_feed.png">
+        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Log Out" Icon="icon_feed.png" >
+        <ShellContent Route="LogOut"  ContentTemplate="{DataTemplate local:LoginPage}" />
+    </FlyoutItem>
+
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
-    <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnLogoutItemClicked">
-    </MenuItem>
+
 
 
     <!-- Optional Templates 

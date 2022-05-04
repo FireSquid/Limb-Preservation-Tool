@@ -18,6 +18,7 @@ namespace LimbPreservationTool.ViewModels
             TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             AboutCommand = new Command(async () => await AboutPageOpen());
+            LogOutCommand = new Command(async () => await LogOutAction());
         }
 
         async Task ViewPatientsPage()
@@ -27,7 +28,7 @@ namespace LimbPreservationTool.ViewModels
 
         async Task TakeNewPhoto()
         {
-            await Shell.Current.GoToAsync($"//{nameof(PhotoPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(PhotoDescPage)}");
         }
 
         async Task EnterAdditionalWifiInfo()
@@ -39,10 +40,20 @@ namespace LimbPreservationTool.ViewModels
         {
             await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
+        
+        async Task LogOutAction()
+        {
+
+            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
+            p.EraseAll();
+            await Shell.Current.GoToAsync("//LoginPage");
+        }
 
         public ICommand ViewPatientsPageCommand { get; }
 
         public ICommand TakeNewPhotoCommand { get; }
+
+        public ICommand LogOutCommand { get; }
 
         public ICommand EnterAdditionalInfoCommand { get; }
 

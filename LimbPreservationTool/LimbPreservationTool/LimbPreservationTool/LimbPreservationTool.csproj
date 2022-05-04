@@ -16,9 +16,10 @@
     <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
     <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="SkiaSharp" Version="2.80.3" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="2.80.3" />
+    <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.1" />
+    <PackageReference Include="Syncfusion.Xamarin.Core" Version="20.1.0.51" />
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,10 @@
     <None Remove="Xamarin.FFImageLoading" />
     <None Remove="SkiaSharp" />
     <None Remove="SkiaSharp.Views.Forms" />
+    <None Remove="CustomControls\" />
+    <None Remove="Renderers\" />
+    <None Remove="Xamarin.CommunityToolkit" />
+    <None Remove="Syncfusion.Xamarin.Core" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Views\DataDisplayPage.xaml.cs">
@@ -60,6 +65,15 @@
     </Compile>
     <Compile Update="Views\WoundGroupPage.xaml.cs">
       <DependentUpon>WoundGroupPage.xaml</DependentUpon>
+    </Compile>
+    <Folder Include="CustomControls\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\NewUserPage.xaml.cs">
+      <DependentUpon>NewUserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PhotoDescPage.xaml.cs">
+      <DependentUpon>PhotoDescPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\WifiResultPage.xaml.cs">
       <DependentUpon>WifiResultPage.xaml</DependentUpon>

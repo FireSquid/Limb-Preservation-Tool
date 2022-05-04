@@ -67,6 +67,16 @@
                             Command="{Binding AboutCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
+                    <Button Margin="50,20" Text="Log Out"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
+                            Command="{Binding LogOutCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
+
                 </StackLayout>
             </ScrollView>
 

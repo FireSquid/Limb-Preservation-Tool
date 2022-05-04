@@ -37,8 +37,8 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task<bool> VerifyLoginEntry()
         {
-            //return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
-            return true;
+            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            // return true;
         }
 
         public void ResetLoginMessage()

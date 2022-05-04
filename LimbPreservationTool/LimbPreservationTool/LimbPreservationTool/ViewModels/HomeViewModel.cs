@@ -22,7 +22,7 @@ namespace LimbPreservationTool.ViewModels
 
         async Task TakeNewPhoto()
         {
-            await Shell.Current.GoToAsync($"//{nameof(PhotoPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(PhotoDescPage)}");
         }
 
         async Task EnterAdditionalWifiInfo()

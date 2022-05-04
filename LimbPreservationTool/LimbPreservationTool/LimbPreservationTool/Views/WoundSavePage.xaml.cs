@@ -42,6 +42,7 @@ namespace LimbPreservationTool.Views
         async void OnConfirmSaveDataClicked(object sender, EventArgs e)
         {
             await viewModel.ConfirmSaveData();
+            await Navigation.PopAsync();
         }
     }
 

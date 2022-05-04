@@ -1,5 +1,5 @@
 ﻿using System;
-using LimbPreservationTool.CustomeComponents;
+using LimbPreservationTool.CustomComponents;
 using SkiaSharp;
 
 namespace LimbPreservationTool.Renderers

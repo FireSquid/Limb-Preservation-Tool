@@ -11,6 +11,7 @@
             <vm:PhotoViewModel x:Key="sharedPhotoViewModel" />
             <Color x:Key="Primary">#2196F3</Color>
             <Color x:Key="MainBG">NavajoWhite</Color>
+            <Color x:Key="ButtonBG_1">Yellow</Color>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">

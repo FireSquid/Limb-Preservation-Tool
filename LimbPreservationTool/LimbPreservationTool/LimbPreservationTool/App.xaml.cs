@@ -15,13 +15,14 @@ namespace LimbPreservationTool
         public App()
         {
 
-            if (Device.RuntimePlatform.Equals(Device.iOS))
-            {
+            //if (Device.RuntimePlatform.Equals(Device.iOS))
+            //{
 
-                scalerInterface = DependencyService.Get<IScaler>();
+            //    scalerInterface = DependencyService.Get<IScaler>();
 
 
-            }
+            //}
+
             InitializeComponent();
 
             DependencyService.Register<MockDataStore>();

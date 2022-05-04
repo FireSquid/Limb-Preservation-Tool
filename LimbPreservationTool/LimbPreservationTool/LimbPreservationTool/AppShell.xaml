@@ -12,6 +12,7 @@
     -->
     <Shell.Resources>
         <ResourceDictionary>
+
             <Style x:Key="BaseStyle" TargetType="Element">
                 <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="Shell.ForegroundColor" Value="White" />
@@ -83,6 +84,7 @@
     <TabBar>
         <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
     </TabBar>
+
     <TabBar Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
@@ -112,7 +114,7 @@
         <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Pictures" Icon="icon_feed.png">
-        <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
+        <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" IsTabStop="False" IsEnabled="False" />
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

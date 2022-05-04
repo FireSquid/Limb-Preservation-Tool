@@ -1,27 +1,27 @@
 ﻿using System;
 using LimbPreservationTool.CustomeComponents;
 using SkiaSharp;
+
 namespace LimbPreservationTool.Renderers
 {
 
     public class NormalRenderer : IRenderers
     {
         public event EventHandler RefreshRequested;
-
-        private SKColor fillColor { get; set; } = new SKColor(160, 160, 160);
-        public SKColor FillColor
-        {
-            get => fillColor;
-            set
-            {
-                if (fillColor != value)
-                {
-                    fillColor = value;
-                    RefreshRequested?.Invoke(this, EventArgs.Empty); //"this" is the method passed in
-                }
-            }
-        }
-
+        //
+        //        private SKColor fillColor { get; set; } = new SKColor(160, 160, 160);
+        //        public SKColor FillColor
+        //        {
+        //            get => fillColor;
+        //            set
+        //            {
+        //                if (fillColor != value)
+        //                {
+        //                    fillColor = value;
+        //                    RefreshRequested?.Invoke(this, EventArgs.Empty); //"this" is the method passed in
+        //                }
+        //            }
+        //        }
 
         private SKBitmap imageBitmap { get; set; }
         public SKBitmap ImageBitmap
@@ -43,6 +43,12 @@ namespace LimbPreservationTool.Renderers
         {
 
             imageBitmap = null;
+        }
+
+        public void ClearAll()
+        {
+            imageBitmap = null;
+
         }
 
 
@@ -149,6 +155,13 @@ namespace LimbPreservationTool.Renderers
             return result.Copy();
         }
 
+
+        public void ClearAll()
+        {
+            ClearPath();
+            src = null;
+        }
+
         public void ClearPath()
         {
             Receiver.RemoveAll();
@@ -192,6 +205,8 @@ namespace LimbPreservationTool.Renderers
                 blend.ImageFilter = SKImageFilter.CreateBlur(20, 20);
                 canvas.DrawBitmap(tmp, info.Rect, blend);
                 blend.ImageFilter = null;
+
+                blend.BlendMode = SKBlendMode.SrcIn;
                 canvas.DrawBitmap(result, info.Rect);
                 result = SKBitmap.FromImage(surface.Snapshot());
                 if (!previewmode)

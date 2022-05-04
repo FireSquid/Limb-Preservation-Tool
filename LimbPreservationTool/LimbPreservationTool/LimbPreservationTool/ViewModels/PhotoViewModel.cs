@@ -32,16 +32,16 @@ namespace LimbPreservationTool.ViewModels
             PictureStatus = "No Picture Found";
             photo = null;
             Canvas = new Renderers.NormalRenderer();
-            highlightable = false;
             //Receiver = new TouchReceiver();
             Highlighter = new Renderers.PathRenderer();
             TakePhotoCommand = new Command(async () => await TakePhoto());
             ExaminePhotoCommand = new Command(async () => await ExamineHighlight());
             HighlightCommand = new Command(async () => await StartHighlight());
             SaveHighlightCommand = new Command(async () => await SaveHighlight());
-            DrawHighlightCommand = new Command(() => DrawHighlight());
             RedoHighlightCommand = new Command(() => RedoHighlight());
             PreviewCommand = new Command(() => SetPreview());
+            EnablePicture();
+
         }
 
         public async Task TakePhoto()
@@ -90,7 +90,9 @@ namespace LimbPreservationTool.ViewModels
                 Console.WriteLine("CanvasSize: " + CanvasSize.ToString());
 
                 Canvas.ImageBitmap = scanBitmap.Copy();
-                Highlightable = true;
+                EnableHighlight();
+                EnableExamine();
+                //SetProperty(ref pictureInputAllowed, false);
 
                 //PR.ImageBitmap = scanBitmap.Copy();
                 //photoStream = await PhotoRotator(photoStream);
@@ -102,44 +104,51 @@ namespace LimbPreservationTool.ViewModels
         }
 
 
-        public async Task ExaminePhoto()
-        {
-
-            if (photo == null)
-            {
-                Console.Write("Has not taken a photo");
-                return;
-            }
-            // photoStream = await photo.OpenReadAsync();
-
-            Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
-
-            Stream e = await Doctor.GetInstance().Examine(photoStream);
-            //examineEnabled = false;
-            if (!e.Equals(Stream.Null))
-            {
-                e = await PhotoRotator(e);
-                LastPhoto = ImageSource.FromStream(() => e);
-
-                //var bitmapStream = new MemoryStream();
-
-                //await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
-
-                //bitmapStream.Seek(0, SeekOrigin.Begin);
-                Console.WriteLine("Examine  f inished");
-            }
-        }
-
+        //        public async Task ExaminePhoto()
+        //        {
+        //
+        //            if (photo == null)
+        //            {
+        //                Console.Write("Has not taken a photo");
+        //                return;
+        //            }
+        //            // photoStream = await photo.OpenReadAsync();
+        //
+        //            Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
+        //
+        //            Stream e = await Doctor.GetInstance().Examine(photoStream);
+        //            //examineEnabled = false;
+        //            if (!e.Equals(Stream.Null))
+        //            {
+        //                e = await PhotoRotator(e);
+        //                LastPhoto = ImageSource.FromStream(() => e);
+        //
+        //                //var bitmapStream = new MemoryStream();
+        //
+        //                //await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
+        //
+        //                //bitmapStream.Seek(0, SeekOrigin.Begin);
+        //                Console.WriteLine("Examine  f inished");
+        //            }
+        //        }
+        //
         public async Task ExamineHighlight()
         {
+
+            DisenableAll();
             if (scanBitmap == null)
             {
 
                 Console.Write("Has not taken a photo as bitmap");
                 return;
             }
+            if (blendBitmap == null)
+            {
+                blendBitmap = scanBitmap.Copy();
+            }
             Stream highlightStream = SKImage.FromBitmap(blendBitmap).Encode().AsStream();
             Stream e = await Doctor.GetInstance().Examine(highlightStream);
+
             //examineEnabled = false;
             if (!e.Equals(Stream.Null))
             {
@@ -148,6 +157,10 @@ namespace LimbPreservationTool.ViewModels
                 Canvas.ImageBitmap = SKBitmap.Decode(e);
                 Console.WriteLine("Examine finished");
             }
+            blendBitmap = null;
+            scanBitmap = null;
+            EnablePicture();
+            //EraseAll();
         }
 
         private async Task<Stream> PhotoRotator(Stream pS)
@@ -172,11 +185,15 @@ namespace LimbPreservationTool.ViewModels
             return encodedData.AsStream();
         }
 
-
-        void DrawHighlight()
+        public void EraseAll()
         {
-            Console.WriteLine("!");
-            //create overlay on canvas
+
+            Canvas.ClearAll();
+            Highlighter.ClearAll();
+            scanBitmap = null;
+            blendBitmap = null;
+            EnablePicture();
+
         }
 
         async Task StartHighlight()
@@ -185,10 +202,10 @@ namespace LimbPreservationTool.ViewModels
             if (Canvas.ImageBitmap == null) { return; }
             //var page = Activator.CreateInstance<HighlightPage>();
             //page.BindingContext = this;
+            Highlighter.PreviewMode = false;
             await Shell.Current.GoToAsync($"//{nameof(HighlightPage)}");
             RedoHighlight();
             Highlighter.StartHighlight();
-            Highlightable = false;
             Highlighter.Src = Canvas.ImageBitmap.Copy();
             if (Highlighter.Src == null)
             {
@@ -210,6 +227,7 @@ namespace LimbPreservationTool.ViewModels
                 Canvas.ImageBitmap = Highlighter.PorterDuff();
             }
             blendBitmap = Canvas.ImageBitmap.Copy();
+            DisableHighlight();
             //blend overlay bitmap with picture bitmap
             //Highlightable = false;//this won't update the property possibily due to 2 way binding
         }
@@ -217,6 +235,8 @@ namespace LimbPreservationTool.ViewModels
         void RedoHighlight()
         {
             Highlighter.ClearPath();
+
+            Highlighter.PreviewMode = false;
             //Canvas.RendererSize = CanvasSize;
             //Canvas.ImageBitmap = scanBitmap.Copy();
         }
@@ -227,35 +247,105 @@ namespace LimbPreservationTool.ViewModels
 
         }
 
+
+        void DisenableAll()
+        {
+
+            pictureInputAllowed = false;
+            highlightInputAllowed = false;
+            examineInputAllowed = false;
+            OnPropertyChanged("PictureInputAllowed");
+            OnPropertyChanged("HighlightInputAllowed");
+            OnPropertyChanged("ExamineInputAllowed");
+        }
+
+        void EnablePicture()
+        {
+            pictureInputAllowed = true;
+            OnPropertyChanged("PictureInputAllowed");
+        }
+
+        void EnableHighlight()
+        {
+            highlightInputAllowed = true;
+            OnPropertyChanged("HighlightInputAllowed");
+        }
+
+        void EnableExamine()
+        {
+            examineInputAllowed = true;
+            OnPropertyChanged("ExamineInputAllowed");
+        }
+
+
+        void DisableHighlight()
+        {
+            highlightInputAllowed = false;
+            OnPropertyChanged("HighlightInputAllowed");
+        }
+
+        void DisableExamine()
+        {
+            examineInputAllowed = false;
+            OnPropertyChanged("ExamineInputAllowed");
+        }
+
+
         public Renderers.NormalRenderer Canvas { get; set; }
         public Renderers.PathRenderer Highlighter { get; set; }
         private SKBitmap scanBitmap;
         private SKBitmap blendBitmap;
         private FileResult photo { get; set; }
         private Stream photoStream { get; set; }
-
         private SKSize canvasSize;
         public SKSize CanvasSize { get => canvasSize; set => SetProperty(ref canvasSize, value); }
         //public SKSize HighlighterSize { get; set; }
         //public TouchReceiver Receiver { get; set; }
 
-        public ICommand TakePhotoCommand { get; }
+        private ImageSource lastPhoto;
+        public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }
+        private string pictureStatus;
+        public string PictureStatus { get => pictureStatus; set => SetProperty(ref pictureStatus, value); }
 
+        public ICommand TakePhotoCommand { get; }
         public ICommand ExaminePhotoCommand { get; }
         public ICommand HighlightCommand { get; }
-        public ICommand DrawHighlightCommand { get; }
         public ICommand SaveHighlightCommand { get; }
         public ICommand RedoHighlightCommand { get; }
         public ICommand PreviewCommand { get; }
+        public bool PictureInputAllowed
+        {
+            get
+            {
+                return pictureInputAllowed;
+            }
 
-        private ImageSource lastPhoto;
-        public ImageSource LastPhoto { get => lastPhoto; set => SetProperty(ref lastPhoto, value); }
+        }
+        private bool pictureInputAllowed = true;
+        public bool HighlightInputAllowed
+        {
+            get
+            {
+                return highlightInputAllowed;
+            }
 
-        public bool Highlightable { get => highlightable; set => SetProperty(ref highlightable, value); }
-        private bool highlightable;
-        private bool examineEnabled;
-        public bool ExamineEnabled { get => examineEnabled; set => SetProperty(ref examineEnabled, value); }
-        private string pictureStatus;
-        public string PictureStatus { get => pictureStatus; set => SetProperty(ref pictureStatus, value); }
+        }
+
+        private bool highlightInputAllowed = false;
+
+        public bool ExamineInputAllowed
+        {
+            get
+            {
+
+
+                return examineInputAllowed;
+            }
+
+        }
+
+        private bool examineInputAllowed = false;
+
+
     }
 }

@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
-             x:Class="LimbPreservationTool.Views.PhotoPage">
+             x:Class="LimbPreservationTool.Views.PhotoPage"
+						Shell.NavBarIsVisible="{Binding PictureInputAllowed  , Source={StaticResource sharedPhotoViewModel}}" 
+						 >
 
 
     <ContentPage.BindingContext>
@@ -15,7 +17,7 @@
             <StackLayout>
             </StackLayout>
         </ScrollView>-->
-        <Grid>
+        <Grid InputTransparent= "{Binding InputFreeze, Source={StaticResource sharedPhotoViewModel}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1* "/>
                 <RowDefinition Height="7.5* "/>
@@ -25,7 +27,9 @@
             <Button x:Name="CameraBtn" Grid.Row="0" Margin="0,10,0,0" Text="Take a Picture"
                     Command="{Binding TakePhotoCommand, Source={StaticResource sharedPhotoViewModel}}"
                     BackgroundColor="{StaticResource Primary}"
-                    TextColor="White" />
+                    TextColor="White" 
+					IsEnabled="{Binding PictureInputAllowed,  Source={ StaticResource sharedPhotoViewModel} }"
+					/>
             <Grid  Grid.Row="1">
 
                 <!--<Image Grid.Row="1" Source="{Binding LastPhoto}" />-->
@@ -43,18 +47,19 @@
             <Grid Grid.Row= "2">
                 <Button x:Name = "HighLightBtn"   Text="Hightlight Detail"
                     Command="{Binding HighlightCommand,  Source={ StaticResource sharedPhotoViewModel} }"
-                    BackgroundColor="Yellow"
+                    BackgroundColor="{StaticResource ButtonBG_1}"
                     TextColor="Black"
-					IsEnabled="{Binding Highlightable,  Source={ StaticResource sharedPhotoViewModel} }"
+					IsEnabled="{Binding HighlightInputAllowed,  Source={ StaticResource sharedPhotoViewModel} }"
 												
 												/>
 
             </Grid>
             <Button x:Name="ExamineBtn"  Grid.Row="3" Margin="0,10,0,0" Text="Examine this Picture"
                     Command="{Binding ExaminePhotoCommand,  Source={ StaticResource sharedPhotoViewModel} }"
-
                     BackgroundColor="{StaticResource Primary}"
-                    TextColor="White" />
+                    TextColor="White" 
+					IsEnabled="{Binding ExamineInputAllowed,  Source={ StaticResource sharedPhotoViewModel} }"
+										/>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

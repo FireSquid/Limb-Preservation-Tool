@@ -16,9 +16,28 @@ namespace LimbPreservationTool.ViewModels
 
         public NewUserViewModel()
         {
-            ResetLoginMessage();
-            LoginCommand = new Command(OnLoginClicked);
+            //ResetLoginMessage();
+            //LoginCommand = new Command(OnLoginClicked);
+            CreateUserCommand = new Command(OnCreateUserClicked);
             CreatedAccountCommand = new Command(async () => await FinalizeAccount());
+        }
+
+        private async void OnCreateUserClicked(object obj)
+        {
+            if (await VerifyUserCreation())
+            {
+                CreationStatus = "User Created";
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            }
+            else
+            {
+                CreationStatus = $"User Creation Failed - Username already exists";
+            }
+        }
+
+        private async Task<bool> VerifyUserCreation()
+        {
+            return await NewUser.AttemptCreation(Username, Password);
         }
 
         private string usernameString;
@@ -27,7 +46,18 @@ namespace LimbPreservationTool.ViewModels
         private string passwordString;
         public string Password { get => passwordString; set => SetProperty(ref passwordString, value); }
 
-        private async void OnLoginClicked(object obj)
+        private string creationStatus;
+        public string CreationStatus { get => creationStatus; private set => SetProperty(ref creationStatus, value); }
+        async Task FinalizeAccount()
+        {
+            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+        }
+
+        public ICommand CreatedAccountCommand { get; }
+
+        public Command CreateUserCommand { get; }
+
+        /*private async void OnLoginClicked(object obj)
         {
             LoginStatus = "Authenticating Login Information...";
             //if (await VerifyLoginEntry())
@@ -42,11 +72,6 @@ namespace LimbPreservationTool.ViewModels
             }
         }
 
-        private async Task<bool> VerifyLoginEntry()
-        {
-            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
-        }
-
         public void ResetLoginMessage()
         {
             LoginStatus = "Awaiting Login";
@@ -58,13 +83,6 @@ namespace LimbPreservationTool.ViewModels
             PasswordEntryField = "";
         }
 
-        async Task FinalizeAccount()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-        }
-
-        public ICommand CreatedAccountCommand { get; }
-
         public Command LoginCommand { get; }
 
         private string usernameEntryField;
@@ -74,6 +92,6 @@ namespace LimbPreservationTool.ViewModels
         public string PasswordEntryField { get => passwordEntryField; set => SetProperty(ref passwordEntryField, value); }
 
         private string loginStatus;
-        public string LoginStatus { get => loginStatus; private set => SetProperty(ref loginStatus, value); }
+        public string LoginStatus { get => loginStatus; private set => SetProperty(ref loginStatus, value); }*/
     }
 }

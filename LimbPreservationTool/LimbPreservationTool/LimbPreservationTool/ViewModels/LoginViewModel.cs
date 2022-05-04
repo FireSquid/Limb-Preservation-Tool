@@ -24,8 +24,7 @@ namespace LimbPreservationTool.ViewModels
         private async void OnLoginClicked(object obj)
         {
             LoginStatus = "Authenticating Login Information...";
-            //if (await VerifyLoginEntry())
-            if (true)
+            if (await VerifyLoginEntry())
             {
                 LoginStatus = "Login Successful";
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");

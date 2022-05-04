@@ -20,11 +20,9 @@
                                 Orientation="Horizontal"
                                 HorizontalOptions="FillAndExpand">
                             <Label Text="{Binding PatientName}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
-                            <Label Text="{Binding PatientID}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
+                                   HorizontalTextAlignment="Center"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalOptions="StartAndExpand" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

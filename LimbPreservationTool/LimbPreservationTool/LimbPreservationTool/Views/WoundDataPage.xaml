@@ -19,9 +19,6 @@
                         <StackLayout Margin="20,0,0,0"
                                 Orientation="Horizontal"
                                 HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding data.DataID}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
                             <Label Text="{Binding date}"
                                 VerticalTextAlignment="Center"
                                 HorizontalOptions="StartAndExpand" />

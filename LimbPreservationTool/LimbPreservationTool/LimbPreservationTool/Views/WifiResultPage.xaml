@@ -31,14 +31,18 @@
             <ScrollView VerticalOptions="CenterAndExpand">
                 <StackLayout>
                     <Label Text="{Binding AmputationInfo}" 
-                           TextColor="{Binding AmputationColor}"  
+                           BackgroundColor="{Binding AmputationColor}"  
+                           TextColor="White"
                            FontSize="Title" 
+                           FontAttributes="Italic"
                            HorizontalOptions="CenterAndExpand" 
                            HorizontalTextAlignment="Center" 
                            Margin="50,10"></Label>
                     <Label Text="{Binding RevascInfo}" 
-                           TextColor="{Binding RevascColor}"  
+                           BackgroundColor="{Binding RevascColor}"  
+                           TextColor="White"
                            FontSize="Title" 
+                           FontAttributes="Italic"
                            HorizontalOptions="CenterAndExpand" 
                            HorizontalTextAlignment="Center" 
                            Margin="50,10">

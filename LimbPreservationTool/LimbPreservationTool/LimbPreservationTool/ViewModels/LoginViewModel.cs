@@ -42,7 +42,7 @@ namespace LimbPreservationTool.ViewModels
 
         public void ResetLoginMessage()
         {
-            LoginStatus = "Awaiting Login";
+            LoginStatus = "Awaiting Login...";
         }
 
         public void ClearLoginInformation()

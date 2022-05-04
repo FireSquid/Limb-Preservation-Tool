@@ -16,18 +16,17 @@ namespace LimbPreservationTool.ViewModels
 
         public NewUserViewModel()
         {
-            //ResetLoginMessage();
-            //LoginCommand = new Command(OnLoginClicked);
-            CreateUserCommand = new Command(OnCreateUserClicked);
-            //CreatedAccountCommand = new Command(async () => await FinalizeAccount());
+            CreatedAccountCommand = new Command(OnCreateUserClicked);
+            BacktoLoginCommand = new Command(async () => await GoHome());
+            CreationStatus = $"Please create a new account";
         }
 
         private async void OnCreateUserClicked(object obj)
         {
             if (await VerifyUserCreation())
             {
-                CreationStatus = "User Created";
-                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+                CreationStatus = $"New User Created!";
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
             else
             {
@@ -37,7 +36,13 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task<bool> VerifyUserCreation()
         {
+            CreationStatus = $"Verifying...";
             return await NewUser.AttemptCreation(Username, Password);
+        }
+
+        async Task GoHome()
+        {
+            await Shell.Current.GoToAsync("//LoginPage");
         }
 
         private string usernameString;
@@ -48,13 +53,9 @@ namespace LimbPreservationTool.ViewModels
 
         private string creationStatus;
         public string CreationStatus { get => creationStatus; private set => SetProperty(ref creationStatus, value); }
-        /*async Task FinalizeAccount()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-        }*/
-        public ICommand CreatedAccountCommand { get; }
 
-        public Command CreateUserCommand { get; }
-     
+        public ICommand CreatedAccountCommand { get; }
+        public ICommand BacktoLoginCommand { get; }
+
     }
 }

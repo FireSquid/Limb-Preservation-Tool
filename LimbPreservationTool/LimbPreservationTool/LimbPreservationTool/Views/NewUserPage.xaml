@@ -9,7 +9,8 @@
              Shell.NavBarIsVisible="False">
     <ContentPage.Content>
         <StackLayout Padding="10,0,10,0" 
-                     VerticalOptions="Center">
+                     VerticalOptions="FillAndExpand"
+                     BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
                 <Label Text="Create New Account:" 
                        FontSize="30" 
@@ -25,31 +26,48 @@
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
             </StackLayout>
-            <Entry Placeholder="Enter username..." 
-                   Text="{Binding UsernameEntryField}" />
-            <Entry Placeholder="Enter password..." 
-                   Text="{Binding PasswordEntryField}" 
-                   IsPassword="True" />
-            <Entry Placeholder="Username" 
-                           PlaceholderColor="SlateGray" 
-                           Margin="50,10" 
-                           BackgroundColor="WhiteSmoke" 
-                           xct:CornerRadiusEffect.CornerRadius="10" 
-                           TextColor="Black" 
-                           Text="{Binding Username}"/>
-            <Entry Placeholder="Password" 
-                           PlaceholderColor="SlateGray" 
-                           Margin="50,10" 
-                           BackgroundColor="WhiteSmoke" 
-                           TextColor="Black" 
-                           xct:CornerRadiusEffect.CornerRadius="10" 
-                           Text="{Binding Password}"/>
-            <Button VerticalOptions="Center" 
-                    Text="Create New Account" 
-                    Command="{Binding CreatedAccountCommand}"/>
             <Label Text="{Binding CreationStatus}"
                    VerticalOptions="Center"
-                   Margin="50,30" />
+                   FontSize="Subtitle" 
+                   FontAttributes="Italic"
+                   HorizontalOptions="CenterAndExpand" 
+                   HorizontalTextAlignment="Center" 
+                   TextColor="Black"
+                   Margin="50,20" />
+            <Entry Placeholder="Username" 
+                   PlaceholderColor="SlateGray" 
+                   Margin="50,10" 
+                   BackgroundColor="WhiteSmoke" 
+                   xct:CornerRadiusEffect.CornerRadius="10" 
+                   TextColor="Black" 
+                   Text="{Binding Username}"/>
+            <Entry Placeholder="Password" 
+                   PlaceholderColor="SlateGray" 
+                   Margin="50,10" 
+                   BackgroundColor="WhiteSmoke" 
+                   TextColor="Black" 
+                   xct:CornerRadiusEffect.CornerRadius="10" 
+                   IsPassword="True"
+                   Text="{Binding Password}"/>
+            <Button VerticalOptions="Center" 
+                    Text="Create New Account" 
+                    xct:ShadowEffect.Color="Black"
+                    Margin="50,10" 
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"
+                    Command="{Binding CreatedAccountCommand}"/>
+            <Button VerticalOptions="Center" 
+                    Text="Back" 
+                    xct:ShadowEffect.Color="Black"
+                    Margin="50,10" 
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"
+                    Command="{Binding BacktoLoginCommand}"/>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

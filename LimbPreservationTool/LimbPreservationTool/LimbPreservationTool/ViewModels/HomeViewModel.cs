@@ -40,8 +40,6 @@ namespace LimbPreservationTool.ViewModels
         {
             await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
-
-        public ICommand ViewPatientsPageCommand { get; }
         async Task LogOutAction()
         {
 
@@ -49,6 +47,8 @@ namespace LimbPreservationTool.ViewModels
             p.EraseAll();
             await Shell.Current.GoToAsync("//LoginPage");
         }
+
+        public ICommand ViewPatientsPageCommand { get; }
 
         public ICommand TakeNewPhotoCommand { get; }
 

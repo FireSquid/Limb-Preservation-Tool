@@ -39,5 +39,11 @@ namespace LimbPreservationTool.Views
                 await Navigation.PushAsync(newPage);
             }
         }
+
+        private async void OnAddNewPatientClicked(object sender, EventArgs e)
+        {
+            NewPatientPage newPage = new NewPatientPage();
+            await Navigation.PushAsync(newPage);
+        }
     }
 }

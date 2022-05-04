@@ -87,6 +87,9 @@
     <TabBar Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
+    <TabBar Title="About">
+        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </TabBar>
 
     <TabBar Title="Home">
         <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
@@ -114,6 +117,9 @@
 
     <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
         <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Patients" Icon="icon_feed.png">
+        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
     </FlyoutItem>
 
 

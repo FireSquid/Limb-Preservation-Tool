@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LimbPreservationTool.Views.DataDisplayPage"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+
+    <ContentPage.BindingContext>
+        <vm:DataDisplayViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{Binding PatientName}" TextColor="Black" FontSize="25" Margin="0,5" />
+            <Label Text="{Binding WoundData.WoundGroup}" TextColor="Gray" FontSize="20" Margin="0,5" />
+            <Label Text="{Binding DataDate}" TextColor="DarkGray" FontSize="15" Margin="0,5" />
+            
+            <StackLayout IsVisible="{Binding ShowWifi}">
+                <BoxView Margin="0,5" HeightRequest="1" Color="Gray" />
+
+                <Label Margin="10,10" Text="WIfi Data" FontSize="20" TextColor="Black" />
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Margin="5,10" Text="Wound Grade:" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" Text="{Binding WoundData.Wound}" FontSize="14" TextColor="Black" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Margin="5,10" Text="Ischemia Grade:" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" Text="{Binding WoundData.Ischemia}" FontSize="14" TextColor="Black" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Margin="5,10" Text="Infection Grade:" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" Text="{Binding WoundData.Infection}" FontSize="14" TextColor="Black" />
+                </StackLayout>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding ShowWound}">
+                <BoxView Margin="0,5" HeightRequest="1" Color="Gray" />
+
+                <Label Margin="10,10" Text="Wound Data" FontSize="20" TextColor="Black" />
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Margin="5,10" Text="Wound Size:" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" Text="{Binding WoundData.Size}" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" Text="sq. in." FontSize="11" TextColor="Gray" />
+                </StackLayout>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

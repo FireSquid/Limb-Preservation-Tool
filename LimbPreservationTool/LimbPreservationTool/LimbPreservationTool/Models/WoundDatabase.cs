@@ -32,6 +32,8 @@ namespace LimbPreservationTool.Models
         {
             dbConnection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             dbConnection.EnableWriteAheadLoggingAsync();
+
+            dataHolder = DBWoundData.Create(Guid.Empty);
         }
 
         public Task<List<DBPatient>> GetPatientsList()
@@ -112,22 +114,22 @@ namespace LimbPreservationTool.Models
             return await dbConnection.DeleteAsync<int>(woundData.DataID);
         }
 
-        public async Task<bool> CheckDuplicateData(DBWoundData woundData)
+        public async Task<DBWoundData> CheckDuplicateData(DBWoundData woundData)
         {
             try
             {
-                await dbConnection.Table<DBWoundData>().Where(data => (
+                var result = await dbConnection.Table<DBWoundData>().Where(data => (
                 !data.DataID.Equals(woundData.DataID)
                 && data.Date.Equals(woundData.Date)
                 && data.PatientID.Equals(woundData.PatientID)
                 && data.WoundGroup.Equals(woundData.WoundGroup)
                 )).FirstAsync();
 
-                return true;
+                return result;
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
 
@@ -138,7 +140,7 @@ namespace LimbPreservationTool.Models
             if (!string.IsNullOrEmpty(woundData.WoundGroup) && !StringIsSafe(woundData.WoundGroup))
                 throw new NonAlphaNumericInsertException(woundData.WoundGroup, "DBWoundData");
 
-            if (!(await CheckDuplicateData(woundData)))
+            if ((await CheckDuplicateData(woundData)) == null)
             { 
                 try
                 {
@@ -204,8 +206,11 @@ namespace LimbPreservationTool.Models
 
         public static int LevenshteinDist(string source, string target)
         {
-            string strA = (source.Length <= target.Length) ? source : source.Substring(0, target.Length);
-            string strB = (target.Length <= source.Length) ? target : target.Substring(0, source.Length);
+            string rSource = String.Concat(source.ToLower().Where((c) => !char.IsWhiteSpace(c)));
+            string rTarget = String.Concat(target.ToLower().Where((c) => !char.IsWhiteSpace(c)));
+
+            string strA = rSource.Substring(0, Math.Min(rSource.Length, rTarget.Length));
+            string strB = rTarget.Substring(0, Math.Min(rTarget.Length, rSource.Length));
 
             int[,] dists = new int[strA.Length + 1, strB.Length + 1];
 
@@ -226,6 +231,8 @@ namespace LimbPreservationTool.Models
 
             return dists[strA.Length, strB.Length];
         }
+
+        public DBWoundData dataHolder { get; set; }
     }
 
 
@@ -270,6 +277,8 @@ namespace LimbPreservationTool.Models
             DBWoundData data = new DBWoundData();
             data.DataID = Guid.NewGuid();
             data.Date = DateTime.Today.Ticks;
+            data.SetWifi(-1, -1, -1);
+            data.SetWound(-1, null);
             return data;
         }
 
@@ -278,6 +287,8 @@ namespace LimbPreservationTool.Models
             DBWoundData data = new DBWoundData();
             data.DataID = dataID;
             data.Date = DateTime.Today.Ticks;
+            data.SetWifi(-1, -1, -1);
+            data.SetWound(-1, null);
             return data;
         }
 

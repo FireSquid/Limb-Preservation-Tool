@@ -20,11 +20,14 @@
                                 Orientation="Horizontal"
                                 HorizontalOptions="FillAndExpand">
                             <Label Text="{Binding Key}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
+                                    VerticalTextAlignment="Center"
+                                    HorizontalOptions="StartAndExpand" />
+                            <Label Text="Number of Entries:"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalOptions="StartAndExpand" />
                             <Label Text="{Binding Value.Count}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
+                                    VerticalTextAlignment="Center"
+                                    HorizontalOptions="StartAndExpand" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

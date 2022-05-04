@@ -9,6 +9,7 @@ using LimbPreservationTool.Views;
 
 using System.Collections.Generic;
 using System.Text;
+using LimbPreservationTool.Models;
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -91,6 +92,11 @@ namespace LimbPreservationTool.ViewModels
             // calculate and output risk
             amputationRisk = calculateAmputationRisk(woundGrade, infectionGrade, ischemiaGrade, amputationRisk);
             revascularizationRisk = calculateRevascularizationRisk(woundGrade, infectionGrade, ischemiaGrade, revascularizationRisk);
+
+            // Keep reference to wifi data
+            var db = (WoundDatabase.Database).GetAwaiter().GetResult();
+            db.dataHolder = DBWoundData.Create(Guid.Empty);
+            db.dataHolder.SetWifi(woundGrade, infectionGrade, ischemiaGrade);
 
             Color ampColor = Color.Black;
             Color revascColor = Color.Black;

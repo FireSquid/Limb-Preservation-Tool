@@ -9,26 +9,29 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <ListView x:Name="PatientList"
-            Margin="20"
-            ItemSelected="OnPatientSelected"
-            ItemsSource="{Binding PatientsListSource}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Margin="20,0,0,0"
-                                Orientation="Horizontal"
-                                HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding PatientName}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
-                            <Label Text="{Binding PatientID}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout>
+            <Button Text="Add New Patient"
+                    Clicked="OnAddNewPatientClicked"
+                    Margin="15"/>
+            <ListView x:Name="PatientList"
+                Margin="20"
+                ItemSelected="OnPatientSelected"
+                ItemsSource="{Binding PatientsListSource}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Margin="20,0,0,0"
+                                    Orientation="Horizontal"
+                                    HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding PatientName}"
+                                       HorizontalTextAlignment="Center"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalOptions="StartAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

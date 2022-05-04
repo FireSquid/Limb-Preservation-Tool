@@ -32,6 +32,11 @@
                 <StackLayout>
 
                     <Button Margin="50,20" Text="View Patients"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
                             Command="{Binding ViewPatientsPageCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />

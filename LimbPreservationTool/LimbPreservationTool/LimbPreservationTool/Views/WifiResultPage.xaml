@@ -45,13 +45,23 @@
                     </Label>
 
                     <Button Margin="50,20" 
-                            Text="Enter Additional Wifi Info"
+                            Text="Modify WIfi Data"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"
                             xct:ShadowEffect.Radius="10" 
                             Command="{Binding EnterAdditionalInfoCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
+                    <Button Margin="50,20" 
+                            Text="Save WIfi Data"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
+                            Clicked="OnSaveWifiData"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,20" 

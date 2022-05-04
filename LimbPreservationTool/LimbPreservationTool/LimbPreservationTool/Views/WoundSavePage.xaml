@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LimbPreservationTool.Views.WoundSavePage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+
+    <ContentPage.BindingContext>
+        <vm:WoundSaveViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Patient Name" Margin="10,10" />
+            <Entry Placeholder="Enter Patient Name..." 
+                    PlaceholderColor="SlateGray" 
+                    Margin="50,10" 
+                    BackgroundColor="WhiteSmoke" 
+                    TextColor="Black" 
+                    xct:CornerRadiusEffect.CornerRadius="10" 
+                    Keyboard="Plain" 
+                    Text="{Binding PatientName}"/>
+            <ListView x:Name="Patients"
+                    Margin="0"
+                    ItemSelected="OnSavePatientSelected"
+                    ItemsSource="{Binding PatientsList}"
+                    IsVisible="{Binding PatientsListIsVisible}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Margin="10,0,0,0"
+                                Orientation="Horizontal"
+                                HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding PatientName}"
+                                VerticalTextAlignment="Center"
+                                HorizontalOptions="StartAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

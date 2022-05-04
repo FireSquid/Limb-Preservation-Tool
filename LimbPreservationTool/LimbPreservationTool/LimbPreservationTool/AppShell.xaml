@@ -86,8 +86,11 @@
     <TabBar Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
-    <TabBar Title="Home">
+    <TabBar Title="About">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </TabBar>
+    <TabBar Title="Save">
+        <ShellContent Route="WoundSavePage" ContentTemplate="{DataTemplate local:WoundSavePage}" />
     </TabBar>
 
 

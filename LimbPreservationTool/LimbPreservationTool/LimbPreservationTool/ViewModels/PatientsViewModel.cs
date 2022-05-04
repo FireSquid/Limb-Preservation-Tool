@@ -26,6 +26,9 @@ namespace LimbPreservationTool.ViewModels
 
             await db.CreatePatient("Alice Johnson");
             await db.CreatePatient("Bob Smith");
+            await db.CreatePatient("Alice Peterson");
+            await db.CreatePatient("Greg Williams");
+            await db.CreatePatient("Sarah Mason");
 
             List<DBPatient> PatientsList = await db.GetPatientsList();
 

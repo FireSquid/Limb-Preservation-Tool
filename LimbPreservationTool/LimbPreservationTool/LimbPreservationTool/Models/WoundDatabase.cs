@@ -196,7 +196,38 @@ namespace LimbPreservationTool.Models
         {
             return await dbConnection.DeleteAllAsync<DBWoundData>();
         }
+
+        public async Task<List<DBPatient>> GetClosestPatient(string tgtName)
+        {
+            return await GetPatientsList();
+        }
+
+        public static int LevenshteinDist(string source, string target)
+        {
+            string strA = (source.Length <= target.Length) ? source : source.Substring(0, target.Length);
+            string strB = (target.Length <= source.Length) ? target : target.Substring(0, source.Length);
+
+            int[,] dists = new int[strA.Length + 1, strB.Length + 1];
+
+            for (int i = 0; i <= strA.Length; i++) dists[i, 0] = i;
+            for (int i = 0; i <= strB.Length; i++) dists[0, i] = i;
+
+            for (int b = 1; b <= strB.Length; b++)
+                for (int a = 1; a <= strA.Length; a++)
+                {
+                    int subCost = (strA[a - 1] == strB[b - 1]) ? 0 : 1;
+
+                    dists[a, b] = new int[] {
+                        dists[a - 1, b] + 1,
+                        dists[a, b - 1] + 1,
+                        dists[a - 1, b - 1] + subCost
+                    }.Min();
+                }
+
+            return dists[strA.Length, strB.Length];
+        }
     }
+
 
     [Table("DBWoundData")]
     public class DBWoundData
@@ -307,7 +338,6 @@ namespace LimbPreservationTool.Models
             dbPatient.PatientID = id;
             return dbPatient;
         }
-
     }
 
     internal class AsyncLazy<T>

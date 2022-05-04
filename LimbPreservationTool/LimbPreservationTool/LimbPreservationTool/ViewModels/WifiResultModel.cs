@@ -15,9 +15,8 @@ namespace LimbPreservationTool.ViewModels
         public WifiResultModel()
         {
             Title = "Wifi results";
-            TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
-            AboutCommand = new Command(async () => await AboutPageOpen());
+            BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
 
             AmputationInfo = "Testing";
             AmputationColor = Color.Purple;
@@ -30,9 +29,7 @@ namespace LimbPreservationTool.ViewModels
         public WifiResultModel(string ampInfo, string revInfo, Color ampColor, Color revColor)
         {
             Title = "Wifi results";
-            TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
-            AboutCommand = new Command(async () => await AboutPageOpen());
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
 
             AmputationInfo = $"Your estimate risk for amputation at 1 year is: \n" + ampInfo;
@@ -42,28 +39,16 @@ namespace LimbPreservationTool.ViewModels
             RevascColor = revColor;
         }
 
-        async Task TakeNewPhoto()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(PhotoPage)}");
-        }
-
         async Task EnterAdditionalWifiInfo()
         {
             await Shell.Current.GoToAsync($"//{nameof(WifiPage)}");
         }
 
-        async Task AboutPageOpen()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
-        }
-
-        public ICommand TakeNewPhotoCommand { get; }
-
         public ICommand EnterAdditionalInfoCommand { get; }
 
-        public ICommand AboutCommand { get; }
+        public ICommand SaveWifiData { get; }
 
-        public ICommand BacktoHome { get; }
+        public ICommand BacktoHome { get; }        
 
 
         private string amputationInfo;

@@ -24,20 +24,34 @@ namespace LimbPreservationTool.ViewModels
         private async void OnLoginClicked(object obj)
         {
             LoginStatus = "Authenticating Login Information...";
-            if (await VerifyLoginEntry())
+            try
             {
-                LoginStatus = "Login Successful";
-                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                if (await VerifyLoginEntry())
+                {
+                    LoginStatus = "Login Successful";
+                    await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                }
+                else
+                {
+                    LoginStatus = $"Login Failed - Invalid Username or Password";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LoginStatus = $"Login Failed - Invalid Username or Password";
+                LoginStatus = "Could Not Connect to the Server";
             }
         }
 
         private async Task<bool> VerifyLoginEntry()
         {
-            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            try
+            {
+                return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
             // return true;
         }
 

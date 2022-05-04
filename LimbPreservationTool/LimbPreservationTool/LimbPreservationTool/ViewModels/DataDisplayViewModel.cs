@@ -32,7 +32,7 @@ namespace LimbPreservationTool.ViewModels
                 {
                     AsyncRunner.Run(UpdatePatientName(value.PatientID));
 
-                    DataDate = new DateTime(value.Date);
+                    DataDate = new DateTime(value.Date).ToLongDateString();
 
                     ShowWifi = ((value.Wound >= 0) || (value.Ischemia >= 0) || (value.Infection >= 0));
 
@@ -51,7 +51,7 @@ namespace LimbPreservationTool.ViewModels
         private string _patientName;
         public string PatientName { get => _patientName; set => SetProperty(ref _patientName, value); }
 
-        private DateTime _dataDate;
-        public DateTime DataDate { get => _dataDate; set => SetProperty(ref _dataDate, value); }
+        private string _dataDate;
+        public string DataDate { get => _dataDate; set => SetProperty(ref _dataDate, value); }
     }
 }

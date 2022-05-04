@@ -34,6 +34,10 @@ namespace LimbPreservationTool.ViewModels
         public DBWoundData data { get => _data; set => _data = value; }
 
 
+        private string _dateString;
+        public string dateString { get => _dateString; set => _dateString = value; }
+
+
         private DateTime _date;
         public DateTime date { get => _date; set => _date = value; }
 
@@ -41,6 +45,7 @@ namespace LimbPreservationTool.ViewModels
         {
             data = wd;
             date = new DateTime(wd.Date);
+            dateString = date.ToLongDateString();
         }
     }
 }

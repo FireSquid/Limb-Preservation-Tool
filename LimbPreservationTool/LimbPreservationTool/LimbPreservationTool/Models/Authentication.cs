@@ -22,7 +22,15 @@ namespace LimbPreservationTool.Models
                 "application/json"
                 );
 
-            HttpResponseMessage response = await TClient.client.PostAsync(requestUri, httpContent);
+            HttpResponseMessage response;
+            try
+            {
+                response = await TClient.client.PostAsync(requestUri, httpContent);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return (await response.Content.ReadAsStringAsync()).Equals("LOGIN_VALID");
         }

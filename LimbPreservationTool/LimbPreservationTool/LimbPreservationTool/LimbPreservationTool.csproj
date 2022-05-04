@@ -54,6 +54,9 @@
     <None Remove="Syncfusion.Xamarin.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\NewPatientPage.xaml.cs">
+      <DependentUpon>NewPatientPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\DataDisplayPage.xaml.cs">
       <DependentUpon>DataDisplayPage.xaml</DependentUpon>
     </Compile>

@@ -19,7 +19,7 @@
                         <StackLayout Margin="20,0,0,0"
                                 Orientation="Horizontal"
                                 HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding date}"
+                            <Label Text="{Binding dateString}"
                                 VerticalTextAlignment="Center"
                                 HorizontalOptions="StartAndExpand" />
                         </StackLayout>

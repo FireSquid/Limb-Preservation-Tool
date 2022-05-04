@@ -37,6 +37,9 @@ namespace LimbPreservationTool.ViewModels
 
         async Task LogOutAction()
         {
+
+            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
+            p.EraseAll();
             await Shell.Current.GoToAsync("//LoginPage");
         }
 

@@ -28,5 +28,6 @@ namespace LimbPreservationTool
             //var c = this.Resources["Clear"];
             await Shell.Current.GoToAsync("//LoginPage");
         }
+
     }
 }

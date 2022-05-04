@@ -24,8 +24,7 @@ namespace LimbPreservationTool.ViewModels
         private async void OnLoginClicked(object obj)
         {
             LoginStatus = "Authenticating Login Information...";
-            //if (await VerifyLoginEntry())
-            if (true)
+            if (await VerifyLoginEntry())
             {
                 LoginStatus = "Login Successful";
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
@@ -38,12 +37,13 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task<bool> VerifyLoginEntry()
         {
-            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            //return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            return true;
         }
 
         public void ResetLoginMessage()
         {
-            LoginStatus = "Awaiting Login";
+            LoginStatus = "Awaiting Login...";
         }
 
         public void ClearLoginInformation()

@@ -23,13 +23,13 @@ namespace LimbPreservationTool.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            viewModel.ResetLoginMessage();
+            // viewModel.ResetLoginMessage();
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            viewModel.ClearLoginInformation();
+            // viewModel.ClearLoginInformation();
         }
     }
 }

@@ -16,9 +16,33 @@ namespace LimbPreservationTool.ViewModels
 
         public NewUserViewModel()
         {
-            ResetLoginMessage();
-            LoginCommand = new Command(OnLoginClicked);
-            CreatedAccountCommand = new Command(async () => await FinalizeAccount());
+            CreatedAccountCommand = new Command(OnCreateUserClicked);
+            BacktoLoginCommand = new Command(async () => await GoHome());
+            CreationStatus = $"Please create a new account";
+        }
+
+        private async void OnCreateUserClicked(object obj)
+        {
+            if (await VerifyUserCreation())
+            {
+                CreationStatus = $"New User Created!";
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            }
+            else
+            {
+                CreationStatus = $"User Creation Failed - Username already exists";
+            }
+        }
+
+        private async Task<bool> VerifyUserCreation()
+        {
+            CreationStatus = $"Verifying...";
+            return await NewUser.AttemptCreation(Username, Password);
+        }
+
+        async Task GoHome()
+        {
+            await Shell.Current.GoToAsync("//LoginPage");
         }
 
         private string usernameString;
@@ -27,53 +51,11 @@ namespace LimbPreservationTool.ViewModels
         private string passwordString;
         public string Password { get => passwordString; set => SetProperty(ref passwordString, value); }
 
-        private async void OnLoginClicked(object obj)
-        {
-            LoginStatus = "Authenticating Login Information...";
-            //if (await VerifyLoginEntry())
-            if (true)
-            {
-                LoginStatus = "Login Successful";
-                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-            }
-            else
-            {
-                LoginStatus = $"Login Failed - Invalid Username or Password";
-            }
-        }
-
-        private async Task<bool> VerifyLoginEntry()
-        {
-            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
-        }
-
-        public void ResetLoginMessage()
-        {
-            LoginStatus = "Awaiting Login";
-        }
-
-        public void ClearLoginInformation()
-        {
-            UsernameEntryField = "";
-            PasswordEntryField = "";
-        }
-
-        async Task FinalizeAccount()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-        }
+        private string creationStatus;
+        public string CreationStatus { get => creationStatus; private set => SetProperty(ref creationStatus, value); }
 
         public ICommand CreatedAccountCommand { get; }
+        public ICommand BacktoLoginCommand { get; }
 
-        public Command LoginCommand { get; }
-
-        private string usernameEntryField;
-        public string UsernameEntryField { get => usernameEntryField; set => SetProperty(ref usernameEntryField, value); }
-
-        private string passwordEntryField;
-        public string PasswordEntryField { get => passwordEntryField; set => SetProperty(ref passwordEntryField, value); }
-
-        private string loginStatus;
-        public string LoginStatus { get => loginStatus; private set => SetProperty(ref loginStatus, value); }
     }
 }

@@ -27,7 +27,7 @@ namespace LimbPreservationTool.ViewModels
             if (await VerifyUserCreation())
             {
                 CreationStatus = "User Created";
-                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
             }
             else
             {

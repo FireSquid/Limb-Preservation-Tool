@@ -75,9 +75,9 @@ namespace LimbPreservationTool.ViewModels
                 System.Diagnostics.Debug.WriteLine($"Found Existing Data");
             }
 
-            saveData.Wound =    (WoundData.Wound >= 0)      ? WoundData.Wound       : existingData.Wound;
-            saveData.Ischemia = (WoundData.Ischemia >= 0)   ? WoundData.Ischemia    : existingData.Ischemia;
-            saveData.Wound =    (WoundData.Wound >= 0)      ? WoundData.Wound       : existingData.Wound;
+            saveData.Wound =        (WoundData.Wound >= 0)          ? WoundData.Wound       : existingData.Wound;
+            saveData.Ischemia =     (WoundData.Ischemia >= 0)       ? WoundData.Ischemia    : existingData.Ischemia;
+            saveData.Infection =    (WoundData.Infection >= 0)      ? WoundData.Infection   : existingData.Infection;
 
             saveData.Size = (WoundData.Size >= 0)                               ? WoundData.Size    : existingData.Size;
             saveData.Img =  (WoundData.Img != null && WoundData.Img.Length > 0) ? WoundData.Img     : existingData.Img;

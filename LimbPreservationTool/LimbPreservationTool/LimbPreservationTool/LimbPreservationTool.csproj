@@ -49,6 +49,9 @@
     <None Remove="SkiaSharp.Views.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\DataDisplayPage.xaml.cs">
+      <DependentUpon>DataDisplayPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\WoundSavePage.xaml.cs">
       <DependentUpon>WoundSavePage.xaml</DependentUpon>
     </Compile>

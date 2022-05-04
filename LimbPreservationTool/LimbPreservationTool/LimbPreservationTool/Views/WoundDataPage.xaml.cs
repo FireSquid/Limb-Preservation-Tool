@@ -45,7 +45,10 @@ namespace LimbPreservationTool.Views
 
         async void OnWoundGroupSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            DataDisplayPage newPage = new DataDisplayPage();
+            newPage.SetWoundData((e.SelectedItem as WoundDataDisplay).data);
+            System.Diagnostics.Debug.WriteLine("Switching Data Display");
+            await Navigation.PushAsync(newPage);
         }
     }
 }

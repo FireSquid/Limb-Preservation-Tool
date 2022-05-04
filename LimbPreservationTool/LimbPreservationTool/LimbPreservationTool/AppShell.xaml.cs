@@ -23,10 +23,11 @@ namespace LimbPreservationTool
 
         private async void OnLogoutItemClicked(object sender, EventArgs e)
         {
+
             PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
             p.EraseAll();
             //var c = this.Resources["Clear"];
-            await Shell.Current.GoToAsync("//LoginPage");
+            await Shell.Current.GoToAsync("//LogOut");
         }
 
     }

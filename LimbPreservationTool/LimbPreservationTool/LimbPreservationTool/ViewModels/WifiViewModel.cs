@@ -148,6 +148,9 @@ namespace LimbPreservationTool.ViewModels
         private string ischemiaGradeString;
         public string IschemiaGrade { get => ischemiaGradeString; set => SetProperty(ref ischemiaGradeString, value); }
 
+        private DateTime saveDateString;
+        public DateTime SaveDateInternal { get => saveDateString; set => SetProperty(ref saveDateString, value); }
+
         // grades to calculate ischemia
         private string toePressureGradeString;
         public string ToePressureGrade { get => toePressureGradeString; set => SetProperty(ref toePressureGradeString, value); }
@@ -159,6 +162,7 @@ namespace LimbPreservationTool.ViewModels
         public string AnkleSystolicPressure { get => ankleSystolicPressureString; set => SetProperty(ref ankleSystolicPressureString, value); }
 
         // function to validate that each grade falls within ranges we calculate for
+
         private static bool validateGrades(int woundGrade, int infectionGrade, int ischemiaGrade)
         {
             bool woundGradeValid = (woundGrade > -1) && (woundGrade < 4);

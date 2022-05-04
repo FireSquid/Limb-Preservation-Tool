@@ -33,9 +33,22 @@ namespace LimbPreservationTool.ViewModels
 
         public WifiViewModel()
         {
+            ClearStartInfo();
             WifiStatus = "Please Enter The Information Below";
             WifiColor = Color.Black;
             CalculateWiFICommand = new Command(ClickWifiSubmit);
+        }
+
+        public void ClearStartInfo()
+        {
+            WoundGrade = "";
+            InfectionGrade = "";
+            IschemiaGrade = "";
+            ToePressureGrade = "";
+            AnkleBrachialIndex = "";
+            AnkleSystolicPressure = "";
+            SaveDateInternal = DateTime.Parse("1/1/2022");
+
         }
 
         void ClickWifiSubmit(object obj)
@@ -136,6 +149,8 @@ namespace LimbPreservationTool.ViewModels
             }
 
             App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
+
+            ClearStartInfo();
         }
 
 

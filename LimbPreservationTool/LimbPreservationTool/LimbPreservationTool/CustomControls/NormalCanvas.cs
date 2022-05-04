@@ -2,7 +2,7 @@
 using SkiaSharp;
 using Xamarin.Forms;
 using SkiaSharp.Views.Forms;
-using LimbPreservationTool.CustomeComponents;
+using LimbPreservationTool.CustomComponents;
 
 namespace LimbPreservationTool.CustomControls
 {

@@ -17,7 +17,7 @@ using System.Drawing;
 using System.IO;
 using SkiaSharp;
 using LimbPreservationTool.Renderers;
-using LimbPreservationTool.CustomeComponents;
+using LimbPreservationTool.CustomComponents;
 using Xamarin.CommunityToolkit.Extensions;
 
 namespace LimbPreservationTool.ViewModels

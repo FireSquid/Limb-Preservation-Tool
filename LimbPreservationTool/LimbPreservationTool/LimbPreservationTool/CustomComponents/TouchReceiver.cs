@@ -3,7 +3,7 @@ using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using System.Collections.Generic;
 
-namespace LimbPreservationTool.CustomeComponents
+namespace LimbPreservationTool.CustomComponents
 {
     public class TouchReceiver
     {

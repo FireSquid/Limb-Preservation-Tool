@@ -79,6 +79,9 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.CommunityToolkit">
+      <Version>2.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
@@ -111,7 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LimbPreservationTool\LimbPreservationTool.csproj">
-      <Project>{DAAD750B-AB34-417D-A98F-A9971755BD08}</Project>
+      <Project>{0480EECA-1A4A-4D59-A6C6-34963EAD9888}</Project>
       <Name>LimbPreservationTool</Name>
     </ProjectReference>
   </ItemGroup>

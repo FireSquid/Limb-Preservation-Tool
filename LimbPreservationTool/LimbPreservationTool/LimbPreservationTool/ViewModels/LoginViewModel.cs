@@ -1,10 +1,13 @@
 ﻿using LimbPreservationTool.Models;
 using LimbPreservationTool.Views;
 using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+
+using System.Windows.Input;
+
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -15,13 +18,13 @@ namespace LimbPreservationTool.ViewModels
         {
             ResetLoginMessage();
             LoginCommand = new Command(OnLoginClicked);
+            NewUserCommand = new Command(async () => await NewUserPage());
         }
 
         private async void OnLoginClicked(object obj)
         {
             LoginStatus = "Authenticating Login Information...";
-            //if (await VerifyLoginEntry())
-            if (true)
+            if (await VerifyLoginEntry())
             {
                 LoginStatus = "Login Successful";
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
@@ -34,12 +37,13 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task<bool> VerifyLoginEntry()
         {
-            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            //return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            return true;
         }
 
         public void ResetLoginMessage()
         {
-            LoginStatus = "Awaiting Login";
+            LoginStatus = "Awaiting Login...";
         }
 
         public void ClearLoginInformation()
@@ -47,6 +51,13 @@ namespace LimbPreservationTool.ViewModels
             UsernameEntryField = "";
             PasswordEntryField = "";
         }
+
+        async Task NewUserPage()
+        {
+            await Shell.Current.GoToAsync("//NewUserPage");
+        }
+
+        public ICommand NewUserCommand { get; }
 
         public Command LoginCommand { get; }
 

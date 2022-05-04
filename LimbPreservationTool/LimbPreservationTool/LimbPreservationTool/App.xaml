@@ -1,14 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
              x:Class="LimbPreservationTool.App">
     <!--
         Define global resources and styles here, that apply to all pages in your app.
     -->
     <Application.Resources>
         <ResourceDictionary>
+            <vm:PhotoViewModel x:Key="sharedPhotoViewModel" />
+            <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <Color x:Key="Primary">#2196F3</Color>
             <Color x:Key="MainBG">NavajoWhite</Color>
+            <Color x:Key="ButtonBG_1">Yellow</Color>
             <Style TargetType="Button">
                 <Setter Property="TextColor" Value="White"></Setter>
                 <Setter Property="VisualStateManager.VisualStateGroups">

@@ -36,16 +36,38 @@
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
                 <Label Text="{Binding WifiStatus}" 
-                           FontSize="Subtitle" 
-                           HorizontalOptions="CenterAndExpand" 
-                           HorizontalTextAlignment="Center" 
-                           Margin="50,10" 
-                           TextColor="{Binding WifiColor}"/>
+                       FontSize="Subtitle" 
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="50,10" 
+                       TextColor="{Binding WifiColor}"/>
             </StackLayout>
 
             <ScrollView Grid.Row="1" 
                         VerticalOptions="CenterAndExpand">
                 <StackLayout>
+
+                    <Label Text="Date of Measurements:"
+                            FontSize="Subtitle"
+                            FontAttributes="Bold"
+                            Margin="50, 0"
+                            HorizontalTextAlignment="Start"
+                            TextColor="Black">
+                    </Label>
+
+                    <DatePicker x:Name="startDatePicker"
+                                Format="D"
+                                Margin="50,0, 50, 10" 
+                                BackgroundColor="WhiteSmoke" 
+                                xct:ShadowEffect.OffsetY="0"
+                                xct:ShadowEffect.Opacity="0.9"
+                                xct:CornerRadiusEffect.CornerRadius="10"
+                                xct:ShadowEffect.Radius="10"
+                                TextColor="Black"
+                                MinimumDate="01/01/2022"
+                                Date="{Binding SaveDateInternal}"
+                                />
 
                     <Entry Placeholder="Wound Grade" 
                            PlaceholderColor="SlateGray" 
@@ -116,7 +138,7 @@
                            Keyboard="Numeric" 
                            Text="{Binding AnkleSystolicPressure}"/>
 
-                    
+
 
                 </StackLayout>
             </ScrollView>

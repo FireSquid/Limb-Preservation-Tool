@@ -2,19 +2,19 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
-             x:Class="LimbPreservationTool.Views.WifiResultPage"
+             x:Class="LimbPreservationTool.Views.PhotoDescPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
     <ContentPage.BindingContext>
-        <vm:WifiResultModel />
+        <vm:PhotoDescViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
-                <Label Text="Wound, Ischemia, and Foot Infection Classification Results" 
+                <Label Text="How To Format Your Photo:" 
                        FontSize="30" 
                        Margin="50,30" 
                        TextColor="Black" 
@@ -28,44 +28,50 @@
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
             </StackLayout>
-            <ScrollView VerticalOptions="CenterAndExpand">
+            <ScrollView Margin="3, 20, 3, 0">
                 <StackLayout>
-                    <Label Text="{Binding AmputationInfo}" 
-                           BackgroundColor="{Binding AmputationColor}"  
-                           TextColor="White"
-                           FontSize="Title" 
-                           FontAttributes="Italic"
-                           HorizontalOptions="CenterAndExpand" 
-                           HorizontalTextAlignment="Center" 
-                           Margin="50,10"></Label>
-                    <Label Text="{Binding RevascInfo}" 
-                           BackgroundColor="{Binding RevascColor}"  
-                           TextColor="White"
-                           FontSize="Title" 
-                           FontAttributes="Italic"
-                           HorizontalOptions="CenterAndExpand" 
-                           HorizontalTextAlignment="Center" 
-                           Margin="50,10">
-                    </Label>
+                    <Label Text="&#x2022; Make sure to have your camera completely parallel to the wound" 
+                       FontSize="Subtitle" 
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Start" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
+                    <Label Text="&#x2022; Place your object of known size at the top left of the photo" 
+                       FontSize="Subtitle" 
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Start" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
+
+                    <Label Text="&#x2022; Use the 'Highlight Detail' button to highlight both the object of known size, and the wound" 
+                       HorizontalOptions="CenterAndExpand" 
+                       FontSize="Subtitle" 
+                       HorizontalTextAlignment="Start" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
+
+                    <Label Text="&#x2022; Ensure a neutral background in the photo" 
+                       HorizontalOptions="CenterAndExpand" 
+                       FontSize="Subtitle" 
+                       HorizontalTextAlignment="Start" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
+
+                    <Label Text="&#x2022; Once the targets have been properly highlighted, hit 'Examine Photo' to find the size of the wound" 
+                       HorizontalOptions="CenterAndExpand" 
+                       FontSize="Subtitle" 
+                       HorizontalTextAlignment="Start" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
 
                     <Button Margin="50,20" 
-                            Text="Modify WIfi Data"
+                            Text="Take a Picture"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"
                             xct:ShadowEffect.Radius="10" 
-                            Command="{Binding EnterAdditionalInfoCommand}"
-                            BackgroundColor="{StaticResource Primary}"
-                            TextColor="White" />
-                    <Button Margin="50,20" 
-                            Text="Save WIfi Data"
-                            xct:ShadowEffect.Color="Black"
-                            xct:ShadowEffect.OffsetY="0"
-                            xct:ShadowEffect.Opacity="0.9"
-                            xct:CornerRadiusEffect.CornerRadius="10"
-                            xct:ShadowEffect.Radius="10" 
-                            Clicked="OnSaveWifiData"
+                            Command="{Binding TakeNewPhotoCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,20" 

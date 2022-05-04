@@ -7,7 +7,7 @@ using Xamarin.Forms;
 namespace LimbPreservationTool
 {
     public partial class AppShell : Xamarin.Forms.Shell
-    {       
+    {
 
         public AppShell()
         {
@@ -23,7 +23,12 @@ namespace LimbPreservationTool
 
         private async void OnLogoutItemClicked(object sender, EventArgs e)
         {
+
+            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
+            p.EraseAll();
+            //var c = this.Resources["Clear"];
             await Shell.Current.GoToAsync("//LoginPage");
         }
+
     }
 }

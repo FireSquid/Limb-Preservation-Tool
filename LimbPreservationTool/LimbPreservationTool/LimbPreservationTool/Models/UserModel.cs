@@ -87,7 +87,7 @@ namespace LimbPreservationTool.Models
     public class Doctor
     {
         private static Doctor instance;
-        readonly String ID;
+        public String ID;
         readonly String password;
         readonly HttpClient client;
 

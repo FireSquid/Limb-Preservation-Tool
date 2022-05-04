@@ -47,7 +47,7 @@
             <Button VerticalOptions="Center" 
                     Text="Create New Account" 
                     Command="{Binding CreatedAccountCommand}"/>
-            <Label Text="{Binding LoginStatus}"
+            <Label Text="{Binding CreationStatus}"
                    VerticalOptions="Center"
                    Margin="50,30" />
         </StackLayout>

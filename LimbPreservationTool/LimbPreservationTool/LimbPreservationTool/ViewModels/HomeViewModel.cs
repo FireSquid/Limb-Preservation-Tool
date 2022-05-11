@@ -33,6 +33,8 @@ namespace LimbPreservationTool.ViewModels
 
         async Task EnterAdditionalWifiInfo()
         {
+
+            App.Current.Resources["SharedWifiViewModel"] = new WifiViewModel();
             await Shell.Current.GoToAsync($"//{nameof(WifiPage)}");
         }
 
@@ -43,10 +45,11 @@ namespace LimbPreservationTool.ViewModels
         async Task LogOutAction()
         {
 
-            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
+            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["SharedPhotoViewModel"];
             p.EraseAll();
             await Shell.Current.GoToAsync("//LoginPage");
         }
+
 
         public ICommand ViewPatientsPageCommand { get; }
 

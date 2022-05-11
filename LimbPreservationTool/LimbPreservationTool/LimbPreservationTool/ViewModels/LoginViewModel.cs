@@ -44,7 +44,6 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task<bool> VerifyLoginEntry()
         {
-
             return true;
             try
             {

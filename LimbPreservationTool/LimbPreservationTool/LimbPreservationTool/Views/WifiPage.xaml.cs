@@ -19,8 +19,8 @@ namespace LimbPreservationTool.Views
         public WifiPage()
         {
             InitializeComponent();
-            viewModel = new WifiViewModel();
-            this.BindingContext = viewModel;
+            //viewModel = new WifiViewModel();
+            //this.BindingContext = viewModel;
         }
 
         private void woundInfoOn(object sender, EventArgs e)

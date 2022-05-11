@@ -8,7 +8,7 @@
 
 
     <ContentPage.BindingContext>
-        <vm:WifiViewModel />
+        <Binding Source = "{StaticResource SharedWifiViewModel}"/>
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
@@ -35,13 +35,13 @@
                          HeightRequest="2"
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
-                <Label Text="{Binding WifiStatus}" 
+                <Label Text="{Binding WifiStatus ,Source ={StaticResource SharedWifiViewModel}}" 
                        FontSize="Subtitle" 
                        FontAttributes="Italic"
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
-                       TextColor="{Binding WifiColor}"/>
+                       TextColor="{Binding WifiColor ,Source ={StaticResource SharedWifiViewModel}}"/>
             </StackLayout>
 
             <ScrollView Grid.Row="1" 
@@ -66,7 +66,7 @@
                                 xct:ShadowEffect.Radius="10"
                                 TextColor="Black"
                                 MinimumDate="01/01/2022"
-                                Date="{Binding SaveDateInternal}"
+                                Date="{Binding SaveDateInternal,Source ={StaticResource SharedWifiViewModel}}"
                                 />
 
                     <Entry Placeholder="Wound Grade" 
@@ -76,7 +76,7 @@
                            TextColor="Black" 
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            Keyboard="Numeric" 
-                           Text="{Binding WoundGrade}"/>
+                           Text="{Binding WoundGrade,Source ={StaticResource SharedWifiViewModel} }"/>
 
                     <Button HorizontalOptions="Center" 
                             VerticalOptions="Center" 
@@ -94,7 +94,7 @@
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            TextColor="Black" 
                            Keyboard="Numeric" 
-                           Text="{Binding InfectionGrade}"/>
+                           Text="{Binding InfectionGrade,Source ={StaticResource SharedWifiViewModel}}"/>
 
                     <Button HorizontalOptions="Center" 
                             VerticalOptions="Center" 
@@ -112,7 +112,7 @@
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            TextColor="Black" 
                            Keyboard="Numeric" 
-                           Text="{Binding IschemiaGrade}"/>
+                           Text="{Binding IschemiaGrade,Source ={StaticResource SharedWifiViewModel}}"/>
                     <Entry Placeholder="Toe Pressure Grade (in mm hG)" 
                            PlaceholderColor="SlateGray" 
                            Margin="50,10" 
@@ -120,7 +120,7 @@
                            TextColor="Black" 
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            Keyboard="Numeric" 
-                           Text="{Binding ToePressureGrade}"/>
+                           Text="{Binding ToePressureGrade,Source ={StaticResource SharedWifiViewModel}}"/>
                     <Entry Placeholder="Ankle Brachial Index" 
                            Margin="50,10" 
                            PlaceholderColor="SlateGray" 
@@ -128,7 +128,7 @@
                            TextColor="Black" 
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            Keyboard="Numeric" 
-                           Text="{Binding AnkleBrachialIndex}"/>
+                           Text="{Binding AnkleBrachialIndex,Source ={StaticResource SharedWifiViewModel}}"/>
                     <Entry Placeholder="Ankle Systolic Pressure (in mm hG)" 
                            PlaceholderColor="SlateGray" 
                            Margin="50,10" 
@@ -136,7 +136,7 @@
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            TextColor="Black" 
                            Keyboard="Numeric" 
-                           Text="{Binding AnkleSystolicPressure}"/>
+                           Text="{Binding AnkleSystolicPressure,Source ={StaticResource SharedWifiViewModel}}"/>
 
 
 
@@ -144,7 +144,7 @@
             </ScrollView>
 
             <Button Grid.Row="2" Margin="50,20" Text="View WIfi Score"
-                            Command="{Binding CalculateWiFICommand}"
+                            Command="{Binding CalculateWiFICommand,Source ={StaticResource SharedWifiViewModel}}"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"

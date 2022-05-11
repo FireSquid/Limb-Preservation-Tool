@@ -21,10 +21,17 @@ namespace LimbPreservationTool
             await Shell.Current.GoToAsync("//HomePage");
         }
 
+        private async void OnWifiItemClicked(object sender, EventArgs e)
+        {
+            //App.Current.Resources["SharedWifiViewModel"] = new WifiViewModel();
+            await Shell.Current.GoToAsync($"//{nameof(WifiPage)}");
+
+        }
+
         private async void OnLogoutItemClicked(object sender, EventArgs e)
         {
 
-            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
+            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["SharedPhotoViewModel"];
             p.EraseAll();
             //var c = this.Resources["Clear"];
             await Shell.Current.GoToAsync("//LoginPage");

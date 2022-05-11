@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.NewPatientPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
     <ContentPage.BindingContext>
@@ -9,20 +10,37 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Margin="10,10" FontSize="25" Text="Create New Patient" HorizontalTextAlignment="Center" />
-
-            <Label Text="Patient Name:" />
+        <StackLayout BackgroundColor="NavajoWhite">
+            <Label Text="Create New Patient" 
+                   FontSize="Large" 
+                   Margin="50,10" 
+                   TextColor="Black" 
+                   FontAttributes= "Bold"
+                   HorizontalOptions="CenterAndExpand" 
+                   HorizontalTextAlignment="Center" 
+                   VerticalOptions="Center" />
+            <BoxView VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     HeightRequest="2"
+                     WidthRequest="200"  
+                     Color="SeaGreen"></BoxView>
             <Entry Placeholder="Enter Patient Name..." 
                    PlaceholderColor="SlateGray" 
-                   Margin="50,2" 
+                   Margin="50,40" 
                    BackgroundColor="WhiteSmoke"
+                   xct:CornerRadiusEffect.CornerRadius="10" 
                    TextColor="Black" 
                    Text="{Binding PatientName}"/>
-            <Button VerticalOptions="Center" 
+            <Button Margin="50, 30"
                     Text="Create Patient" 
-                    Margin="50,10"
-                    Clicked="OnCreatePatientClicked"/>
+                    Clicked="OnCreatePatientClicked"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -87,14 +87,11 @@
     <TabBar Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
-    <TabBar Title="About">
-        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-    </TabBar>
 
     <TabBar>
         <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
     </TabBar>
-    <TabBar Title="Home">
+    <TabBar Title="NewUser">
         <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
     </TabBar>
 
@@ -111,11 +108,11 @@
     </TabBar>
 
 
-    <MenuItem Text="Home" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
+    <MenuItem Text="Home"  IconImageSource="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
 
     </MenuItem>
 
-    <MenuItem Text="WifiTool" StyleClass="MenuItemLayoutStyle" Clicked="OnWifiItemClicked">
+    <MenuItem Text="WifiTool" IconImageSource="icon_feed.png"  StyleClass="MenuItemLayoutStyle" Clicked="OnWifiItemClicked">
     </MenuItem>
     <!-- 
         When the Flyout is visible this defines the content to display in the flyout.
@@ -137,6 +134,10 @@
 
     <FlyoutItem Title="About this App" Icon="icon_feed.png">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>
+
+    <FlyoutItem Title="Wounds" Icon="icon_feed.png">
+        <ShellContent Route="WoundGroupPage" ContentTemplate="{DataTemplate local:WoundGroupPage}" />
     </FlyoutItem>
 
     <MenuItem Text ="Log Out" Icon="icon_feed.png" Clicked="OnLogoutItemClicked">

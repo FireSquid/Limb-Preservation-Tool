@@ -33,9 +33,22 @@ namespace LimbPreservationTool.ViewModels
 
         public WifiViewModel()
         {
+            ClearStartInfo();
             WifiStatus = "Please Enter The Information Below";
             WifiColor = Color.Black;
             CalculateWiFICommand = new Command(async () => await ClickWifiSubmit());
+
+        }
+
+        public void ClearStartInfo()
+        {
+            WoundGrade = "";
+            InfectionGrade = "";
+            IschemiaGrade = "";
+            ToePressureGrade = "";
+            AnkleBrachialIndex = "";
+            AnkleSystolicPressure = "";
+            SaveDateInternal = DateTime.Parse("1/1/2022");
 
         }
 
@@ -82,7 +95,7 @@ namespace LimbPreservationTool.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        WifiStatus = $"Please fill out all fields";
+                        WifiStatus = $"Please fill out all fields. Keep in mind, grades should fall within a range of 0-3, unless you need your ischemia grade calculated with further tests";
                         Console.WriteLine(ex.Message);
                         return;
                     }
@@ -96,7 +109,8 @@ namespace LimbPreservationTool.ViewModels
 
             // Keep reference to wifi data
             var db = (WoundDatabase.Database).GetAwaiter().GetResult();
-            db.dataHolder = DBWoundData.Create(Guid.Empty);
+            if (db.dataHolder == null)
+                db.dataHolder = DBWoundData.Create(Guid.Empty);
             db.dataHolder.SetWifi(woundGrade, infectionGrade, ischemiaGrade);
 
             Color ampColor = Color.Black;
@@ -139,6 +153,8 @@ namespace LimbPreservationTool.ViewModels
 
             await Shell.Current.GoToAsync($"//{nameof(WifiResultPage)}");
             App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
+
+            ClearStartInfo();
         }
 
 
@@ -169,6 +185,24 @@ namespace LimbPreservationTool.ViewModels
 
         private string ankleSystolicPressureString;
         public string AnkleSystolicPressure { get => ankleSystolicPressureString; set => SetProperty(ref ankleSystolicPressureString, value); }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            //lets the Entry be empty
+            if (string.IsNullOrEmpty(e.NewTextValue)) return;
+
+            if (!int.TryParse(e.NewTextValue, out int value))
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+
+            int checkRange = 0;
+            checkRange = int.Parse(e.NewTextValue);
+            if (checkRange > 3 || checkRange < -1)
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+        }
 
         // function to validate that each grade falls within ranges we calculate for
 

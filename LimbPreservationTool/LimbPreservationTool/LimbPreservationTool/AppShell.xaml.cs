@@ -1,6 +1,8 @@
-﻿using LimbPreservationTool.ViewModels;
+﻿using LimbPreservationTool.Models;
+using LimbPreservationTool.ViewModels;
 using LimbPreservationTool.Views;
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Xamarin.Forms;
 
@@ -23,18 +25,42 @@ namespace LimbPreservationTool
 
         private async void OnWifiItemClicked(object sender, EventArgs e)
         {
-            //App.Current.Resources["SharedWifiViewModel"] = new WifiViewModel();
+            CleanWifi();
             await Shell.Current.GoToAsync($"//{nameof(WifiPage)}");
 
         }
 
         private async void OnLogoutItemClicked(object sender, EventArgs e)
         {
-
-            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["SharedPhotoViewModel"];
-            p.EraseAll();
+            CleanAll();
             //var c = this.Resources["Clear"];
             await Shell.Current.GoToAsync("//LoginPage");
+        }
+
+        public async void CleanAll()
+        {
+            CleanPhoto();
+            CleanWifi();
+            await CleanDatabase();
+        }
+
+        public void CleanWifi()
+        {
+
+            (App.Current.Resources["SharedWifiViewModel"] as WifiViewModel).ClearStartInfo();
+        }
+
+        public void CleanPhoto()
+        {
+            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["SharedPhotoViewModel"];
+            p.EraseAll();
+        }
+
+        public async Task CleanDatabase()
+        {
+
+            (await WoundDatabase.Database).dataHolder = DBWoundData.Create(Guid.Empty);
+
         }
 
     }

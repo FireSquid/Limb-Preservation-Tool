@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 
 using Xamarin.Forms;
 
+using LimbPreservationTool.Views;
 using LimbPreservationTool.Models;
 using System.Threading.Tasks;
 
@@ -16,7 +18,10 @@ namespace LimbPreservationTool.ViewModels
         public PatientsViewModel()
         {
             Title = "Patients";
+            BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
         }
+
+        public ICommand BacktoHome { get; }
 
         public async Task Initialize()
         {
@@ -48,9 +53,37 @@ namespace LimbPreservationTool.ViewModels
             PatientsListSource = PatientsList;
         }
 
+        private async Task UpdatePatientList()
+        {
+            if (PatientEntry != null)
+            {
+                System.Diagnostics.Debug.WriteLine($"Updating List");
+                var patients = (await (await WoundDatabase.Database).GetClosestPatient(PatientEntry));
+                patients.Sort((pA, pB) => WoundDatabase.LevenshteinDist(pA.PatientName, PatientEntry) - WoundDatabase.LevenshteinDist(pB.PatientName, PatientEntry));
+                PatientsListSource = patients;
+            }
+            else
+            {
+                PatientsListSource = await (await WoundDatabase.Database).GetPatientsList();
+            }
+        }
+
         private List<DBPatient> _patientsListSource;
         public List<DBPatient> PatientsListSource { get => _patientsListSource; set => SetProperty(ref _patientsListSource, value); }
 
         public string Name = "Patients";
+
+        private string _patientEntry;
+        public string PatientEntry { 
+            get => _patientEntry;
+            set
+            { 
+                if (!value.Equals(_patientEntry))
+                {                    
+                    SetProperty(ref _patientEntry, value);
+                    AsyncRunner.Run(UpdatePatientList());
+                }                
+            } 
+        }
     }
 }

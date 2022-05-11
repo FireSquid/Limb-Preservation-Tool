@@ -37,7 +37,7 @@
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"
                             xct:ShadowEffect.Radius="10" 
-                            Command="{Binding ViewPatientsPageCommand}"
+                            Command="{Binding ViewPatientWoundsPageCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,20" Text="Take New Photo"

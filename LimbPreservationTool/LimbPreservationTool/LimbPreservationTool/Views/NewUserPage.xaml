@@ -13,7 +13,7 @@
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
                 <Label Text="Create New Account:" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,30" 
                        TextColor="Black" 
                        FontAttributes= "Bold"
@@ -49,6 +49,22 @@
                    xct:CornerRadiusEffect.CornerRadius="10" 
                    IsPassword="True"
                    Text="{Binding Password}"/>
+            <Entry Placeholder="Name" 
+                   PlaceholderColor="SlateGray" 
+                   Margin="50,10" 
+                   BackgroundColor="WhiteSmoke" 
+                   TextColor="Black" 
+                   xct:CornerRadiusEffect.CornerRadius="10" 
+                   IsPassword="True"
+                   Text="{Binding Name}"/>
+            <Entry Placeholder="Email" 
+                   PlaceholderColor="SlateGray" 
+                   Margin="50,10" 
+                   BackgroundColor="WhiteSmoke" 
+                   TextColor="Black" 
+                   xct:CornerRadiusEffect.CornerRadius="10" 
+                   IsPassword="True"
+                   Text="{Binding Email}"/>
             <Button VerticalOptions="Center" 
                     Text="Create New Account" 
                     xct:ShadowEffect.Color="Black"

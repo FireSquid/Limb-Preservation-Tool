@@ -17,8 +17,6 @@ namespace LimbPreservationTool.Views
     {
         WoundGroupViewModel viewModel;
 
-        DBPatient patient;
-
         public WoundGroupPage()
         {
             InitializeComponent();
@@ -26,26 +24,39 @@ namespace LimbPreservationTool.Views
             this.BindingContext = viewModel;            
         }
 
-        public void SetPatient(DBPatient p)
-        {
-            patient = p;
-        }
-
         protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            await viewModel.Initialize(patient);
+            WoundDatabase DB = (await WoundDatabase.Database);
+
+            Guid patientID = DB.dataHolder.PatientID;
+            
+            if (patientID != null && patientID != Guid.Empty)
+            {
+                DBPatient patient = await DB.GetPatient(patientID);
+                await viewModel.Initialize(patient);
+            }
+            else
+            {
+                PatientsPage patientSelectionPage = new PatientsPage();
+                await Navigation.PushModalAsync(patientSelectionPage);
+            }            
         }
 
         async void OnWoundGroupSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
             {
-                WoundDataPage newPage = new WoundDataPage();
-                newPage.SetGroupName(((KeyValuePair<string, List<DBWoundData>>)e.SelectedItem).Key);
-                newPage.SetPatientID(patient.PatientID);
-                await Navigation.PushAsync(newPage);
+                Guid patientID = (await WoundDatabase.Database).dataHolder.PatientID;
+
+                if (patientID != null && patientID != Guid.Empty)
+                {
+                    WoundDataPage newPage = new WoundDataPage();
+                    newPage.SetGroupName(((KeyValuePair<string, List<DBWoundData>>)e.SelectedItem).Key);
+                    newPage.SetPatientID(patientID);
+                    await Navigation.PushAsync(newPage);
+                }                    
             }
         }
     }

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.PatientsPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
     <ContentPage.BindingContext>
@@ -9,29 +10,71 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout BackgroundColor="NavajoWhite">
+            <Label Text="Patient Page" 
+                   FontSize="Large" 
+                   Margin="50,10" 
+                   TextColor="Black" 
+                   FontAttributes= "Bold"
+                   HorizontalOptions="CenterAndExpand" 
+                   HorizontalTextAlignment="Center" 
+                   VerticalOptions="CenterAndExpand" />
+            <BoxView VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     HeightRequest="2"
+                     WidthRequest="200"  
+                     Color="SeaGreen"></BoxView>
+            <Entry  Placeholder="Search..." 
+                        PlaceholderColor="SlateGray" 
+                        Margin="50,10" 
+                        BackgroundColor="WhiteSmoke" 
+                        TextColor="{Binding PatientNameColor}" 
+                        xct:CornerRadiusEffect.CornerRadius="10" 
+                        Keyboard="Plain" 
+                        Text="{Binding PatientEntry}"/>
+            <ScrollView>
+                <ListView x:Name="PatientList"
+                            Margin="20"
+                            ItemSelected="OnPatientSelected"
+                            ItemsSource="{Binding PatientsListSource}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Margin="20,0,0,0"
+                                             Orientation="Horizontal"
+                                             HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding PatientName}"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           FontSize="Subtitle"
+                                           TextColor="Black"
+                                           HorizontalOptions="StartAndExpand" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
             <Button Text="Add New Patient"
                     Clicked="OnAddNewPatientClicked"
-                    Margin="15"/>
-            <ListView x:Name="PatientList"
-                Margin="20"
-                ItemSelected="OnPatientSelected"
-                ItemsSource="{Binding PatientsListSource}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Margin="20,0,0,0"
-                                    Orientation="Horizontal"
-                                    HorizontalOptions="FillAndExpand">
-                                <Label Text="{Binding PatientName}"
-                                       HorizontalTextAlignment="Center"
-                                        VerticalTextAlignment="Center"
-                                        HorizontalOptions="StartAndExpand" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center" 
+                    Margin="50,10"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"/>
+            <Button Text="Back to Home"
+                    Command="{Binding BacktoHome}"
+                    Margin="50, 10"
+                    BackgroundColor="{StaticResource Primary}"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"
+                    TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

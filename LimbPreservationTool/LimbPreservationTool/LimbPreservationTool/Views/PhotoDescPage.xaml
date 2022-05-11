@@ -15,7 +15,7 @@
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
                 <Label Text="How To Format Your Photo:" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,30" 
                        TextColor="Black" 
                        FontAttributes= "Bold"

@@ -15,7 +15,7 @@
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
                 <Label Text="Wound, Ischemia, and Foot Infection Classification Results" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,30" 
                        TextColor="Black" 
                        FontAttributes= "Bold"
@@ -32,7 +32,7 @@
                 <StackLayout>
                     <Label Text="{Binding AmputationInfo}" 
                            BackgroundColor="{Binding AmputationColor}"  
-                           TextColor="White"
+                           TextColor="Black"
                            FontSize="Title" 
                            FontAttributes="Italic"
                            HorizontalOptions="CenterAndExpand" 
@@ -40,7 +40,7 @@
                            Margin="50,10"></Label>
                     <Label Text="{Binding RevascInfo}" 
                            BackgroundColor="{Binding RevascColor}"  
-                           TextColor="White"
+                           TextColor="Black"
                            FontSize="Title" 
                            FontAttributes="Italic"
                            HorizontalOptions="CenterAndExpand" 
@@ -48,7 +48,7 @@
                            Margin="50,10">
                     </Label>
 
-                    <Button Margin="50,20" 
+                    <Button Margin="50,10" 
                             Text="Modify WIfi Data"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
@@ -58,7 +58,7 @@
                             Command="{Binding EnterAdditionalInfoCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" 
+                    <Button Margin="50,10" 
                             Text="Save WIfi Data"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
@@ -68,7 +68,7 @@
                             Clicked="OnSaveWifiData"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" 
+                    <Button Margin="50,10" 
                             Text="Back Home"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"

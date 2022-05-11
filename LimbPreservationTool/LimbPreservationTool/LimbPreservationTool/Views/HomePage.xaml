@@ -14,7 +14,7 @@
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout HeightRequest="60">
                 <Label Text="Limb Preservation Tool" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,30" 
                        TextColor="Black" 
                        FontAttributes= "Bold"

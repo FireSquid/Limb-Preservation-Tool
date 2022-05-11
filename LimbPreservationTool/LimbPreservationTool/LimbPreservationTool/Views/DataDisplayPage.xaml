@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout BackgroundColor="{StaticResource MainBG}">
             <Label Text="{Binding PatientName}" 
-                   FontSize="Title" 
+                   FontSize="Large" 
                        Margin="50,10" 
                        TextColor="Black" 
                        FontAttributes= "Bold"
@@ -52,7 +52,7 @@
                          Color="Gray" />
 
                 <Label Text="WIfi Data" 
-                       FontSize="Title" 
+                       FontSize="Large" 
                        Margin="50,10" 
                        TextColor="Black" 
                        FontAttributes= "Bold"

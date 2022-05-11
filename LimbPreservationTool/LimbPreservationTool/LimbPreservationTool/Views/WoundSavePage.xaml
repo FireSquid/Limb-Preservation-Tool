@@ -13,7 +13,7 @@
         <ScrollView BackgroundColor="NavajoWhite">
             <StackLayout>
                 <Label Text="Patient" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,10" 
                        TextColor="Black" 
                        FontAttributes= "Bold"
@@ -104,24 +104,15 @@
                             IsVisible="{Binding WoundGroupsAreVisible}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Label  Text="Or..."
+                    <Label  Text="Or Select an Existing Wound..."
                             VerticalOptions="Center"
-                            FontSize="Title" 
+                            FontSize="Medium" 
                             FontAttributes="Italic"
                             HorizontalOptions="CenterAndExpand" 
                             HorizontalTextAlignment="Center" 
                             TextColor="Black"
                             Margin="50,20"
                             IsVisible="{Binding WoundGroupsAreVisible}"/>
-                    <Label  Text="Existing Wounds:" 
-                            FontSize="Medium"
-                            Margin="50,10" 
-                            TextColor="Black" 
-                            FontAttributes= "Italic"
-                            HorizontalOptions="CenterAndExpand" 
-                            HorizontalTextAlignment="Center" 
-                            VerticalOptions="Center" 
-                            IsVisible="{Binding WoundGroupsAreVisible}" />
                     <ListView x:Name="WoundGroups"
                                 Margin="0"
                                 ItemSelected="OnWoundGroupSelected"

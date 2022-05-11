@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <StackLayout BackgroundColor="NavajoWhite">
             <Label Text="Create New Patient" 
-                   FontSize="30" 
+                   FontSize="Large" 
                    Margin="50,10" 
                    TextColor="Black" 
                    FontAttributes= "Bold"

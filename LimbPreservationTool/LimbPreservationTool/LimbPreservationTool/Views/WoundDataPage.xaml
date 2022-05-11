@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout BackgroundColor="{StaticResource MainBG}">
             <Label Text="Date Select Page" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,10" 
                        TextColor="Black" 
                        FontAttributes= "Bold"

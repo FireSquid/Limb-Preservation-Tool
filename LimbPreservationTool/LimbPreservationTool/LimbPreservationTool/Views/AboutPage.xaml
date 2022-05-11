@@ -43,7 +43,7 @@
                          Padding="30,24,30,24" 
                          Spacing="10">
                 <Label Text="About this App" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,30" 
                        TextColor="Black" 
                        FontAttributes= "Bold"

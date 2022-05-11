@@ -8,7 +8,7 @@ import cv2
 import time
 import os
 
-def cv(filename, width):
+def cv(filename, width, in_dest, out_dest):
     if(os.path.exists(filename)):
         img = cv2.imread(filename)
         #image = cv2.fastNlMeansDenoisingColored(img,None,10,10,7,21)
@@ -26,15 +26,17 @@ def cv(filename, width):
         edge_detect = cv2.Canny(gray, 100, 150) #change min and max to mess with edges
         edge_detect = cv2.dilate(edge_detect, None, iterations=1)
         edge_detect = cv2.erode(edge_detect, None, iterations=1)
-        cv2.imshow('img', edge_detect)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        #cv2.imshow('img', edge_detect)
+        #cv2.waitKey(0)
+        #cv2.destroyAllWindows()
 
         # find contours in the edge map
         cntours = cv2.findContours(edge_detect.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cntours = imutils.grab_contours(cntours)
         # sort contours left-to-right
-        (cntours, _) = contours.sort_contours(cntours)
+        #(cntours, _) = contours.sort_contours(cntours)
+        #sort contours by area
+        cntours = sorted(cntours, key=cv2.contourArea, reverse=True)
         pixel_to_size = None
         # function for finding the midpoint
         def mdpt(A, B):
@@ -94,8 +96,8 @@ def cv(filename, width):
             id = id + 1
 
  
-        os.rename(filename, "in/hotwheel.png")
-        os.rename("output.png", "out/output.png")
+        os.rename(filename, in_dest+filename)
+        os.rename("output.png", out_dest+filename)
 
     else:
-        print("Error: Filename specified does not exist within current path")        #TODO: raise exception or some error messages
+        print("Error: Filename specified does not exist within current path")

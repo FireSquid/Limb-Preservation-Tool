@@ -34,9 +34,9 @@ def cv(filename, width, in_dest, out_dest, isSmaller):
         cntours = cv2.findContours(edge_detect.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cntours = imutils.grab_contours(cntours)
         # sort contours left-to-right
-        (cntours, _) = contours.sort_contours(cntours)
+        #(cntours, _) = contours.sort_contours(cntours)
         #sort contours by area
-        #cntours = sorted(cntours, key=cv2.contourArea, reverse=True)
+        cntours = sorted(cntours, key=cv2.contourArea, reverse=True)
         pixel_to_size = None
         # function for finding the midpoint
         def mdpt(A, B):

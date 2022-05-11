@@ -16,13 +16,13 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task UpdatePatientName(Guid patientID)
         {
-            PatientName = (await (await WoundDatabase.Database).GetPatient(patientID)).PatientName;
+            PatientName = "Patient Name: " + (await (await WoundDatabase.Database).GetPatient(patientID)).PatientName;
         }
 
         private DBWoundData _woundData;
         public DBWoundData WoundData
         {
-            get => _woundData; 
+            get => _woundData;
             set
             {
                 System.Diagnostics.Debug.WriteLine("Setting Wound Data");

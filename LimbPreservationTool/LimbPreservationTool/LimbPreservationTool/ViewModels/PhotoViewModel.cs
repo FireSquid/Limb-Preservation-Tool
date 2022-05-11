@@ -192,6 +192,7 @@ namespace LimbPreservationTool.ViewModels
             Highlighter.ClearAll();
             scanBitmap = null;
             blendBitmap = null;
+            DisenableAll();
             EnablePicture();
 
         }

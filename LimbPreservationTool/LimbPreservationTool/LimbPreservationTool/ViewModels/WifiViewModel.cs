@@ -94,7 +94,7 @@ namespace LimbPreservationTool.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        WifiStatus = $"Please fill out all fields";
+                        WifiStatus = $"Please fill out all fields. Keep in mind, grades should fall within a range of 0-3, unless you need your ischemia grade calculated with further tests";
                         Console.WriteLine(ex.Message);
                         return;
                     }
@@ -181,6 +181,24 @@ namespace LimbPreservationTool.ViewModels
 
         private string ankleSystolicPressureString;
         public string AnkleSystolicPressure { get => ankleSystolicPressureString; set => SetProperty(ref ankleSystolicPressureString, value); }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            //lets the Entry be empty
+            if (string.IsNullOrEmpty(e.NewTextValue)) return;
+
+            if (!int.TryParse(e.NewTextValue, out int value))
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+
+            int checkRange = 0;
+            checkRange = int.Parse(e.NewTextValue);
+            if (checkRange > 3 || checkRange < -1)
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+        }
 
         // function to validate that each grade falls within ranges we calculate for
 

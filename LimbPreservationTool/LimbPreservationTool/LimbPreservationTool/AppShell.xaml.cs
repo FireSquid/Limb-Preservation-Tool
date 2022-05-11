@@ -27,7 +27,7 @@ namespace LimbPreservationTool
             PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
             p.EraseAll();
             //var c = this.Resources["Clear"];
-            await Shell.Current.GoToAsync("//LogOut");
+            await Shell.Current.GoToAsync("//LoginPage");
         }
 
     }

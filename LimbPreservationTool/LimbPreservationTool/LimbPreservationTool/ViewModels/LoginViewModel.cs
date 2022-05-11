@@ -52,7 +52,6 @@ namespace LimbPreservationTool.ViewModels
             {
                 throw ex;
             }
-            // return true;
         }
 
         public void ResetLoginMessage()

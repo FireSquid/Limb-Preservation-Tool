@@ -9,39 +9,120 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="{Binding PatientName}" TextColor="Black" FontSize="25" Margin="0,5" />
-            <Label Text="{Binding WoundData.WoundGroup}" TextColor="Gray" FontSize="20" Margin="0,5" />
-            <Label Text="{Binding DataDate}" TextColor="DarkGray" FontSize="15" Margin="0,5" />
-            
-            <StackLayout IsVisible="{Binding ShowWifi}">
-                <BoxView Margin="0,5" HeightRequest="1" Color="Gray" />
+        <StackLayout BackgroundColor="{StaticResource MainBG}">
+            <Label Text="{Binding PatientName}" 
+                   FontSize="Title" 
+                       Margin="50,10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" />
+            <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+            <StackLayout Orientation="Horizontal" Padding="10">
+                <Label Text="Wound Name: " 
+                   TextColor="Black" 
+                       FontAttributes="Bold"
+                   FontSize="Subtitle" 
+                   Margin="0,5" />
+                <Label Text="{Binding WoundData.WoundGroup}" 
+                   TextColor="Black" 
+                   FontSize="Subtitle" 
+                   Margin="0,5" />
+            </StackLayout>
 
-                <Label Margin="10,10" Text="WIfi Data" FontSize="20" TextColor="Black" />
+            <StackLayout Orientation="Horizontal" Padding="10">
+                <Label Text="Date: " 
+                   TextColor="DarkSlateGray" 
+                   FontSize="Subtitle" 
+                       FontAttributes="Bold"
+                   Margin="0,5" />
+                <Label Text="{Binding DataDate}" 
+                   TextColor="DarkSlateGray" 
+                   FontSize="Subtitle" 
+                   Margin="0,5" />
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding ShowWifi}" Padding="10">
+                <BoxView Margin="0,5" 
+                         HeightRequest="1" 
+                         Color="Gray" />
+
+                <Label Text="WIfi Data" 
+                       FontSize="Title" 
+                       Margin="50,10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" />
+
+                <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
 
                 <StackLayout Orientation="Horizontal">
-                    <Label Margin="5,10" Text="Wound Grade:" FontSize="14" TextColor="Black" />
-                    <Label Margin="5,10" Text="{Binding WoundData.Wound}" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" 
+                           Text="Wound Grade:" 
+                           FontAttributes="Bold"
+                           FontSize="Subtitle" 
+                           TextColor="Black" />
+                    <Label Margin="5,10" 
+                           Text="{Binding WoundData.Wound}" 
+                           FontSize="Subtitle" 
+                           TextColor="Black" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label Margin="5,10" Text="Ischemia Grade:" FontSize="14" TextColor="Black" />
-                    <Label Margin="5,10" Text="{Binding WoundData.Ischemia}" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" 
+                           Text="Ischemia Grade:"
+                           FontAttributes="Bold"
+                           FontSize="Subtitle" 
+                           TextColor="Black" />
+                    <Label Margin="5,10" 
+                           Text="{Binding WoundData.Ischemia}" 
+                           FontSize="Subtitle" 
+                           TextColor="Black" />
                 </StackLayout>
                 <StackLayout Orientation="Horizontal">
-                    <Label Margin="5,10" Text="Infection Grade:" FontSize="14" TextColor="Black" />
-                    <Label Margin="5,10" Text="{Binding WoundData.Infection}" FontSize="14" TextColor="Black" />
+                    <Label Margin="5,10" 
+                           FontAttributes="Bold"
+                           Text="Infection Grade:" 
+                           FontSize="Subtitle" 
+                           TextColor="Black" />
+                    <Label Margin="5,10" 
+                           Text="{Binding WoundData.Infection}" 
+                           FontSize="Subtitle" 
+                           TextColor="Black" />
                 </StackLayout>
             </StackLayout>
 
             <StackLayout IsVisible="{Binding ShowWound}">
-                <BoxView Margin="0,5" HeightRequest="1" Color="Gray" />
+                <BoxView Margin="0,5" 
+                         HeightRequest="1" 
+                         Color="Gray" />
 
-                <Label Margin="10,10" Text="Wound Data" FontSize="20" TextColor="Black" />
+                <Label Margin="10,10" 
+                       Text="Wound Data" 
+                       FontSize="20" 
+                       TextColor="Black" />
 
                 <StackLayout Orientation="Horizontal">
-                    <Label Margin="5,10" Text="Wound Size:" FontSize="14" TextColor="Black" />
-                    <Label Margin="5,10" Text="{Binding WoundData.Size}" FontSize="14" TextColor="Black" />
-                    <Label Margin="5,10" Text="sq. in." FontSize="11" TextColor="Gray" />
+                    <Label Margin="5,10" 
+                           Text="Wound Size:" 
+                           FontSize="14" 
+                           TextColor="Black" />
+                    <Label Margin="5,10" 
+                           Text="{Binding WoundData.Size}" 
+                           FontSize="14" 
+                           TextColor="Black" />
+                    <Label Margin="5,10" 
+                           Text="sq. in." 
+                           FontSize="11" 
+                           TextColor="Gray" />
                 </StackLayout>
             </StackLayout>
         </StackLayout>

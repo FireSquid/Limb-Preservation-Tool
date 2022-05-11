@@ -87,9 +87,6 @@
     <TabBar Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
-    <TabBar Title="About">
-        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-    </TabBar>
 
     <TabBar Title="Home">
         <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
@@ -101,7 +98,6 @@
     <TabBar Title="Save">
         <ShellContent Route="WoundSavePage" ContentTemplate="{DataTemplate local:WoundSavePage}" />
     </TabBar>
-
 
     <MenuItem Text="Home" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
     </MenuItem>
@@ -118,10 +114,6 @@
     <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
         <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Patients" Icon="icon_feed.png">
-        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
-    </FlyoutItem>
-
 
     <FlyoutItem Title="WIfi Tool" Icon="icon_feed.png">
         <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
@@ -131,9 +123,11 @@
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>
 
-    <FlyoutItem Title="Log Out" Icon="icon_feed.png" >
-        <ShellContent Route="LogOut"  ContentTemplate="{DataTemplate local:LoginPage}" />
+    <FlyoutItem Title="Patients" Icon="icon_feed.png">
+        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
     </FlyoutItem>
+    <MenuItem Text ="Log Out" Icon="icon_feed.png" Clicked="OnLogoutItemClicked">
+    </MenuItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
 

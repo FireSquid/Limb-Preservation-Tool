@@ -40,7 +40,6 @@ namespace LimbPreservationTool.ViewModels
         {
             await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
         }
-        
         async Task LogOutAction()
         {
 

@@ -8,7 +8,7 @@ import cv2
 import time
 import os
 
-def cv(filename, width, in_dest, out_dest):
+def cv(filename, width, in_dest, out_dest, isSmaller):
     if(os.path.exists(filename)):
         img = cv2.imread(filename)
         #image = cv2.fastNlMeansDenoisingColored(img,None,10,10,7,21)
@@ -44,6 +44,8 @@ def cv(filename, width, in_dest, out_dest):
 
         # loop over the contours individually
         id = 1
+        if(isSmaller == True):
+            cntours[0], cntours[1] = cntours[1], cntours[0]
         for c in cntours: 
             #print(c)
             if cv2.contourArea(c) < 100: #ignore/fly through contours that are not big enough

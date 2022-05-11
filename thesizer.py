@@ -8,7 +8,7 @@ import cv2
 import time
 import os
 
-def cv(filename, width, in_dest, out_dest):
+def cv(filename, width, in_dest, out_dest, isSmaller):
     if(os.path.exists(filename)):
         img = cv2.imread(filename)
         #image = cv2.fastNlMeansDenoisingColored(img,None,10,10,7,21)
@@ -34,9 +34,9 @@ def cv(filename, width, in_dest, out_dest):
         cntours = cv2.findContours(edge_detect.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         cntours = imutils.grab_contours(cntours)
         # sort contours left-to-right
-        #(cntours, _) = contours.sort_contours(cntours)
+        (cntours, _) = contours.sort_contours(cntours)
         #sort contours by area
-        cntours = sorted(cntours, key=cv2.contourArea, reverse=True)
+        #cntours = sorted(cntours, key=cv2.contourArea, reverse=True)
         pixel_to_size = None
         # function for finding the midpoint
         def mdpt(A, B):
@@ -44,6 +44,8 @@ def cv(filename, width, in_dest, out_dest):
 
         # loop over the contours individually
         id = 1
+        if(isSmaller == True):
+            cntours[0], cntours[1] = cntours[1], cntours[0]
         for c in cntours: 
             #print(c)
             if cv2.contourArea(c) < 100: #ignore/fly through contours that are not big enough

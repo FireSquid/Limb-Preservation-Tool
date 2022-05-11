@@ -9,23 +9,48 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <ListView x:Name="WoundData"
-            Margin="20"
-            ItemSelected="OnWoundGroupSelected"
-            ItemsSource="{Binding WoundDataListSource}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Margin="20,0,0,0"
-                                Orientation="Horizontal"
-                                HorizontalOptions="FillAndExpand">
-                            <Label Text="{Binding dateString}"
-                                VerticalTextAlignment="Center"
-                                HorizontalOptions="StartAndExpand" />
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <StackLayout BackgroundColor="{StaticResource MainBG}">
+            <Label Text="Date Select Page" 
+                       FontSize="30" 
+                       Margin="50,10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalOptions="CenterAndExpand" />
+            <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+            <Label Text="Select a date below to view its WIfI results" 
+                       FontSize="Subtitle" 
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
+            <ListView x:Name="WoundData"
+                    ItemSelected="OnWoundGroupSelected"
+                    BackgroundColor="{StaticResource MainBG}"
+                    ItemsSource="{Binding WoundDataListSource}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout    Margin="20,0"
+                                        Orientation="Horizontal"
+                                        BackgroundColor="WhiteSmoke"
+                                        HorizontalOptions="FillAndExpand">
+                                <Label  Text="{Binding dateString}"
+                                    VerticalTextAlignment="Center"
+                                    TextColor="Black"
+                                    Padding="5"
+                                    HorizontalOptions="StartAndExpand" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

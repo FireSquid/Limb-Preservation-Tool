@@ -26,6 +26,13 @@
                          HeightRequest="2"
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
+                <Label Text="Welcome, Doctor! What would you like to do today?" 
+                       FontSize="Subtitle" 
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
             </StackLayout>
 
             <ScrollView VerticalOptions="CenterAndExpand">

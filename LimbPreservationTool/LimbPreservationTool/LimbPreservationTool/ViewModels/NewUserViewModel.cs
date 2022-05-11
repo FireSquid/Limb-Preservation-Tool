@@ -51,6 +51,12 @@ namespace LimbPreservationTool.ViewModels
         private string passwordString;
         public string Password { get => passwordString; set => SetProperty(ref passwordString, value); }
 
+        private string nameString;
+        public string Name { get => nameString; set => SetProperty(ref nameString, value); }
+
+        private string emailString;
+        public string Email { get => emailString; set => SetProperty(ref emailString, value); }
+
         private string creationStatus;
         public string CreationStatus { get => creationStatus; private set => SetProperty(ref creationStatus, value); }
 

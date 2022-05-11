@@ -74,6 +74,7 @@
                            BackgroundColor="WhiteSmoke" 
                            TextColor="Black" 
                            xct:CornerRadiusEffect.CornerRadius="10" 
+                           TextChanged="OnTextChanged"
                            Keyboard="Numeric" 
                            Text="{Binding WoundGrade}"/>
 
@@ -93,6 +94,7 @@
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            TextColor="Black" 
                            Keyboard="Numeric" 
+                           TextChanged="OnTextChanged"
                            Text="{Binding InfectionGrade}"/>
 
                     <Button HorizontalOptions="Center" 
@@ -111,6 +113,7 @@
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            TextColor="Black" 
                            Keyboard="Numeric" 
+                           TextChanged="OnTextChanged"
                            Text="{Binding IschemiaGrade}"/>
                     <Entry Placeholder="Toe Pressure Grade (in mm hG)" 
                            PlaceholderColor="SlateGray" 

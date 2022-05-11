@@ -44,5 +44,23 @@ namespace LimbPreservationTool.Views
             infectionView.IsVisible = false;
 
         }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            //lets the Entry be empty
+            if (string.IsNullOrEmpty(e.NewTextValue)) return;
+
+            if (!int.TryParse(e.NewTextValue, out int value))
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+
+            int checkRange = 0;
+            checkRange = int.Parse(e.NewTextValue);
+            if (checkRange > 3 || checkRange < -1)
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+        }
     }
 }

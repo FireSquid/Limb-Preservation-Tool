@@ -24,13 +24,14 @@
                      HeightRequest="2"
                      WidthRequest="200"  
                      Color="SeaGreen"></BoxView>
-            <Label Text="Click on Patient to View their Data" 
-                   FontSize="Subtitle" 
-                   FontAttributes="Italic"
-                   HorizontalOptions="CenterAndExpand" 
-                   HorizontalTextAlignment="Center" 
-                   Margin="50,10" 
-                   TextColor="Black"/>
+            <Entry  Placeholder="Search..." 
+                        PlaceholderColor="SlateGray" 
+                        Margin="50,10" 
+                        BackgroundColor="WhiteSmoke" 
+                        TextColor="{Binding PatientNameColor}" 
+                        xct:CornerRadiusEffect.CornerRadius="10" 
+                        Keyboard="Plain" 
+                        Text="{Binding PatientEntry}"/>
             <ScrollView>
                 <ListView x:Name="PatientList"
                             Margin="20"

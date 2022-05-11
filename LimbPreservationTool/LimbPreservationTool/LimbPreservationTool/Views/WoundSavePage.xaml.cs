@@ -23,10 +23,26 @@ namespace LimbPreservationTool.Views
             viewModel = new WoundSaveViewModel();
             this.BindingContext = viewModel;
         }
-
-        async void OnSavePatientSelected(object sender, SelectedItemChangedEventArgs e)
+        protected override async void OnAppearing()
         {
-            viewModel.Patient = e.SelectedItem as DBPatient;
+            base.OnAppearing();
+
+            WoundDatabase DB = (await WoundDatabase.Database);
+
+            Guid patientID = DB.dataHolder.PatientID;
+
+            if (patientID != null && patientID != Guid.Empty)
+            {
+                System.Diagnostics.Debug.WriteLine("PatientID was NOT EMPTY");
+                DBPatient patient = await DB.GetPatient(patientID);
+                viewModel.Initialize(patient);
+            }
+            else
+            {
+                System.Diagnostics.Debug.WriteLine("PatientID was EMPTY");
+                PatientsPage patientSelectionPage = new PatientsPage();
+                await Navigation.PushModalAsync(patientSelectionPage);
+            }
         }
 
         private void OnWoundGroupSelected(object sender, SelectedItemChangedEventArgs e)

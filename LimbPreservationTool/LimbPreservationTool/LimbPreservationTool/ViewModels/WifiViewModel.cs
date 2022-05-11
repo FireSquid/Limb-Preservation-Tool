@@ -108,7 +108,8 @@ namespace LimbPreservationTool.ViewModels
 
             // Keep reference to wifi data
             var db = (WoundDatabase.Database).GetAwaiter().GetResult();
-            db.dataHolder = DBWoundData.Create(Guid.Empty);
+            if (db.dataHolder == null)
+                db.dataHolder = DBWoundData.Create(Guid.Empty);
             db.dataHolder.SetWifi(woundGrade, infectionGrade, ischemiaGrade);
 
             Color ampColor = Color.Black;

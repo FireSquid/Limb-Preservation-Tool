@@ -34,16 +34,17 @@ namespace LimbPreservationTool.Views
         {
             if (e.SelectedItem != null)
             {
-                WoundGroupPage newPage = new WoundGroupPage();
-                newPage.SetPatient(e.SelectedItem as DBPatient);
-                await Navigation.PushAsync(newPage);
+                DBPatient patient = (e.SelectedItem as DBPatient);
+                (await WoundDatabase.Database).dataHolder.PatientID = patient.PatientID;
             }
+
+            await Navigation.PopModalAsync();
         }
 
         private async void OnAddNewPatientClicked(object sender, EventArgs e)
         {
             NewPatientPage newPage = new NewPatientPage();
-            await Navigation.PushAsync(newPage);
+            await Navigation.PushModalAsync(newPage);
         }
     }
 }

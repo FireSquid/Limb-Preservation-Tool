@@ -1,4 +1,5 @@
-﻿using LimbPreservationTool.ViewModels;
+﻿using LimbPreservationTool.Models;
+using LimbPreservationTool.ViewModels;
 using LimbPreservationTool.Views;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace LimbPreservationTool
 
             PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
             p.EraseAll();
+            (await WoundDatabase.Database).dataHolder = DBWoundData.Create(Guid.Empty);
             //var c = this.Resources["Clear"];
             await Shell.Current.GoToAsync("//LoginPage");
         }

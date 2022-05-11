@@ -19,22 +19,6 @@ namespace LimbPreservationTool.ViewModels
             WoundSaveDate = DateTime.Today;
         }
 
-        private async Task UpdatePatientList()
-        {
-            if (PatientName.Length > 0)
-            {
-                PatientsListIsVisible = true;
-                System.Diagnostics.Debug.WriteLine($"Updating List");
-                var patients = (await (await WoundDatabase.Database).GetClosestPatient(PatientName));
-                patients.Sort((pA, pB) => WoundDatabase.LevenshteinDist(pA.PatientName, PatientName) - WoundDatabase.LevenshteinDist(pB.PatientName, PatientName));
-                PatientsList = patients;
-            }
-            else
-            {
-                PatientsListIsVisible = false;
-            }
-        }
-
         private async Task UpdateWoundGroupList()
         {
             if (PatientName.Length > 0)
@@ -47,6 +31,12 @@ namespace LimbPreservationTool.ViewModels
             {
                 WoundGroupsAreVisible = false;
             }
+        }
+
+        public void Initialize(DBPatient patient)
+        {
+            Patient = patient;
+            WoundGroupIsVisible = true;
         }
 
         public void CreateNewWound()
@@ -75,12 +65,12 @@ namespace LimbPreservationTool.ViewModels
                 System.Diagnostics.Debug.WriteLine($"Found Existing Data");
             }
 
-            saveData.Wound =        (WoundData.Wound >= 0)          ? WoundData.Wound       : existingData.Wound;
-            saveData.Ischemia =     (WoundData.Ischemia >= 0)       ? WoundData.Ischemia    : existingData.Ischemia;
-            saveData.Infection =    (WoundData.Infection >= 0)      ? WoundData.Infection   : existingData.Infection;
+            saveData.Wound      = (WoundData.Wound >= 0)        ? WoundData.Wound       : existingData.Wound;
+            saveData.Ischemia   = (WoundData.Ischemia >= 0)     ? WoundData.Ischemia    : existingData.Ischemia;
+            saveData.Infection  = (WoundData.Infection >= 0)    ? WoundData.Infection   : existingData.Infection;
 
-            saveData.Size = (WoundData.Size >= 0)                               ? WoundData.Size    : existingData.Size;
-            saveData.Img =  (WoundData.Img != null && WoundData.Img.Length > 0) ? WoundData.Img     : existingData.Img;
+            saveData.Size   = (WoundData.Size >= 0)                               ? WoundData.Size    : existingData.Size;
+            saveData.Img    = (WoundData.Img != null && WoundData.Img.Length > 0) ? WoundData.Img     : existingData.Img;
 
             await db.SetWoundData(saveData);
 
@@ -88,24 +78,7 @@ namespace LimbPreservationTool.ViewModels
         }
 
         private string _patientName;
-        public string PatientName { 
-            get => _patientName;
-            set
-            {
-                SetProperty(ref _patientName, value);
-
-                if (Patient == null || !value.Equals(Patient.PatientName))
-                {
-                    AsyncRunner.Run(UpdatePatientList());
-                    PatientNameColor = "Black";
-                }
-                else
-                {
-                    PatientsListIsVisible = false;
-                    PatientNameColor = "Green";
-                }
-            }
-        }
+        public string PatientName { get => _patientName; set => SetProperty(ref _patientName, ("Patient: " + value)); }
 
         private DBPatient _patient;
         public DBPatient Patient { 
@@ -113,10 +86,7 @@ namespace LimbPreservationTool.ViewModels
             set
             {
                 SetProperty(ref _patient, value);
-                PatientName = value.PatientName;
-
-                if (Patient != null && Patient.PatientName.Equals(PatientName))
-                    WoundGroupIsVisible = true;
+                PatientName = value.PatientName;                
             }
         }
 

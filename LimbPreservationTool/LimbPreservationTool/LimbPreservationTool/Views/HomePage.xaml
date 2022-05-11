@@ -38,13 +38,22 @@
             <ScrollView VerticalOptions="CenterAndExpand">
                 <StackLayout>
 
-                    <Button Margin="50,20" Text="View Patients"
+                    <Button Margin="50,20" Text="Switch Patient"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"
                             xct:ShadowEffect.Radius="10" 
-                            Command="{Binding ViewPatientsPageCommand}"
+                            Clicked="OnSwitchPatientClicked"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
+                    <Button Margin="50,20" Text="View Wounds"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
+                            Command="{Binding ViewPatientWoundsPageCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,20" Text="Take New Photo"

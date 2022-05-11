@@ -32,35 +32,13 @@
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
                        TextColor="Black"/>
-                <Entry  Placeholder="Enter Patient Name..." 
-                        PlaceholderColor="SlateGray" 
-                        Margin="50,10" 
-                        BackgroundColor="WhiteSmoke" 
-                        TextColor="{Binding PatientNameColor}" 
-                        xct:CornerRadiusEffect.CornerRadius="10" 
-                        Keyboard="Plain" 
-                        Text="{Binding PatientName}"/>
-                <ListView x:Name="Patients"
-                            Margin="0"
-                            ItemSelected="OnSavePatientSelected"
-                            ItemsSource="{Binding PatientsList}"
-                            IsVisible="{Binding PatientsListIsVisible}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Margin="10,0,0,0"
-                                             Orientation="Horizontal"
-                                             HorizontalOptions="FillAndExpand">
-                                    <Label  Text="{Binding PatientName}"
-                                            TextColor="Black"
-                                            Margin="30, 10"
-                                            VerticalTextAlignment="Center"
-                                            HorizontalOptions="StartAndExpand" />
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                <Label Text="{Binding PatientName}" 
+                       FontSize="Title" 
+                       Margin="50,10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" />
                 <StackLayout IsVisible="{Binding WoundGroupIsVisible}">
                     <BoxView Margin="0,5" 
                              HeightRequest="1" 

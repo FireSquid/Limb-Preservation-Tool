@@ -26,7 +26,7 @@ namespace LimbPreservationTool.Views
         private async void OnCreatePatientClicked(object sender, EventArgs e)
         {
             await viewModel.CreatePatient();
-            await Navigation.PopAsync();
+            await Navigation.PopModalAsync();
         }
     }
 }

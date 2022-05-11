@@ -6,6 +6,7 @@ using Xamarin.Essentials;
 using System.Windows.Input;
 using System.Threading.Tasks;
 using LimbPreservationTool.Views;
+using LimbPreservationTool.Models;
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -14,16 +15,16 @@ namespace LimbPreservationTool.ViewModels
         public HomeViewModel()
         {
             Title = "Home";
-            ViewPatientsPageCommand = new Command(async () => await ViewPatientsPage());
+            ViewPatientWoundsPageCommand = new Command(async () => await ViewPatientsWoundsPage());
             TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             AboutCommand = new Command(async () => await AboutPageOpen());
             LogOutCommand = new Command(async () => await LogOutAction());
         }
 
-        async Task ViewPatientsPage()
+        async Task ViewPatientsWoundsPage()
         {
-            await Shell.Current.GoToAsync($"//{nameof(PatientsPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(WoundGroupPage)}");
         }
 
         async Task TakeNewPhoto()
@@ -45,10 +46,11 @@ namespace LimbPreservationTool.ViewModels
 
             PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
             p.EraseAll();
+            (await WoundDatabase.Database).dataHolder = DBWoundData.Create(Guid.Empty);
             await Shell.Current.GoToAsync("//LoginPage");
         }
 
-        public ICommand ViewPatientsPageCommand { get; }
+        public ICommand ViewPatientWoundsPageCommand { get; }
 
         public ICommand TakeNewPhotoCommand { get; }
 

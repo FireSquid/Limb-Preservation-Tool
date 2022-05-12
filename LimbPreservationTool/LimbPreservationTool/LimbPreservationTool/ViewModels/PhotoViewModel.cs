@@ -162,29 +162,29 @@ namespace LimbPreservationTool.ViewModels
             EnablePicture();
             //EraseAll();
         }
-
-        private async Task<Stream> PhotoRotator(Stream pS)
-        {
-
-            var bitmapStream = new MemoryStream();
-            await pS.CopyToAsync(bitmapStream); //copying will reset neither streams' position
-            pS.Seek(0, SeekOrigin.Begin);
-            bitmapStream.Seek(0, SeekOrigin.Begin);
-            var scanBitmap = SKBitmap.Decode(bitmapStream);
-            var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
-
-            using (var surface = new SKCanvas(rotated))
-            {
-                surface.Translate(rotated.Width, 0);
-                surface.RotateDegrees(90);
-                surface.DrawBitmap(scanBitmap, 0, 0);
-            }
-            scanBitmap = rotated;
-            SKImage image = SKImage.FromBitmap(scanBitmap);
-            SKData encodedData = image.Encode(SKEncodedImageFormat.Png, 100);
-            return encodedData.AsStream();
-        }
-
+        //
+        //        private async Task<Stream> PhotoRotator(Stream pS)
+        //        {
+        //
+        //            var bitmapStream = new MemoryStream();
+        //            await pS.CopyToAsync(bitmapStream); //copying will reset neither streams' position
+        //            pS.Seek(0, SeekOrigin.Begin);
+        //            bitmapStream.Seek(0, SeekOrigin.Begin);
+        //            var scanBitmap = SKBitmap.Decode(bitmapStream);
+        //            var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
+        //
+        //            using (var surface = new SKCanvas(rotated))
+        //            {
+        //                surface.Translate(rotated.Width, 0);
+        //                surface.RotateDegrees(90);
+        //                surface.DrawBitmap(scanBitmap, 0, 0);
+        //            }
+        //            scanBitmap = rotated;
+        //            SKImage image = SKImage.FromBitmap(scanBitmap);
+        //            SKData encodedData = image.Encode(SKEncodedImageFormat.Png, 100);
+        //            return encodedData.AsStream();
+        //        }
+        //
         public void EraseAll()
         {
 

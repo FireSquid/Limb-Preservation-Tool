@@ -12,7 +12,7 @@
     <ContentPage.Content>
         <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
-            <StackLayout HeightRequest="60">
+            <StackLayout>
                 <Label Text="Limb Preservation Tool" 
                        FontSize="Large" 
                        Margin="50,30" 
@@ -33,12 +33,19 @@
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
                        TextColor="Black"/>
+                <Label Text="{Binding Patient}" 
+                       FontSize="Subtitle" 
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
             </StackLayout>
 
-            <ScrollView VerticalOptions="CenterAndExpand">
+            <ScrollView VerticalOptions="Center">
                 <StackLayout>
 
-                    <Button Margin="50,20" Text="Switch Patient"
+                    <Button Margin="50,10" Text="Switch Patient"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
@@ -47,7 +54,7 @@
                             Clicked="OnSwitchPatientClicked"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" Text="View Wounds"
+                    <Button Margin="50,10" Text="View Wounds"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
@@ -56,7 +63,7 @@
                             Command="{Binding ViewPatientWoundsPageCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" Text="Take New Photo"
+                    <Button Margin="50,10" Text="Take New Photo"
                             Command="{Binding TakeNewPhotoCommand}"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
@@ -65,7 +72,7 @@
                             xct:ShadowEffect.Radius="10" 
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" Text="Enter Additional Wifi Info"
+                    <Button Margin="50,10" Text="Enter Additional Wifi Info"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
@@ -74,7 +81,7 @@
                             Command="{Binding EnterAdditionalInfoCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" Text="About this App"
+                    <Button Margin="50,10" Text="About this App"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
@@ -83,7 +90,7 @@
                             Command="{Binding AboutCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,20" Text="Log Out"
+                    <Button Margin="50,10" Text="Log Out"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"

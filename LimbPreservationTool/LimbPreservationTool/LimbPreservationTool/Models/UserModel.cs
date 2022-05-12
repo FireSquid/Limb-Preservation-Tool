@@ -40,8 +40,8 @@ namespace LimbPreservationTool.Models
 
                     Method = HttpMethod.Post,
 
-                    RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
-                    //RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
+                    //RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
+                    RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                     Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json")
                     //Content = new ByteArrayContent(cc);
                 };
@@ -65,8 +65,8 @@ namespace LimbPreservationTool.Models
             {
 
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
-                //RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
+                //RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
+                RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                 //Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8)
             };
             return request;

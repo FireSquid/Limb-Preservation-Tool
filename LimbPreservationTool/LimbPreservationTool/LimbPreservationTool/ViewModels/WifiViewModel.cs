@@ -36,7 +36,8 @@ namespace LimbPreservationTool.ViewModels
             ClearStartInfo();
             WifiStatus = "Please Enter The Information Below";
             WifiColor = Color.Black;
-            CalculateWiFICommand = new Command(ClickWifiSubmit);
+            CalculateWiFICommand = new Command(async () => await ClickWifiSubmit());
+
         }
 
         public void ClearStartInfo()
@@ -51,7 +52,7 @@ namespace LimbPreservationTool.ViewModels
 
         }
 
-        void ClickWifiSubmit(object obj)
+        async Task ClickWifiSubmit()
         {
             // convert user input from string
             int woundGrade;
@@ -149,6 +150,8 @@ namespace LimbPreservationTool.ViewModels
                 revascColor = Color.Red;
             }
 
+
+            await Shell.Current.GoToAsync($"//{nameof(WifiResultPage)}");
             App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
 
             ClearStartInfo();
@@ -236,7 +239,7 @@ namespace LimbPreservationTool.ViewModels
             {
                 ischemiaGrade = 0;
             }
-            else if ((toePressure >40) && (toePressure < 59))
+            else if ((toePressure > 40) && (toePressure < 59))
             {
                 ischemiaGrade = 1;
             }
@@ -315,7 +318,7 @@ namespace LimbPreservationTool.ViewModels
                 {
                     ampScore = Amputation.Low;
                 }
-                else if ((woundGrade == 1)  && (infectionGrade == 0))
+                else if ((woundGrade == 1) && (infectionGrade == 0))
                 {
                     ampScore = Amputation.Low;
                 }

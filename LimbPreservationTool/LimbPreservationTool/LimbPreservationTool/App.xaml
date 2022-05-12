@@ -9,7 +9,8 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
-            <vm:PhotoViewModel x:Key="sharedPhotoViewModel" />
+            <vm:PhotoViewModel x:Key="SharedPhotoViewModel" />
+            <vm:WifiViewModel x:Key="SharedWifiViewModel"/>
             <xct:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <Color x:Key="Primary">#2196F3</Color>
             <Color x:Key="MainBG">NavajoWhite</Color>

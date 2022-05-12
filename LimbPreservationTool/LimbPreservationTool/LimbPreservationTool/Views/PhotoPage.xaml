@@ -5,12 +5,12 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
              x:Class="LimbPreservationTool.Views.PhotoPage"
-			Shell.NavBarIsVisible="{Binding PictureInputAllowed  , Source={StaticResource sharedPhotoViewModel}}" 
+			Shell.NavBarIsVisible="{Binding PictureInputAllowed  , Source={StaticResource SharedPhotoViewModel}}" 
 						 >
 
 
     <ContentPage.BindingContext>
-        <Binding Source="{StaticResource sharedPhotoViewModel}" />
+        <Binding Source="{StaticResource SharedPhotoViewModel}" />
 
     </ContentPage.BindingContext>
     <ContentPage.Content>
@@ -21,7 +21,7 @@
         <AbsoluteLayout>
             <StackLayout>
 
-                <Grid InputTransparent= "{Binding InputFreeze, Source={StaticResource sharedPhotoViewModel}}">
+                <Grid InputTransparent= "{Binding InputFreeze, Source={StaticResource SharedPhotoViewModel}}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1* "/>
                         <RowDefinition Height="7.5* "/>
@@ -40,17 +40,17 @@
                     xct:ShadowEffect.Opacity="0.9"
                     xct:CornerRadiusEffect.CornerRadius="10"
                     xct:ShadowEffect.Radius="10"
-                    Command="{Binding TakePhotoCommand, Source={StaticResource sharedPhotoViewModel}}"
+                    Command="{Binding TakePhotoCommand, Source={StaticResource SharedPhotoViewModel}}"
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" 
-					IsEnabled="{Binding PictureInputAllowed,  Source={ StaticResource sharedPhotoViewModel} }"
+					IsEnabled="{Binding PictureInputAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
 					/>
 
                     <Grid Grid.Row="1">
                         <!--<Image Grid.Row="1" Source="{Binding LastPhoto}" />-->
                         <customcontrols:NormalCanvas  x:Name = "scanCanvas"   
-										      Renderer="{Binding Canvas , Source={ StaticResource sharedPhotoViewModel} }" 
-											  Size="{Binding CanvasSize,  Source={ StaticResource sharedPhotoViewModel} }" 
+										      Renderer="{Binding Canvas , Source={ StaticResource SharedPhotoViewModel} }" 
+											  Size="{Binding CanvasSize,  Source={ StaticResource SharedPhotoViewModel} }" 
 											  >
                         </customcontrols:NormalCanvas>
                         <Grid.Effects >
@@ -63,10 +63,10 @@
                         HorizontalOptions="Center" 
                         VerticalOptions="Center" 
                         xct:CornerRadiusEffect.CornerRadius="10"
-                        Command="{Binding HighlightCommand,  Source={ StaticResource sharedPhotoViewModel} }"
+                        Command="{Binding HighlightCommand,  Source={ StaticResource SharedPhotoViewModel} }"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
-					    IsEnabled="{Binding HighlightInputAllowed,  Source={ StaticResource sharedPhotoViewModel} }"
+					    IsEnabled="{Binding HighlightInputAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
 						>
                         </Button>
                     </Grid>
@@ -75,13 +75,13 @@
                     Grid.Row="3" 
                     Margin="0,5,0,0" 
                     Text="Examine this Picture"
-                    Command="{Binding ExaminePhotoCommand,  Source={ StaticResource sharedPhotoViewModel} }"
+                    Command="{Binding ExaminePhotoCommand,  Source={ StaticResource SharedPhotoViewModel} }"
                     HorizontalOptions="Center" 
                     VerticalOptions="Center" 
                     xct:CornerRadiusEffect.CornerRadius="10"           
                     BackgroundColor="{StaticResource Primary}"
                     TextColor="White" 
-					IsEnabled="{Binding ExamineInputAllowed,  Source={ StaticResource sharedPhotoViewModel} }"
+					IsEnabled="{Binding ExamineInputAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
 										/>
                 </Grid>
 
@@ -89,14 +89,14 @@
 
             <StackLayout
                      x:Name="aiLayout"
-                     IsVisible= "{Binding PictureInputAllowed  , Source={StaticResource sharedPhotoViewModel}, Converter={StaticResource InvertedBoolConverter}}" 
+                     IsVisible= "{Binding PictureInputAllowed  , Source={StaticResource SharedPhotoViewModel}, Converter={StaticResource InvertedBoolConverter}}" 
                      AbsoluteLayout.LayoutBounds="0,0,1,1"
                      AbsoluteLayout.LayoutFlags="All"
                      BackgroundColor="Gray" Opacity="0.5">
                 <ActivityIndicator
                          x:Name="ai"
                              
-                         IsRunning= "{Binding PictureInputAllowed  , Source={StaticResource sharedPhotoViewModel}, Converter={StaticResource InvertedBoolConverter}}" 
+                         IsRunning= "{Binding PictureInputAllowed  , Source={StaticResource SharedPhotoViewModel}, Converter={StaticResource InvertedBoolConverter}}" 
                          HorizontalOptions="CenterAndExpand"
                          VerticalOptions="CenterAndExpand"
                          Color="Yellow"/>

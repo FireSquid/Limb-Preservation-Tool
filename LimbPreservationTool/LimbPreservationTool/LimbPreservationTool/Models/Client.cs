@@ -115,7 +115,10 @@ namespace LimbPreservationTool.Models
 
     internal class TClient
     {
-        private static readonly string SERVER_URL = "http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000";
+        //private static readonly string SERVER_URL = "http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000";
+
+        private static readonly string SERVER_URL = "http://miwpro.local:5000";
+
         // private static readonly string SERVER_URL = 
 
         internal static Uri GenURI(string urlExtension)

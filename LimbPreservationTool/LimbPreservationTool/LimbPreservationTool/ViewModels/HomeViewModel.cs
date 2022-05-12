@@ -44,6 +44,8 @@ namespace LimbPreservationTool.ViewModels
 
         async Task EnterAdditionalWifiInfo()
         {
+
+            (AppShell.Current as AppShell).CleanWifi();
             await Shell.Current.GoToAsync($"//{nameof(WifiPage)}");
         }
 
@@ -53,10 +55,7 @@ namespace LimbPreservationTool.ViewModels
         }
         async Task LogOutAction()
         {
-
-            PhotoViewModel p = (PhotoViewModel)App.Current.Resources["sharedPhotoViewModel"];
-            p.EraseAll();
-            (await WoundDatabase.Database).dataHolder = DBWoundData.Create(Guid.Empty);
+            (AppShell.Current as AppShell).CleanAll();
             await Shell.Current.GoToAsync("//LoginPage");
         }
 

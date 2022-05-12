@@ -88,6 +88,9 @@
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
 
+    <TabBar>
+        <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
+    </TabBar>
     <TabBar Title="NewUser">
         <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
     </TabBar>
@@ -99,9 +102,18 @@
         <ShellContent Route="WoundSavePage" ContentTemplate="{DataTemplate local:WoundSavePage}" />
     </TabBar>
 
-    <MenuItem Text="Home" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
+
+    <TabBar Title="Result">
+        <ShellContent Route="WifiResultPage" ContentTemplate="{DataTemplate local:WifiResultPage}" />
+    </TabBar>
+
+
+    <MenuItem Text="Home"  IconImageSource="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
+
     </MenuItem>
 
+    <MenuItem Text="WifiTool" IconImageSource="icon_feed.png"  StyleClass="MenuItemLayoutStyle" Clicked="OnWifiItemClicked">
+    </MenuItem>
     <!-- 
         When the Flyout is visible this defines the content to display in the flyout.
         FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
@@ -114,10 +126,11 @@
     <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
         <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
     </FlyoutItem>
-
-    <FlyoutItem Title="WIfi Tool" Icon="icon_feed.png">
-        <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
+    <FlyoutItem Title="Patients" Icon="icon_feed.png" >
+        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
     </FlyoutItem>
+
+
 
     <FlyoutItem Title="About this App" Icon="icon_feed.png">
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
@@ -126,6 +139,7 @@
     <FlyoutItem Title="Wounds" Icon="icon_feed.png">
         <ShellContent Route="WoundGroupPage" ContentTemplate="{DataTemplate local:WoundGroupPage}" />
     </FlyoutItem>
+
     <MenuItem Text ="Log Out" Icon="icon_feed.png" Clicked="OnLogoutItemClicked">
     </MenuItem>
 

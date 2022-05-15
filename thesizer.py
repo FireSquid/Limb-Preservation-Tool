@@ -8,15 +8,20 @@ import cv2
 import time
 import os
 
-def cv(filename, width, in_dest, out_dest, isSmaller):
+def cv(filename, width,in_dest,out_dest, isSmaller ):
     if(os.path.exists(filename)):
+        #img = cv2.imread(filename)
         img = cv2.imread(filename)
         #image = cv2.fastNlMeansDenoisingColored(img,None,10,10,7,21)
         #cv2.imshow('img', image)
         #cv2.waitKey(0)
         #cv2.destroyAllWindows()
         #blur = cv2.bilateralFilter(image,9,75,75)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        if(img is not None):
+            #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        else:
+            print("There is no image")
         #cv2.imshow('img', gray)
         #cv2.waitKey(0)
         #cv2.destroyAllWindows()
@@ -98,8 +103,8 @@ def cv(filename, width, in_dest, out_dest, isSmaller):
             id = id + 1
 
  
-        os.rename(filename, in_dest+filename)
-        os.rename("output.png", out_dest+filename)
+        os.rename(filename, in_dest)
+        os.rename("output.png", out_dest) 
 
     else:
-        print("Error: Filename specified does not exist within current path")
+        print("Error: Filename specified does not exist within current path")        

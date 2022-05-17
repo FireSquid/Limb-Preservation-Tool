@@ -15,11 +15,21 @@ namespace LimbPreservationTool.ViewModels
         public HomeViewModel()
         {
             Title = "Home";
+            Patient = "Patient Name: ";
             ViewPatientWoundsPageCommand = new Command(async () => await ViewPatientsWoundsPage());
             TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             AboutCommand = new Command(async () => await AboutPageOpen());
             LogOutCommand = new Command(async () => await LogOutAction());
+            // setPatientName();
+        }
+
+        internal async Task setPatientName()
+        {
+            WoundDatabase DB = (await WoundDatabase.Database);
+            Guid patientID = DB.dataHolder.PatientID;
+            DBPatient patient = await DB.GetPatient(patientID);
+            Patient = "Patient Name: " + patient.PatientName;
         }
 
         async Task ViewPatientsWoundsPage()
@@ -48,6 +58,9 @@ namespace LimbPreservationTool.ViewModels
             (AppShell.Current as AppShell).CleanAll();
             await Shell.Current.GoToAsync("//LoginPage");
         }
+
+        private string patientName;
+        public string Patient { get => patientName; set => SetProperty(ref patientName, value); }
 
         public ICommand ViewPatientWoundsPageCommand { get; }
 

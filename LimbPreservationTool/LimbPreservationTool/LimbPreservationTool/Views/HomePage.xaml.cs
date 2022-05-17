@@ -1,4 +1,5 @@
 ﻿using LimbPreservationTool.Models;
+using LimbPreservationTool.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,13 @@ namespace LimbPreservationTool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
     {
+        public HomeViewModel viewModel;
         public HomePage()
         {
+            
             InitializeComponent();
+            viewModel =  new HomeViewModel();
+            this.BindingContext = viewModel;
         }
 
         protected override async void OnAppearing()
@@ -31,6 +36,8 @@ namespace LimbPreservationTool.Views
                 PatientsPage patientSelectionPage = new PatientsPage();
                 await Navigation.PushModalAsync(patientSelectionPage);
             }
+
+            viewModel.setPatientName();
         }
 
         private void OnSwitchPatientClicked(object sender, EventArgs e)

@@ -12,6 +12,7 @@
     <ContentPage.Content>
         <ScrollView BackgroundColor="NavajoWhite">
             <StackLayout>
+                <!--
                 <Label Text="Patient" 
                        FontSize="Large" 
                        Margin="50,10" 
@@ -25,13 +26,7 @@
                          HeightRequest="2"
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
-                <Label Text="Select the Patient Below" 
-                       FontSize="Subtitle" 
-                       FontAttributes="Italic"
-                       HorizontalOptions="CenterAndExpand" 
-                       HorizontalTextAlignment="Center" 
-                       Margin="50,10" 
-                       TextColor="Black"/>
+                -->
                 <Label Text="{Binding PatientName}" 
                        FontSize="Title" 
                        Margin="50,10" 

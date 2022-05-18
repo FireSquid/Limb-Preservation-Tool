@@ -21,7 +21,7 @@
         <AbsoluteLayout>
             <StackLayout>
 
-                <Grid InputTransparent= "{Binding InputFreeze, Source={StaticResource SharedPhotoViewModel}}">
+                <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1* "/>
                         <RowDefinition Height="7.5* "/>

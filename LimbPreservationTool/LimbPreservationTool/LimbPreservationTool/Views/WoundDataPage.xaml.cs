@@ -40,7 +40,10 @@ namespace LimbPreservationTool.Views
         {
             base.OnAppearing();
 
-            await viewModel.Initialize(groupName, patientID);
+            if (!(await viewModel.Initialize(groupName, patientID)))
+            {
+                await Navigation.PopAsync();
+            }
         }
 
         async void OnWoundGroupSelected(object sender, SelectedItemChangedEventArgs e)

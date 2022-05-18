@@ -93,6 +93,8 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> DeletePatient(DBPatient patient)
         {
+            await DeletePatientsWoundData(patient);
+
             return await dbConnection.DeleteAsync(patient);
         }
 
@@ -111,7 +113,17 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> DeleteWoundData(DBWoundData woundData)
         {
-            return await dbConnection.DeleteAsync<int>(woundData.DataID);
+            return await dbConnection.DeleteAsync(woundData);
+        }
+
+        public async Task DeletePatientsWoundData(DBPatient patient)
+        {
+            var woundData = await dbConnection.Table<DBWoundData>().Where(data => data.PatientID.Equals(patient.PatientID)).ToListAsync();
+            
+            foreach (var wound in woundData)
+            {
+                await dbConnection.DeleteAsync(wound);
+            }
         }
 
         public async Task<DBWoundData> CheckDuplicateData(DBWoundData woundData)

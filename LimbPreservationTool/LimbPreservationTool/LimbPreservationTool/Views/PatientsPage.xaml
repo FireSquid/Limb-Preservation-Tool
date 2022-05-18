@@ -47,7 +47,7 @@
                                            HorizontalTextAlignment="Center"
                                            VerticalTextAlignment="Center"
                                            FontSize="Subtitle"
-                                           TextColor="Black"
+                                           TextColor="{Binding Path=BindingContext.PatientOptionColor, Source={x:Reference PatientList}}"
                                            HorizontalOptions="StartAndExpand" />
                                 </StackLayout>
                             </ViewCell>
@@ -59,6 +59,18 @@
                     Clicked="OnAddNewPatientClicked"
                     HorizontalOptions="Center" 
                     VerticalOptions="Center" 
+                    Margin="50,10"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"/>
+            <Button Text="Delete Patient"
+                    Clicked="onToggleDeleteModeClicked"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    BackgroundColor="{Binding ToggleDeleteColor}"
+                    TextColor="White"
                     Margin="50,10"
                     xct:ShadowEffect.Color="Black"
                     xct:ShadowEffect.OffsetY="0"

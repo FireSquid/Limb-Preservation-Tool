@@ -35,16 +35,31 @@ namespace LimbPreservationTool.Views
             if (e.SelectedItem != null)
             {
                 DBPatient patient = (e.SelectedItem as DBPatient);
-                (await WoundDatabase.Database).dataHolder.PatientID = patient.PatientID;
-            }
 
-            await Navigation.PopModalAsync();
+                if (viewModel.PatientDeleteMode)
+                {
+                    await (await WoundDatabase.Database).DeletePatient(patient);
+
+                    await viewModel.UpdatePatientList();
+                }
+                else
+                {
+                    (await WoundDatabase.Database).dataHolder.PatientID = patient.PatientID;
+
+                    await Navigation.PopModalAsync();
+                }
+            }            
         }
 
         private async void OnAddNewPatientClicked(object sender, EventArgs e)
         {
             NewPatientPage newPage = new NewPatientPage();
             await Navigation.PushModalAsync(newPage);
+        }
+
+        private void onToggleDeleteModeClicked(object sender, EventArgs e)
+        {
+            viewModel.ToggleDeleteMode();
         }
     }
 }

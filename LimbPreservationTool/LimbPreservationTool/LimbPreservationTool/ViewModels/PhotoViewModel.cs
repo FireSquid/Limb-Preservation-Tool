@@ -48,7 +48,6 @@ namespace LimbPreservationTool.ViewModels
         {
             try
             {
-
                 // Attempt to take the picture
                 photo = await MediaPicker.CapturePhotoAsync();
                 Console.WriteLine(photo.FileName.ToString());
@@ -92,6 +91,7 @@ namespace LimbPreservationTool.ViewModels
                 Canvas.ImageBitmap = scanBitmap.Copy();
                 EnableHighlight();
                 EnableExamine();
+                
                 //SetProperty(ref pictureInputAllowed, false);
 
                 //PR.ImageBitmap = scanBitmap.Copy();

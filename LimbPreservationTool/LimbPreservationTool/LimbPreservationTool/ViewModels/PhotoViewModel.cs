@@ -44,7 +44,7 @@ namespace LimbPreservationTool.ViewModels
 
         }
 
-        public async Task TakePhoto()
+        public async Task<bool> TakePhoto()
         {
             try
             {
@@ -56,51 +56,58 @@ namespace LimbPreservationTool.ViewModels
             catch (FeatureNotSupportedException e)
             {
                 System.Diagnostics.Debug.WriteLine($"Feature Not Supported {e.Message}");
+                return false;
             }
             catch (PermissionException e)
             {
                 System.Diagnostics.Debug.WriteLine($"Permission Denied: {e.Message}");
+                return false;
             }
             catch (Exception e)
             {
                 System.Diagnostics.Debug.WriteLine($"CapturePhotoAsync THREW: {e.Message}");
+                return false;
             }
 
-            if (photo != null)
+            if (photo == null)
+
             {
-                // Load the picture from a stream and set as the image source
-                photoStream = await photo.OpenReadAsync();
-                PictureStatus = $"Successfully obtained photo";
-                var bitmapStream = new MemoryStream();
-                await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
-                photoStream.Seek(0, SeekOrigin.Begin);
-                bitmapStream.Seek(0, SeekOrigin.Begin);
-                scanBitmap = SKBitmap.Decode(bitmapStream);
-                var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
-
-                using (var surface = new SKCanvas(rotated))
-                {
-                    surface.Translate(rotated.Width, 0);
-                    surface.RotateDegrees(90);
-                    surface.DrawBitmap(scanBitmap, 0, 0);
-                }
-                scanBitmap = rotated;
-
-                Canvas.RendererSize = CanvasSize;
-                Console.WriteLine("CanvasSize: " + CanvasSize.ToString());
-
-                Canvas.ImageBitmap = scanBitmap.Copy();
-                EnableHighlight();
-                EnableExamine();
-                //SetProperty(ref pictureInputAllowed, false);
-
-                //PR.ImageBitmap = scanBitmap.Copy();
-                //photoStream = await PhotoRotator(photoStream);
-                //LastPhoto = ImageSource.FromStream(() => photoStream);
-
-                //using (var stream = await photo.OpenReadAsync())
-                //BeginInvoke(()=>ExaminePhoto());
+                System.Diagnostics.Debug.WriteLine("photo is null");
+                return false;
             }
+            // Load the picture from a stream and set as the image source
+            photoStream = await photo.OpenReadAsync();
+            PictureStatus = $"Successfully obtained photo";
+            var bitmapStream = new MemoryStream();
+            await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
+            photoStream.Seek(0, SeekOrigin.Begin);
+            bitmapStream.Seek(0, SeekOrigin.Begin);
+            scanBitmap = SKBitmap.Decode(bitmapStream);
+            var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
+
+            using (var surface = new SKCanvas(rotated))
+            {
+                surface.Translate(rotated.Width, 0);
+                surface.RotateDegrees(90);
+                surface.DrawBitmap(scanBitmap, 0, 0);
+            }
+            scanBitmap = rotated;
+
+            Canvas.RendererSize = CanvasSize;
+            Console.WriteLine("CanvasSize: " + CanvasSize.ToString());
+
+            Canvas.ImageBitmap = scanBitmap.Copy();
+            EnableHighlight();
+            EnableExamine();
+            //SetProperty(ref pictureInputAllowed, false);
+
+            //PR.ImageBitmap = scanBitmap.Copy();
+            //photoStream = await PhotoRotator(photoStream);
+            //LastPhoto = ImageSource.FromStream(() => photoStream);
+
+            //using (var stream = await photo.OpenReadAsync())
+            //BeginInvoke(()=>ExaminePhoto());
+            return true;
         }
 
 
@@ -132,7 +139,7 @@ namespace LimbPreservationTool.ViewModels
         //            }
         //        }
         //
-        public async Task ExamineHighlight()
+        public async Task<bool> ExamineHighlight()
         {
 
             DisenableAll();
@@ -140,7 +147,7 @@ namespace LimbPreservationTool.ViewModels
             {
 
                 Console.Write("Has not taken a photo as bitmap");
-                return;
+                return false;
             }
             if (blendBitmap == null)
             {
@@ -160,6 +167,7 @@ namespace LimbPreservationTool.ViewModels
             blendBitmap = null;
             scanBitmap = null;
             EnablePicture();
+            return true;
             //EraseAll();
         }
         //
@@ -197,10 +205,10 @@ namespace LimbPreservationTool.ViewModels
 
         }
 
-        async Task StartHighlight()
+        async Task<bool> StartHighlight()
         {
 
-            if (Canvas.ImageBitmap == null) { return; }
+            if (Canvas.ImageBitmap == null) { return false; }
             //var page = Activator.CreateInstance<HighlightPage>();
             //page.BindingContext = this;
             Highlighter.PreviewMode = false;
@@ -210,12 +218,15 @@ namespace LimbPreservationTool.ViewModels
             Highlighter.Src = Canvas.ImageBitmap.Copy();
             if (Highlighter.Src == null)
             {
+
                 Console.WriteLine("Src is null");
+                return false;
             }
+            return true;
             //Highlighter.Src = Canvas.ImageBitmap.Copy();
         }
 
-        async Task SaveHighlight()
+        async Task<bool> SaveHighlight()
         {
 
             //Highlightable = false;//this won't update the property here 
@@ -224,11 +235,11 @@ namespace LimbPreservationTool.ViewModels
 
             if (!Highlighter.Receiver.Fresh())
             {
-
                 Canvas.ImageBitmap = Highlighter.PorterDuff();
             }
             blendBitmap = Canvas.ImageBitmap.Copy();
             DisableHighlight();
+            return true;
             //blend overlay bitmap with picture bitmap
             //Highlightable = false;//this won't update the property possibily due to 2 way binding
         }

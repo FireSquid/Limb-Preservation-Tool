@@ -23,7 +23,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>LimbPreservationTool</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.companyname.LimbPreservationTool</string>
+	<string>com.LimbPreservationTool</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>UILaunchStoryboardName</key>

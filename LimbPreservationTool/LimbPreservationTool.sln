@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LimbPreservationTool.Androi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LimbPreservationTool.iOS", "LimbPreservationTool\LimbPreservationTool.iOS\LimbPreservationTool.iOS.csproj", "{603BE172-0CA1-40DF-99DF-57BAAF93CE8A}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "LimbPreservationTool", "LimbPreservationTool\LimbPreservationTool\LimbPreservationTool.csproj", "{8BC7FD7E-5725-4563-9773-8B9698DB0270}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LimbPreservationTool", "LimbPreservationTool\LimbPreservationTool\LimbPreservationTool.csproj", "{8BC7FD7E-5725-4563-9773-8B9698DB0270}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

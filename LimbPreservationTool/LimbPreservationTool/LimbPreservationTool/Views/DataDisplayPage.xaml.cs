@@ -28,5 +28,14 @@ namespace LimbPreservationTool.Views
             System.Diagnostics.Debug.WriteLine("Setting View Models Wound Data");
             viewModel.WoundData = wd;
         }
+
+        private void OnDeleteWoundClicked(object sender, EventArgs e)
+        {
+            AsyncRunner.Run(WoundDatabase.Database.GetAwaiter().GetResult().DeleteWoundData(viewModel.WoundData));
+
+            System.Diagnostics.Debug.WriteLine("Deleted Wound Data");
+
+            Navigation.PopAsync();
+        }
     }
 }

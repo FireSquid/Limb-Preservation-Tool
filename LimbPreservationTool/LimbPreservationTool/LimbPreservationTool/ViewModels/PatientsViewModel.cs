@@ -19,6 +19,8 @@ namespace LimbPreservationTool.ViewModels
         {
             Title = "Patients";
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
+
+            PatientDeleteMode = false;
         }
 
         public ICommand BacktoHome { get; }
@@ -53,7 +55,7 @@ namespace LimbPreservationTool.ViewModels
             PatientsListSource = PatientsList;
         }
 
-        private async Task UpdatePatientList()
+        public async Task UpdatePatientList()
         {
             if (PatientEntry != null)
             {
@@ -66,6 +68,17 @@ namespace LimbPreservationTool.ViewModels
             {
                 PatientsListSource = await (await WoundDatabase.Database).GetPatientsList();
             }
+        }
+
+        public void ToggleDeleteMode()
+        {
+            PatientDeleteMode = !PatientDeleteMode;
+        }
+
+        private void UpdatePatientOptionColor(bool setting)
+        {
+            PatientOptionColor = (setting) ? Color.Red : Color.Black;
+            ToggleDeleteColor = (setting) ? Color.Red : Color.FromHex("2196F3");
         }
 
         private List<DBPatient> _patientsListSource;
@@ -83,6 +96,22 @@ namespace LimbPreservationTool.ViewModels
                     SetProperty(ref _patientEntry, value);
                     AsyncRunner.Run(UpdatePatientList());
                 }                
+            } 
+        }
+
+        private Color _patientOptionColor;
+        public Color PatientOptionColor { get => _patientOptionColor; set => SetProperty(ref _patientOptionColor, value); }
+
+        private Color _toggleDeleteColor;
+        public Color ToggleDeleteColor { get => _toggleDeleteColor; set => SetProperty(ref _toggleDeleteColor, value); }
+
+        private bool _patientDeleteMode;
+
+        public bool PatientDeleteMode { 
+            get => _patientDeleteMode; 
+            private set {
+                SetProperty(ref _patientDeleteMode, value);
+                UpdatePatientOptionColor(value);
             } 
         }
     }

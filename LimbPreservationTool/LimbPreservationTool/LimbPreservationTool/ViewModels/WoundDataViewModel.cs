@@ -14,13 +14,22 @@ namespace LimbPreservationTool.ViewModels
         {
         }
 
-        public async Task Initialize(string groupName, Guid patientID)
+        public async Task<bool> Initialize(string groupName, Guid patientID)
         {
             Title = groupName;
 
             WoundDatabase db = await WoundDatabase.Database;
 
-            WoundDataListSource = (await db.GetAllPatientWoundData(patientID))[groupName].ConvertAll(wd => new WoundDataDisplay(wd));
+            var patientData = await db.GetAllPatientWoundData(patientID);
+
+            if (patientData.ContainsKey(groupName))
+            {
+                WoundDataListSource = patientData[groupName].ConvertAll(wd => new WoundDataDisplay(wd));
+
+                return true;
+            }
+
+            return false;
         }
 
 

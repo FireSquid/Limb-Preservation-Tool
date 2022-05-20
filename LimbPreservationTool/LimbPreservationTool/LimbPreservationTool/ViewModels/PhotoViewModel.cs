@@ -48,7 +48,6 @@ namespace LimbPreservationTool.ViewModels
         {
             try
             {
-
                 // Attempt to take the picture
                 photo = await MediaPicker.CapturePhotoAsync();
                 Console.WriteLine(photo.FileName.ToString());
@@ -70,7 +69,6 @@ namespace LimbPreservationTool.ViewModels
             }
 
             if (photo == null)
-
             {
                 System.Diagnostics.Debug.WriteLine("photo is null");
                 return false;

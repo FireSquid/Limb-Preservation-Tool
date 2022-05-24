@@ -95,15 +95,16 @@ def analyze():
            # wound_size = 
             print(png_dest)
             resizer.size(png_dest)
-            thesizer.cv(png_dest, 0.75,save_des,get_des, True)  # saved in in/ and output in out/
+            wound_size = thesizer.cv(png_dest, 0.75,save_des,get_des, True)  # saved in in/ and output in out/
 
             #os.remove(png_dest) # remove png in Post/
         else: print("path not found for %s or already processed\n" % png_dest)
 
         if os.path.exists(get_des):
+            print(f"Setting wound_size_hdr header in response to {wound_size}")
             # need to change send_file to other method to prevent safety issue
             my_resp = make_response(send_file(get_des, mimetype='png'))
-            #my_resp.headers['wound_size_hdr'] = str(wound_size)
+            my_resp.headers['wound_size_hdr'] = str(wound_size)
         else:
             print("CV result not found")
             return "CV result not found"

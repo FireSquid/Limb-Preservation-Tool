@@ -9,6 +9,9 @@ import time
 import os
 
 def cv(filename, width,in_dest,out_dest, isSmaller ):
+
+    output_area = -1
+
     if(os.path.exists(filename)):
         #img = cv2.imread(filename)
         img = cv2.imread(filename)
@@ -95,6 +98,10 @@ def cv(filename, width,in_dest,out_dest, isSmaller ):
             
             distA = dA / pixel_to_size
             distB = dB / pixel_to_size
+
+            if (id == 2):
+                output_area = distA * distB
+
             print("distA is " + str(distA) + " distB is " + str(distB)) 
             # draw the object sizes on the image
             cv2.putText(orig, "{:.1f}in".format(distA), (int(tltrX - 10), int(tltrY - 10)), cv2.FONT_HERSHEY_DUPLEX,0.55, (255, 255, 255), 2)
@@ -104,7 +111,11 @@ def cv(filename, width,in_dest,out_dest, isSmaller ):
 
  
         os.rename(filename, in_dest)
-        os.rename("output.png", out_dest) 
+        os.rename("output.png", out_dest)
+
+        print(f"Thesizer CV returning with area: {output_area}")
+
+        return output_area
 
     else:
         print("Error: Filename specified does not exist within current path")        

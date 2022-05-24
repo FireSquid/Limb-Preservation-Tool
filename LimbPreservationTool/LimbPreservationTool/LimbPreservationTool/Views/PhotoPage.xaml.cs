@@ -20,6 +20,11 @@ namespace LimbPreservationTool.Views
             InitializeComponent();
         }
 
+        private void OnSaveWifiData(object sender, EventArgs e)
+        {
+            var savePage = new WoundSavePage();
+            Navigation.PushAsync(savePage);
+        }
     }
 
 }

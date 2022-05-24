@@ -150,6 +150,10 @@ namespace LimbPreservationTool.Models
                         if (float.TryParse(headerValue, out woundSizeResult))
                             break;
                     }
+                    var db = (WoundDatabase.Database).GetAwaiter().GetResult();
+                    if (db.dataHolder == null)
+                        db.dataHolder = DBWoundData.Create(Guid.Empty);
+                    db.dataHolder.SetWound(woundSizeResult, null);
                 }
                 Console.WriteLine($"-------------Received Result - Wound Size: {woundSizeResult}");
                 Scan result = await Scan.Decode(scanResult);

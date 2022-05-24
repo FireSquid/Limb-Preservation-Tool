@@ -1,9 +1,11 @@
 ﻿using LimbPreservationTool.Models;
+using LimbPreservationTool.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace LimbPreservationTool.ViewModels
@@ -12,7 +14,7 @@ namespace LimbPreservationTool.ViewModels
     {
         public DataDisplayViewModel()
         {
-        }
+        }        
 
         private async Task UpdatePatientName(Guid patientID)
         {

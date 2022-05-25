@@ -37,7 +37,7 @@ namespace LimbPreservationTool.ViewModels
         private async Task<bool> VerifyUserCreation()
         {
             CreationStatus = $"Verifying...";
-            return await NewUser.AttemptCreation(Username, Password);
+            return await NewUser.AttemptCreation(Username, Password, Name, Email);
         }
 
         async Task GoHome()

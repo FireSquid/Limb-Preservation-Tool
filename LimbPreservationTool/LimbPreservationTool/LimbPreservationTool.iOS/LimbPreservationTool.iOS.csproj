@@ -52,7 +52,7 @@
     <CodesignEntitlements>Info.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
-    <CodesignProvision>Sean</CodesignProvision>
+    <CodesignProvision>Geoff Phone</CodesignProvision>
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">

@@ -134,11 +134,13 @@ def create_new_user():
 
     username = request.json.get('username')
     password = request.json.get('password')
+    name = request.json.get('name')
+    email = request.json.get('email')
 
     auth_resp_str = "USER_CREATED"
 
     try:
-        auth.create_user(username, password)
+        auth.create_user(username, password, name, email)
     except:
         auth_resp_str = "USER_CREATION_FAILED"
 

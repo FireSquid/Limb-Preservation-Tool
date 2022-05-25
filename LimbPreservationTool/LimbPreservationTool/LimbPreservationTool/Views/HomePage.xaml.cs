@@ -17,7 +17,7 @@ namespace LimbPreservationTool.Views
         public HomeViewModel viewModel;
         public HomePage()
         {
-            
+
             InitializeComponent();
             viewModel =  new HomeViewModel();
             this.BindingContext = viewModel;
@@ -45,5 +45,7 @@ namespace LimbPreservationTool.Views
             PatientsPage patientSelectionPage = new PatientsPage();
             Navigation.PushModalAsync(patientSelectionPage);
         }
+
+
     }
 }

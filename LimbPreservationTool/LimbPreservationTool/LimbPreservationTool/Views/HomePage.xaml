@@ -10,6 +10,8 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
+
+
         <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
@@ -100,9 +102,12 @@
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
 
+
                 </StackLayout>
             </ScrollView>
 
         </StackLayout>
+
+
     </ContentPage.Content>
 </ContentPage>

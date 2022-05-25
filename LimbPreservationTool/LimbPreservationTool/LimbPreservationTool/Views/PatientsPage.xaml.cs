@@ -15,12 +15,13 @@ namespace LimbPreservationTool.Views
     public partial class PatientsPage : ContentPage
     {
         PatientsViewModel viewModel;
+        bool deleteConfirm = false;
 
         public PatientsPage()
         {
             InitializeComponent();
             viewModel = new PatientsViewModel();
-            this.BindingContext = viewModel;            
+            this.BindingContext = viewModel;
         }
 
         protected override async void OnAppearing()
@@ -38,9 +39,19 @@ namespace LimbPreservationTool.Views
 
                 if (viewModel.PatientDeleteMode)
                 {
-                    await (await WoundDatabase.Database).DeletePatient(patient);
+                    infectionView.IsVisible = true;
+                    await Task.Delay(3000);
+                    if (deleteConfirm)
+                    {
+                        await (await WoundDatabase.Database).DeletePatient(patient);
 
-                    await viewModel.UpdatePatientList();
+                        await viewModel.UpdatePatientList();
+                    }
+
+                    infectionView.IsVisible = false;
+                    deleteConfirm = false;
+                    viewModel.ToggleDeleteMode();
+
                 }
                 else
                 {
@@ -48,10 +59,15 @@ namespace LimbPreservationTool.Views
 
                     await Navigation.PopModalAsync();
                 }
-            }            
+            }
         }
 
-        private async void OnAddNewPatientClicked(object sender, EventArgs e)
+        async void ConfirmDeletePatient(object sender, EventArgs e)
+        {
+            deleteConfirm = true;
+        }
+
+        async void OnAddNewPatientClicked(object sender, EventArgs e)
         {
             NewPatientPage newPage = new NewPatientPage();
             await Navigation.PushModalAsync(newPage);
@@ -60,6 +76,16 @@ namespace LimbPreservationTool.Views
         private void onToggleDeleteModeClicked(object sender, EventArgs e)
         {
             viewModel.ToggleDeleteMode();
+        }
+        private void infectionInfoOn(object sender, EventArgs e)
+        {
+
+
+        }
+        private void infectionViewOff(object sender, EventArgs e)
+        {
+            infectionView.IsVisible = false;
+
         }
     }
 }

@@ -7,7 +7,7 @@ namespace LimbPreservationTool.Models
 {
     public class NewUser
     {
-        public static async Task<bool> AttemptCreation(string username, string password)
+        public static async Task<bool> AttemptCreation(string username, string password, string name, string email)
         {
             Uri requestUri = TClient.GenURI("/new_user");
 
@@ -15,7 +15,9 @@ namespace LimbPreservationTool.Models
                 JsonConvert.SerializeObject(new
                 {
                     username,
-                    password
+                    password,
+                    name,
+                    email
                 }),
                 System.Text.Encoding.UTF8,
                 "application/json"

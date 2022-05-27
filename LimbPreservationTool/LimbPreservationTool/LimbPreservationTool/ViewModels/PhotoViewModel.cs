@@ -40,12 +40,18 @@ namespace LimbPreservationTool.ViewModels
             SaveHighlightCommand = new Command(async () => await SaveHighlight());
             RedoHighlightCommand = new Command(() => RedoHighlight());
             PreviewCommand = new Command(() => SetPreview());
+            SaveWoundDataCommand = new Command(async () => await SaveWoundData());
             EnablePicture();
+        }
 
+        private async Task SaveWoundData()
+        {
+            await Shell.Current.GoToAsync($"//{nameof(WoundSavePage)}");
         }
 
         public async Task<bool> TakePhoto()
         {
+            DisableSave();
             try
             {
                 // Attempt to take the picture
@@ -168,6 +174,13 @@ namespace LimbPreservationTool.ViewModels
             blendBitmap = null;
             scanBitmap = null;
             EnablePicture();
+
+            var db = (WoundDatabase.Database).GetAwaiter().GetResult();
+            if (db.dataHolder.Size > 0)
+            {
+                EnableSave();
+            }
+
             return true;
             //EraseAll();
         }
@@ -263,13 +276,14 @@ namespace LimbPreservationTool.ViewModels
 
         void DisenableAll()
         {
-
             pictureInputAllowed = false;
             highlightInputAllowed = false;
             examineInputAllowed = false;
+            saveDataAllowed = false;
             OnPropertyChanged("PictureInputAllowed");
             OnPropertyChanged("HighlightInputAllowed");
             OnPropertyChanged("ExamineInputAllowed");
+            OnPropertyChanged("SaveDataAllowed");
         }
 
         void EnablePicture()
@@ -290,6 +304,11 @@ namespace LimbPreservationTool.ViewModels
             OnPropertyChanged("ExamineInputAllowed");
         }
 
+        void EnableSave()
+        {
+            saveDataAllowed = true;
+            OnPropertyChanged("SaveDataAllowed");
+        }
 
         void DisableHighlight()
         {
@@ -301,6 +320,12 @@ namespace LimbPreservationTool.ViewModels
         {
             examineInputAllowed = false;
             OnPropertyChanged("ExamineInputAllowed");
+        }
+
+        void DisableSave()
+        {
+            saveDataAllowed = false;
+            OnPropertyChanged("SaveDataAllowed");
         }
 
 
@@ -326,6 +351,8 @@ namespace LimbPreservationTool.ViewModels
         public ICommand SaveHighlightCommand { get; }
         public ICommand RedoHighlightCommand { get; }
         public ICommand PreviewCommand { get; }
+        public ICommand SaveWoundDataCommand { get; }
+
         public bool PictureInputAllowed
         {
             get
@@ -350,14 +377,23 @@ namespace LimbPreservationTool.ViewModels
         {
             get
             {
-
-
                 return examineInputAllowed;
             }
 
         }
 
         private bool examineInputAllowed = false;
+
+        public bool SaveDataAllowed
+        {
+            get
+            {
+                return saveDataAllowed;
+            }
+
+        }
+
+        private bool saveDataAllowed = false;
 
 
     }

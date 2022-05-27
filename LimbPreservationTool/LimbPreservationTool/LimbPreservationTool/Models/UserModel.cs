@@ -10,6 +10,7 @@ using Xamarin.Essentials;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
 
 namespace LimbPreservationTool.Models
 {
@@ -140,7 +141,21 @@ namespace LimbPreservationTool.Models
                 Console.WriteLine("-------------Sending Scan");
                 await Client.GetInstance().SendRequestChunksAsync(scan);
                 HttpResponseMessage scanResult = await Client.GetInstance().GetRequestAsync(scan);
-                Console.WriteLine("-------------Received Result");
+                float woundSizeResult = -1;
+                IEnumerable<string> headerValues;
+                if (scanResult.Headers.TryGetValues("wound_size_hdr", out headerValues))
+                {
+                    foreach (var headerValue in headerValues)
+                    {
+                        if (float.TryParse(headerValue, out woundSizeResult))
+                            break;
+                    }
+                    var db = (WoundDatabase.Database).GetAwaiter().GetResult();
+                    if (db.dataHolder == null)
+                        db.dataHolder = DBWoundData.Create(Guid.Empty);
+                    db.dataHolder.SetWound(woundSizeResult, null);
+                }
+                Console.WriteLine($"-------------Received Result - Wound Size: {woundSizeResult}");
                 Scan result = await Scan.Decode(scanResult);
                 Console.WriteLine("-------------Decoded Result");
 

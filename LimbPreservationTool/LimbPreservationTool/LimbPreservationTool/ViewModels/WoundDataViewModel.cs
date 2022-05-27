@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microcharts;
 using Xamarin.Forms;
 
 namespace LimbPreservationTool.ViewModels
@@ -12,6 +13,7 @@ namespace LimbPreservationTool.ViewModels
     {
         public WoundDataViewModel()
         {
+
         }
 
         public async Task<bool> Initialize(string groupName, Guid patientID)
@@ -25,7 +27,9 @@ namespace LimbPreservationTool.ViewModels
             if (patientData.ContainsKey(groupName))
             {
                 WoundDataListSource = patientData[groupName].ConvertAll(wd => new WoundDataDisplay(wd));
-
+                List<ChartEntry> e = new List<ChartEntry>();
+              //  WoundDataListSource.ForEach(f => { e.Add(new ChartEntry(f.) { }); } );
+               // _woundEntryChart = new LineChart { Entries = e};
                 return true;
             }
 
@@ -35,7 +39,11 @@ namespace LimbPreservationTool.ViewModels
 
         public List<WoundDataDisplay> _woundDataListSource;
         public List<WoundDataDisplay> WoundDataListSource { get => _woundDataListSource; set => SetProperty(ref _woundDataListSource, value); }
+
+        private LineChart _woundEntryChart;
+        public LineChart WoundEntryChart { get => _woundEntryChart; }
     }
+
 
     public class WoundDataDisplay 
     {

@@ -1,15 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
              x:Class="LimbPreservationTool.Views.WoundDataPage"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             >
 
-    <ContentPage.BindingContext>
-        <vm:WoundDataViewModel />
-    </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout BackgroundColor="{StaticResource MainBG}">
+        <Grid BackgroundColor="{StaticResource MainBG}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height ="2*"/>
+                <RowDefinition Height ="3*"/>
+                <RowDefinition Height ="5*"/>
+
+            </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" 
+                      
+                    BackgroundColor="{StaticResource MainBG}"
+                      >
             <Label Text="Date Select Page" 
                        FontSize="Large" 
                        Margin="50,10" 
@@ -30,6 +41,9 @@
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
                        TextColor="Black"/>
+            </Grid>
+            
+        <ScrollView Grid.Row="1">
             <ListView x:Name="WoundData"
                     ItemSelected="OnWoundGroupSelected"
                     BackgroundColor="{StaticResource MainBG}"
@@ -51,6 +65,15 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+         </ScrollView>
+            <Grid Grid.Row="2"
+                  
+                    BackgroundColor="{StaticResource MainBG}"
+                  >
+                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} "/>
+
+            </Grid>
+        </Grid>
+     </Grid> 
     </ContentPage.Content>
 </ContentPage>

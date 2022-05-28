@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microcharts;
+using SkiaSharp;
 using Xamarin.Forms;
 
 namespace LimbPreservationTool.ViewModels
@@ -28,8 +29,8 @@ namespace LimbPreservationTool.ViewModels
             {
                 WoundDataListSource = patientData[groupName].ConvertAll(wd => new WoundDataDisplay(wd));
                 List<ChartEntry> e = new List<ChartEntry>();
-              //  WoundDataListSource.ForEach(f => { e.Add(new ChartEntry(f.) { }); } );
-               // _woundEntryChart = new LineChart { Entries = e};
+                patientData[groupName].ForEach(f => { e.Add(new ChartEntry(f.Wound+f.Infection+f.Ischemia) { Label = "Date" }); }   );
+                WoundEntryChart = new LineChart { Entries = e, BackgroundColor = App.Current.FindByName("MainBG") SKColor };
                 return true;
             }
 
@@ -41,7 +42,7 @@ namespace LimbPreservationTool.ViewModels
         public List<WoundDataDisplay> WoundDataListSource { get => _woundDataListSource; set => SetProperty(ref _woundDataListSource, value); }
 
         private LineChart _woundEntryChart;
-        public LineChart WoundEntryChart { get => _woundEntryChart; }
+        public LineChart WoundEntryChart { get => _woundEntryChart; set => SetProperty(ref _woundEntryChart, value); }
     }
 
 

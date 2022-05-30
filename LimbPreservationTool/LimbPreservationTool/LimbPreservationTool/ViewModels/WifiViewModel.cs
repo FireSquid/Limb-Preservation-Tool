@@ -37,6 +37,7 @@ namespace LimbPreservationTool.ViewModels
             WifiStatus = "Please Enter The Information Below";
             WifiColor = Color.Black;
             CalculateWiFICommand = new Command(async () => await ClickWifiSubmit());
+            BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
 
         }
 
@@ -102,6 +103,8 @@ namespace LimbPreservationTool.ViewModels
                     ischemiaGrade = CalculateIschemia(toePressureGrade, ankleBrachialIndex, ankleSystolicPressure);
                 }
             }
+
+
 
             // calculate and output risk
             amputationRisk = calculateAmputationRisk(woundGrade, infectionGrade, ischemiaGrade, amputationRisk);
@@ -178,6 +181,7 @@ namespace LimbPreservationTool.ViewModels
 
         // grades to calculate ischemia
         private string toePressureGradeString;
+        public ICommand BacktoHome { get; }
         public string ToePressureGrade { get => toePressureGradeString; set => SetProperty(ref toePressureGradeString, value); }
 
         private string ankleBrachialIndexString;

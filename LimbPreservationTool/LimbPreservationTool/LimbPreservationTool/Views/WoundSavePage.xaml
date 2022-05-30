@@ -11,7 +11,7 @@
 
     <ContentPage.Content>
         <ScrollView BackgroundColor="NavajoWhite">
-            <StackLayout>
+            <StackLayout>            
                 <!--
                 <Label Text="Patient" 
                        FontSize="Large" 
@@ -176,11 +176,18 @@
                                FontSize="14" 
                                TextColor="Black" />
                     </StackLayout>
-                    <StackLayout IsVisible="{Binding ImageOptionsAreVisible}">
-                        
+                    <StackLayout IsVisible="{Binding ImageOptionsAreVisible}"
+                                 RadioButtonGroup.GroupName="{Binding ResolutionGroup}"
+                                 RadioButtonGroup.SelectedValue="{Binding ResolutionSelection}">
+                        <Label Text="Size of Image to Save" FontAttributes="Italic" TextColor="Black"/>
+                        <RadioButton Content="Don't Save Image" Value="DSI" TextColor="Black"/>
+                        <RadioButton Content="480p" Value="480" TextColor="Black"/>
+                        <RadioButton Content="720p" Value="720" TextColor="Black"/>
+                        <RadioButton Content="1080p" Value="1080" TextColor="Black"/>
                     </StackLayout>
-                    <StackLayout IsVisible="{Binding ImageIsVisible}" HeightRequest="400" VerticalOptions="StartAndExpand">
-                        <customcontrols:NormalCanvas  x:Name = "saveCanvas"   
+                    <StackLayout IsVisible="{Binding ImageIsVisible}" HeightRequest="425">
+                        <Label Text="Preview" FontAttributes="Italic" TextColor="Black" HeightRequest="25"/>
+                        <customcontrols:NormalCanvas x:Name = "saveCanvas" HeightRequest="400"   
 										          Renderer="{Binding SaveCanvas}" 
 											      Size="{Binding SaveCanvasSize}">
                         </customcontrols:NormalCanvas>
@@ -200,7 +207,7 @@
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White" />
                     </StackLayout>
-                </StackLayout>
+                </StackLayout>            
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

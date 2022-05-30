@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using SkiaSharp;
 using System.IO;
+using Xamarin.Essentials;
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -22,13 +23,9 @@ namespace LimbPreservationTool.ViewModels
 
             SaveCanvas = new Renderers.NormalRenderer();
 
-            SaveCanvasSize = new SKSize(App.unexaminedImage.Width, App.unexaminedImage.Height);
+            ImageOptionsAreVisible = true;
 
-            SaveCanvas.ImageBitmap = App.unexaminedImage;            
-
-            SaveCanvas.RendererSize = SaveCanvasSize;
-
-            ImageIsVisible = true;
+            System.Diagnostics.Debug.WriteLine("End Constructor");
         }
 
         private async Task UpdateWoundGroupList()
@@ -54,6 +51,28 @@ namespace LimbPreservationTool.ViewModels
         public void CreateNewWound()
         {
             WoundData = DBWoundData.Create().SetBase(Patient.PatientID, WoundGroupName);
+        }
+
+        public void SetImageSize(float verticalSize)
+        {
+            if (App.unexaminedImage == null) return;
+
+            System.Diagnostics.Debug.WriteLine("Setting Image");
+            saveBitmap = new SKBitmap((int)(App.unexaminedImage.Width * (verticalSize / App.unexaminedImage.Height)), (int)verticalSize);
+
+            if (App.unexaminedImage.ScalePixels(saveBitmap, SKFilterQuality.Medium))
+            {
+                System.Diagnostics.Debug.WriteLine("Resizing");
+                SaveCanvasSize = new SKSize(saveBitmap.Width, saveBitmap.Height);
+                System.Diagnostics.Debug.WriteLine($"Size: {SaveCanvasSize}");
+
+                SaveCanvas.RendererSize = SaveCanvasSize;
+                SaveCanvas.ImageBitmap = saveBitmap;                
+
+                ImageIsVisible = true;
+            }
+
+            System.Diagnostics.Debug.WriteLine("End Image Size");
         }
 
         public async Task ConfirmSaveData()
@@ -260,6 +279,35 @@ namespace LimbPreservationTool.ViewModels
 
         private SKSize _saveCanvasSize;
         public SKSize SaveCanvasSize { get => _saveCanvasSize; set => SetProperty(ref _saveCanvasSize, value); }
+
+        private SKBitmap saveBitmap;
+
+        private string _resolutionGroup = "ResolutionGroup";
+        public string ResolutionGroup { get => _resolutionGroup; set => SetProperty(ref _resolutionGroup, value); }
+
+        private string _resolutionSelection;
+        public string ResolutionSelection
+        {
+            get => _resolutionSelection; 
+            set
+            {
+                SetProperty(ref _resolutionSelection, value);
+                int size;
+                if (value != null && int.TryParse(value, out size))
+                {
+                    SetImageSize(size);
+                    ImageIsVisible = true;
+                }
+                else
+                {
+                    ImageIsVisible = false;
+                }
+            }
+        }
+
+        private Rectangle _screenSizeRect;
+
+        public Rectangle ScreenSizeRect { get => _screenSizeRect; set => SetProperty(ref _screenSizeRect, value); }
     }
 
 

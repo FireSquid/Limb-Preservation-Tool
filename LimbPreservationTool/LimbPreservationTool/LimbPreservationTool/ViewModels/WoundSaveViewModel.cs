@@ -62,12 +62,9 @@ namespace LimbPreservationTool.ViewModels
 
             if (App.unexaminedImage.ScalePixels(saveBitmap, SKFilterQuality.Medium))
             {
-                System.Diagnostics.Debug.WriteLine("Resizing");
-                SaveCanvasSize = new SKSize(saveBitmap.Width, saveBitmap.Height);
-                System.Diagnostics.Debug.WriteLine($"Size: {SaveCanvasSize}");
+                System.Diagnostics.Debug.WriteLine($"Size: {new SKSize(saveBitmap.Width, saveBitmap.Height)}");
 
-                SaveCanvas.RendererSize = SaveCanvasSize;
-                SaveCanvas.ImageBitmap = saveBitmap;                
+                SaveImageSource = ImageSource.FromStream(() => SKImage.FromBitmap(saveBitmap).Encode().AsStream());
 
                 ImageIsVisible = true;
             }
@@ -282,6 +279,9 @@ namespace LimbPreservationTool.ViewModels
 
         private SKBitmap saveBitmap;
 
+        private ImageSource _saveImageSource;
+        public ImageSource SaveImageSource { get => _saveImageSource; set => SetProperty(ref _saveImageSource, value); }
+
         private string _resolutionGroup = "ResolutionGroup";
         public string ResolutionGroup { get => _resolutionGroup; set => SetProperty(ref _resolutionGroup, value); }
 
@@ -304,10 +304,6 @@ namespace LimbPreservationTool.ViewModels
                 }
             }
         }
-
-        private Rectangle _screenSizeRect;
-
-        public Rectangle ScreenSizeRect { get => _screenSizeRect; set => SetProperty(ref _screenSizeRect, value); }
     }
 
 

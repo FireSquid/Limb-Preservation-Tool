@@ -185,12 +185,10 @@
                         <RadioButton Content="720p" Value="720" TextColor="Black"/>
                         <RadioButton Content="1080p" Value="1080" TextColor="Black"/>
                     </StackLayout>
-                    <StackLayout IsVisible="{Binding ImageIsVisible}" HeightRequest="425">
-                        <Label Text="Preview" FontAttributes="Italic" TextColor="Black" HeightRequest="25"/>
-                        <customcontrols:NormalCanvas x:Name = "saveCanvas" HeightRequest="400"   
-										          Renderer="{Binding SaveCanvas}" 
-											      Size="{Binding SaveCanvasSize}">
-                        </customcontrols:NormalCanvas>
+                    <StackLayout IsVisible="{Binding ImageIsVisible}">
+                        <Label Text="Preview" FontAttributes="Italic" TextColor="Black"/>
+                        <Image Source="{Binding SaveImageSource}"
+                               Aspect=""/>
                     </StackLayout>
                     <StackLayout IsVisible="{Binding ConfirmButtonVisible}">
                         <BoxView Margin="0,5" 

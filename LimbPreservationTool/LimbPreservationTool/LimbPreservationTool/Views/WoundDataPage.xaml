@@ -18,7 +18,6 @@
             </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" 
-                      
                     BackgroundColor="{StaticResource MainBG}"
                       >
             <Label Text="Date Select Page" 
@@ -43,11 +42,14 @@
                        TextColor="Black"/>
             </Grid>
             
-        <ScrollView Grid.Row="1">
+        <ScrollView Grid.Row="1" >
             <ListView x:Name="WoundData"
                     ItemSelected="OnWoundGroupSelected"
                     BackgroundColor="{StaticResource MainBG}"
-                    ItemsSource="{Binding WoundDataListSource}">
+                    ItemsSource="{Binding WoundDataListSource}"
+                      HeightRequest="1"
+                    >
+                    
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -70,7 +72,10 @@
                   
                     BackgroundColor="{StaticResource MainBG}"
                   >
-                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} "/>
+                    <ScrollView Orientation="Horizontal">
+                        
+                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " />
+                    </ScrollView>
 
             </Grid>
         </Grid>

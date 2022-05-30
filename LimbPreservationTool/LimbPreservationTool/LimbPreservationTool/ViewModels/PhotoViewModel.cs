@@ -221,6 +221,11 @@ namespace LimbPreservationTool.ViewModels
 
         async Task<bool> StartHighlight()
         {
+            if(Device.RuntimePlatform == Device.Android)
+            {
+                Console.WriteLine("Highlight is disabled on Android");
+                return false;
+            }
 
             if (Canvas.ImageBitmap == null) { return false; }
             //var page = Activator.CreateInstance<HighlightPage>();

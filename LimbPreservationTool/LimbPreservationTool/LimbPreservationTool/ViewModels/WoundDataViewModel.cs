@@ -13,6 +13,8 @@ namespace LimbPreservationTool.ViewModels
 {
     public class WoundDataViewModel : BaseViewModel
     {
+
+        private List<List<ChartEntry>> _gradeSections;
         public WoundDataViewModel()
         {
 
@@ -29,9 +31,15 @@ namespace LimbPreservationTool.ViewModels
             if (patientData.ContainsKey(groupName))
             {
                 WoundDataListSource = patientData[groupName].ConvertAll(wd => new WoundDataDisplay(wd));
+                _gradeSections = new List<List<ChartEntry>>();
+
+                //Enumerable.Range(0, 4).ToList().ForEach(e => {_gradeSections.Add(new List<ChartEntry>){ }; });
                 List<ChartEntry> e = new List<ChartEntry>();
-                patientData[groupName].ForEach(f => { e.Add(new ChartEntry(f.Wound + f.Infection + f.Ischemia) { Label = "Date" }); });
-                WoundEntryChart = new LineChart { Entries = e, BackgroundColor = Extensions.ToSKColor((Color)App.Current.Resources["MainBG"]) };
+                patientData[groupName].ForEach(f => { e.Add(new ChartEntry(f.Wound + f.Infection + f.Ischemia) { Label = "Date" , ValueLabel ="120",TextColor = Extensions.ToSKColor(Color.Black)}); });
+                WoundEntryChart = new LineChart { Entries = e, BackgroundColor = Extensions.ToSKColor(Color.Transparent),
+                    Margin=20,LabelOrientation=Orientation.Horizontal,ValueLabelOrientation=Orientation.Horizontal, LabelTextSize = 40 };
+                WoundEntryChart.MaxValue = 9; 
+                WoundEntryChart.MinValue = 3; 
                 return true;
             }
 

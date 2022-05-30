@@ -46,7 +46,7 @@ namespace LimbPreservationTool.ViewModels
         {
 
             (AppShell.Current as AppShell).CleanWifi();
-            await Shell.Current.GoToAsync($"//{nameof(WifiPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(WifiDescPage)}");
         }
 
         async Task AboutPageOpen()

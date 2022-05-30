@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -55,6 +55,9 @@
 		<Folder Include="CustomControls\" />
 	</ItemGroup>
 	<ItemGroup>
+		<Compile Update="Views\WifiDescPage.xaml.cs">
+		  <DependentUpon>WifiDescPage.xaml</DependentUpon>
+		</Compile>
 		<Compile Update="Views\WoundSavePage.xaml.cs">
 			<DependentUpon>WoundSavePage.xaml</DependentUpon>
 		</Compile>

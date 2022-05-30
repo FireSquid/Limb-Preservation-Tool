@@ -89,7 +89,13 @@ namespace LimbPreservationTool.ViewModels
             await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
             photoStream.Seek(0, SeekOrigin.Begin);
             bitmapStream.Seek(0, SeekOrigin.Begin);
-            scanBitmap = SKBitmap.Decode(bitmapStream);
+            original = SKBitmap.Decode(bitmapStream);   
+            scanBitmap = original.Resize(new SKImageInfo((int)Math.Round(original.Width * 0.5f), (int)Math.Round(original.Height * 0.5f)), SKFilterQuality.High);
+            //var resizeFactor = 0.5f;
+            //var toBitmap = new SKBitmap((int)Math.Round(scanBitmap.Width * resizeFactor), (int)Math.Round(scanBitmap.Height * resizeFactor), scanBitmap.ColorType, scanBitmap.AlphaType);
+            //var image = SKImage.FromBitmap(toBitmap);
+            //var data = image.Encode(SKEncodedImageFormat.Jpeg, 100);
+            //scanBitmap = SKBitmap.Decode(data);
             var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
 
             using (var surface = new SKCanvas(rotated))
@@ -337,6 +343,7 @@ namespace LimbPreservationTool.ViewModels
         public Renderers.NormalRenderer Canvas { get; set; }
         public Renderers.PathRenderer Highlighter { get; set; }
         private SKBitmap scanBitmap;
+        private SKBitmap original;
         private SKBitmap blendBitmap;
         private FileResult photo { get; set; }
         private Stream photoStream { get; set; }

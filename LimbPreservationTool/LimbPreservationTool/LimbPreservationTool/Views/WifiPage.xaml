@@ -16,12 +16,15 @@
         <Grid BackgroundColor="NavajoWhite" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="0.5*"/>
             </Grid.RowDefinitions>
 
-            <StackLayout Grid.Row="0" VerticalOptions="End">
-                <Label Text="Wound, Ischemia, and Foot Infection Classification System" 
+            <StackLayout VerticalOptions="Start">
+                
+            </StackLayout>
+
+            <ScrollView VerticalOptions="CenterAndExpand">
+                <StackLayout>
+                    <Label Text="Wound, Ischemia, and Foot Infection Classification System" 
                        FontSize="Large" 
                        Margin="50,10" 
                        TextColor="Black" 
@@ -29,23 +32,18 @@
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 
                        VerticalOptions="Center" />
-                <BoxView VerticalOptions="Center"
+                    <BoxView VerticalOptions="Center"
                          HorizontalOptions="Center"
                          HeightRequest="2"
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
-                <Label Text="{Binding WifiStatus ,Source ={StaticResource SharedWifiViewModel}}" 
+                    <Label Text="{Binding WifiStatus ,Source ={StaticResource SharedWifiViewModel}}" 
                        FontSize="Subtitle" 
                        FontAttributes="Italic"
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
                        TextColor="{Binding WifiColor ,Source ={StaticResource SharedWifiViewModel}}"/>
-            </StackLayout>
-
-            <ScrollView Grid.Row="1" 
-                        VerticalOptions="CenterAndExpand">
-                <StackLayout>
                     <!--
                     <Label Text="Date of Measurements:"
                             FontSize="Subtitle"
@@ -142,12 +140,7 @@
                            Keyboard="Numeric" 
                            Text="{Binding AnkleSystolicPressure,Source ={StaticResource SharedWifiViewModel}}"/>
 
-
-
-                </StackLayout>
-            </ScrollView>
-
-            <Button Grid.Row="2" Margin="50,20" Text="View WIfi Score"
+                    <Button Margin="50,20" Text="View WIfi Score"
                             Command="{Binding CalculateWiFICommand,Source ={StaticResource SharedWifiViewModel}}"
                             xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
@@ -157,7 +150,12 @@
                             BackgroundColor="SeaGreen"
                             TextColor="White" />
 
-            <ScrollView Grid.Row="1" 
+                </StackLayout>
+            </ScrollView>
+
+            
+
+            <ScrollView Grid.Row="0" 
                         VerticalOptions="CenterAndExpand" 
                         HorizontalOptions="CenterAndExpand">
                 <StackLayout>
@@ -214,7 +212,7 @@
                 </StackLayout>
             </ScrollView>
 
-            <ScrollView Grid.Row="1" 
+            <ScrollView Grid.Row="0" 
                         VerticalOptions="CenterAndExpand" 
                         HorizontalOptions="CenterAndExpand">
                 <StackLayout>

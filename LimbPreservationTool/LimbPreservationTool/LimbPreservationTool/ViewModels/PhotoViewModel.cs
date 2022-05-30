@@ -56,6 +56,7 @@ namespace LimbPreservationTool.ViewModels
             {
                 // Attempt to take the picture
                 photo = await MediaPicker.CapturePhotoAsync();
+
                 Console.WriteLine(photo.FileName.ToString());
             }
             catch (FeatureNotSupportedException e)
@@ -81,6 +82,8 @@ namespace LimbPreservationTool.ViewModels
             }
             // Load the picture from a stream and set as the image source
             photoStream = await photo.OpenReadAsync();
+            Image tmp = new Image() { Source = photo.FullPath };
+            Console.WriteLine(tmp.Aspect);
             PictureStatus = $"Successfully obtained photo";
             var bitmapStream = new MemoryStream();
             await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position

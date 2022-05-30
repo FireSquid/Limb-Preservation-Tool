@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.WoundSavePage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels" xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls">
 
     <ContentPage.BindingContext>
         <vm:WoundSaveViewModel />
@@ -175,6 +175,15 @@
                                Text="{Binding WoundSize}" 
                                FontSize="14" 
                                TextColor="Black" />
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding ImageOptionsAreVisible}">
+                        
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding ImageIsVisible}" HeightRequest="400" VerticalOptions="StartAndExpand">
+                        <customcontrols:NormalCanvas  x:Name = "saveCanvas"   
+										          Renderer="{Binding SaveCanvas}" 
+											      Size="{Binding SaveCanvasSize}">
+                        </customcontrols:NormalCanvas>
                     </StackLayout>
                     <StackLayout IsVisible="{Binding ConfirmButtonVisible}">
                         <BoxView Margin="0,5" 

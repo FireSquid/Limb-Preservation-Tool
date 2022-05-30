@@ -9,6 +9,8 @@ using Xamarin.Forms;
 using LimbPreservationTool.Models;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using SkiaSharp;
+using System.IO;
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -17,6 +19,16 @@ namespace LimbPreservationTool.ViewModels
         public WoundSaveViewModel()
         {
             WoundSaveDate = DateTime.Today;
+
+            SaveCanvas = new Renderers.NormalRenderer();
+
+            SaveCanvasSize = new SKSize(App.unexaminedImage.Width, App.unexaminedImage.Height);
+
+            SaveCanvas.ImageBitmap = App.unexaminedImage;            
+
+            SaveCanvas.RendererSize = SaveCanvasSize;
+
+            ImageIsVisible = true;
         }
 
         private async Task UpdateWoundGroupList()
@@ -233,6 +245,21 @@ namespace LimbPreservationTool.ViewModels
 
         private bool _confirmButtonVisible;
         public bool ConfirmButtonVisible { get => _confirmButtonVisible; set => SetProperty(ref _confirmButtonVisible, value); }
+
+        private bool _imageOptionsAreVisible;
+        public bool ImageOptionsAreVisible { get => _imageOptionsAreVisible; set => SetProperty(ref _imageOptionsAreVisible, value); }
+
+        private bool _imageIsVisible;
+        public bool ImageIsVisible { get => _imageIsVisible; set => SetProperty(ref _imageIsVisible, value); }
+
+        private ImageSource _woundImageSource;
+        public ImageSource WoundImageSource { get => _woundImageSource; set => SetProperty(ref _woundImageSource, value); }
+
+        private Renderers.NormalRenderer _saveCanvas;
+        public Renderers.NormalRenderer SaveCanvas { get => _saveCanvas; set => SetProperty(ref _saveCanvas, value); }
+
+        private SKSize _saveCanvasSize;
+        public SKSize SaveCanvasSize { get => _saveCanvasSize; set => SetProperty(ref _saveCanvasSize, value); }
     }
 
 

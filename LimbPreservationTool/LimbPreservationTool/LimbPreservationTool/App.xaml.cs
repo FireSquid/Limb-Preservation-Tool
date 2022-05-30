@@ -4,6 +4,7 @@ using Xamarin.Forms;
 using LimbPreservationTool.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms.Xaml;
+using SkiaSharp;
 
 namespace LimbPreservationTool
 {
@@ -11,6 +12,9 @@ namespace LimbPreservationTool
     {
 
         public static IScaler scalerInterface { get; private set; }
+
+        public static SKBitmap unexaminedImage { get; set; }
+        public static SKBitmap examinedImage { get; set; }
 
         public App()
         {

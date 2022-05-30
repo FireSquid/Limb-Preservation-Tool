@@ -89,7 +89,7 @@ namespace LimbPreservationTool.ViewModels
             await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
             photoStream.Seek(0, SeekOrigin.Begin);
             bitmapStream.Seek(0, SeekOrigin.Begin);
-            scanBitmap = SKBitmap.Decode(bitmapStream);
+            scanBitmap = SKBitmap.Decode(bitmapStream);            
             var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
 
             using (var surface = new SKCanvas(rotated))
@@ -99,6 +99,7 @@ namespace LimbPreservationTool.ViewModels
                 surface.DrawBitmap(scanBitmap, 0, 0);
             }
             scanBitmap = rotated;
+            App.unexaminedImage = scanBitmap;
 
             Canvas.RendererSize = CanvasSize;
             Console.WriteLine("CanvasSize: " + CanvasSize.ToString());
@@ -152,7 +153,6 @@ namespace LimbPreservationTool.ViewModels
             DisenableAll();
             if (scanBitmap == null)
             {
-
                 Console.Write("Has not taken a photo as bitmap");
                 return false;
             }
@@ -167,12 +167,12 @@ namespace LimbPreservationTool.ViewModels
             if (!e.Equals(Stream.Null))
             {
                 LastPhoto = ImageSource.FromStream(() => e);
-
-                Canvas.ImageBitmap = SKBitmap.Decode(e);
+                examinedImage = SKBitmap.Decode(e);
+                App.examinedImage = examinedImage;
+                Canvas.ImageBitmap = examinedImage;
                 Console.WriteLine("Examine finished");
             }
             blendBitmap = null;
-            scanBitmap = null;
             EnablePicture();
 
             var db = (WoundDatabase.Database).GetAwaiter().GetResult();
@@ -333,6 +333,9 @@ namespace LimbPreservationTool.ViewModels
         public Renderers.PathRenderer Highlighter { get; set; }
         private SKBitmap scanBitmap;
         private SKBitmap blendBitmap;
+
+        private SKBitmap examinedImage;
+
         private FileResult photo { get; set; }
         private Stream photoStream { get; set; }
         private SKSize canvasSize;

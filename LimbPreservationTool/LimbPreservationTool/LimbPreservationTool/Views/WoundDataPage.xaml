@@ -68,16 +68,25 @@
                 </ListView.ItemTemplate>
             </ListView>
          </ScrollView>
-            <Grid Grid.Row="2"
-                  
-                    BackgroundColor="{StaticResource MainBG}"
-                  >
-                    <ScrollView Orientation="Horizontal">
-                        
-                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " />
-                    </ScrollView>
+        <Grid Grid.Row="2" BackgroundColor="{StaticResource MainBG}">
+                    <StackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="Previous" Grid.Column="0" HorizontalOptions="Start" Command="{Binding PreviousChart}"/>
+                            <Label Grid.Column="1" Text="{Binding CurrentSectionName}"/>
+                            <Button x:Name="Next"  Grid.Column="2" HorizontalOptions="End" Command="{Binding NextChart}"/>
+                        </Grid>
+                        <ScrollView Orientation="Horizontal">
+                            
+                             <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " />
+                        </ScrollView>
 
-            </Grid>
+                    </StackLayout> 
+        </Grid>
         </Grid>
      </Grid> 
     </ContentPage.Content>

@@ -20,6 +20,7 @@
                 <Grid Grid.Row="0" 
                     BackgroundColor="{StaticResource MainBG}"
                       >
+                    <StackLayout>
             <Label Text="Date Select Page" 
                        FontSize="Large" 
                        Margin="50,10" 
@@ -40,6 +41,7 @@
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
                        TextColor="Black"/>
+                        </StackLayout>
             </Grid>
             
         <ScrollView Grid.Row="1" >
@@ -76,13 +78,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="1*"/>
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="Previous" Grid.Column="0" HorizontalOptions="Start" Command="{Binding PreviousChart}"/>
-                            <Label Grid.Column="1" Text="{Binding CurrentSectionName}"/>
-                            <Button x:Name="Next"  Grid.Column="2" HorizontalOptions="End" Command="{Binding NextChart}"/>
+                            <Button x:Name="Previous" Grid.Column="0" Text="&lt;"  Margin="20,0" HorizontalOptions="Start" Command="{Binding PreviousChartCommand}"/>
+                            <Label Grid.Column="1" Text="{Binding CurrentSectionName}" HorizontalOptions="Center"/>
+                            <Button x:Name="Next"  Grid.Column="2"  Text="&gt;"  Margin="20, 0" HorizontalOptions="End" Command="{Binding NextChartCommand}"/>
                         </Grid>
-                        <ScrollView Orientation="Horizontal">
+                        <ScrollView Orientation="Horizontal" VerticalOptions="EndAndExpand">
                             
-                             <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " />
+                             <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200" />
                         </ScrollView>
 
                     </StackLayout> 

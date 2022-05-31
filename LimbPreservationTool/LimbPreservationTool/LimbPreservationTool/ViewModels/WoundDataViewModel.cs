@@ -43,7 +43,6 @@ namespace LimbPreservationTool.ViewModels
                 //    Margin=20,LabelOrientation=Orientation.Horizontal,ValueLabelOrientation=Orientation.Horizontal, LabelTextSize = 40 };
                 //WoundEntryChart.MaxValue = 9; 
                 //WoundEntryChart.MinValue = 3; 
-
                 _currentSection = 0;
                 _gradeSections = new  WoundDataChartList( patientData[groupName]).GetAllChartList();
                 UpdateCurrentChart();
@@ -60,6 +59,12 @@ namespace LimbPreservationTool.ViewModels
             CurrentSectionName = _gradeSections.Keys.ToList()[_currentSection];
             WoundEntryChart = new LineChart { Entries = _gradeSections[_gradeSections.Keys.ToList()[_currentSection]], BackgroundColor = Extensions.ToSKColor(Color.Transparent),
                     Margin=20,LabelOrientation=Orientation.Horizontal,ValueLabelOrientation=Orientation.Horizontal, LabelTextSize = 40 };
+            if(!_gradeSections.Keys.ToList()[_currentSection].Equals("Area"))
+            {
+
+                WoundEntryChart.MaxValue = 10; 
+                WoundEntryChart.MinValue = 0; 
+            }
 
         }
          
@@ -68,6 +73,7 @@ namespace LimbPreservationTool.ViewModels
             _currentSection += 1;
             _currentSection %= _sectionCount;
             UpdateCurrentChart();
+            Console.WriteLine(CurrentSectionName);
         }
 
         public void PreviousChart()
@@ -76,6 +82,8 @@ namespace LimbPreservationTool.ViewModels
             if (_currentSection < 0)
                 _currentSection = 3;
             UpdateCurrentChart();
+            Console.WriteLine(CurrentSectionName);
+
         }
 
         public List<WoundDataDisplay> _woundDataListSource;
@@ -104,10 +112,11 @@ namespace LimbPreservationTool.ViewModels
             Area = new List<ChartEntry>();
             FootInfection = new List<ChartEntry>(); 
             l.ForEach(e=> { 
-                 Wound.Add(new ChartEntry(e.Wound) {Label =new DateTime(e.Date).ToShortDateString()}); 
-                 Ischimia.Add(new ChartEntry(e.Ischemia) { Label =new DateTime(e.Date).ToShortDateString()});
-                 Area.Add(new ChartEntry(e.Size) { Label =new DateTime(e.Date).ToShortDateString()});
-                 FootInfection.Add(new ChartEntry(e.Infection) { Label =new DateTime(e.Date).ToShortDateString()});
+                Console.WriteLine( new DateTime(e.Date).ToShortDateString());
+                 Wound.Add(new ChartEntry(e.Wound) {Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Wound.ToString(), TextColor = Extensions.ToSKColor(Color.Black) });
+                 Ischimia.Add(new ChartEntry(e.Ischemia) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Ischemia.ToString(), TextColor = Extensions.ToSKColor(Color.Black)});
+                 Area.Add(new ChartEntry(e.Size) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Size.ToString(),TextColor = Extensions.ToSKColor(Color.Black) } );
+                 FootInfection.Add(new ChartEntry(e.Infection) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Infection.ToString(),TextColor = Extensions.ToSKColor(Color.Black)});
             });
 
              

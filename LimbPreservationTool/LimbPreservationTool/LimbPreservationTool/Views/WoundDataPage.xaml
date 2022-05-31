@@ -18,9 +18,9 @@
             </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" 
-                      
                     BackgroundColor="{StaticResource MainBG}"
                       >
+                    <StackLayout>
             <Label Text="Date Select Page" 
                        FontSize="Large" 
                        Margin="50,10" 
@@ -41,13 +41,17 @@
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
                        TextColor="Black"/>
+                        </StackLayout>
             </Grid>
             
-        <ScrollView Grid.Row="1">
+        <ScrollView Grid.Row="1" >
             <ListView x:Name="WoundData"
                     ItemSelected="OnWoundGroupSelected"
                     BackgroundColor="{StaticResource MainBG}"
-                    ItemsSource="{Binding WoundDataListSource}">
+                    ItemsSource="{Binding WoundDataListSource}"
+                      HeightRequest="1"
+                    >
+                    
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -66,13 +70,25 @@
                 </ListView.ItemTemplate>
             </ListView>
          </ScrollView>
-            <Grid Grid.Row="2"
-                  
-                    BackgroundColor="{StaticResource MainBG}"
-                  >
-                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} "/>
+        <Grid Grid.Row="2" BackgroundColor="{StaticResource MainBG}">
+                    <StackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="Previous" Grid.Column="0" Text="&lt;"  Margin="20,0" HorizontalOptions="Start" Command="{Binding PreviousChartCommand}"/>
+                            <Label Grid.Column="1" Text="{Binding CurrentSectionName}" HorizontalOptions="Center"/>
+                            <Button x:Name="Next"  Grid.Column="2"  Text="&gt;"  Margin="20, 0" HorizontalOptions="End" Command="{Binding NextChartCommand}"/>
+                        </Grid>
+                        <ScrollView Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                            
+                             <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200" />
+                        </ScrollView>
 
-            </Grid>
+                    </StackLayout> 
+        </Grid>
         </Grid>
      </Grid> 
     </ContentPage.Content>

@@ -72,6 +72,7 @@ namespace LimbPreservationTool.ViewModels
             catch (Exception ex)
             {
                 WifiStatus = $"Please fill out all fields";
+                WifiColor = Color.Red;
                 Console.WriteLine(ex.Message);
                 return;
             }

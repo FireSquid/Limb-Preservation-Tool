@@ -30,7 +30,7 @@
                      Color="SeaGreen"></BoxView>
                 <Entry  Placeholder="Search..." 
                         PlaceholderColor="SlateGray" 
-                        Margin="50,10" 
+                        Margin="50,20" 
                         BackgroundColor="WhiteSmoke" 
                         TextColor="{Binding PatientNameColor}" 
                         xct:CornerRadiusEffect.CornerRadius="10" 
@@ -61,8 +61,6 @@
                 </ScrollView>
                 <Button Text="Add New Patient"
                     Clicked="OnAddNewPatientClicked"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center" 
                     Margin="50,10"
                     xct:ShadowEffect.Color="Black"
                     xct:ShadowEffect.OffsetY="0"
@@ -71,8 +69,6 @@
                     xct:ShadowEffect.Radius="10"/>
                 <Button Text="Delete Patient"
                     Clicked="onToggleDeleteModeClicked"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
                     BackgroundColor="{Binding ToggleDeleteColor}"
                     TextColor="White"
                     Margin="50,10"

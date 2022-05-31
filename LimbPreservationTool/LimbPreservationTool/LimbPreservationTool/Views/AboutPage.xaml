@@ -63,7 +63,7 @@
         </ScrollView>
 
         <StackLayout Grid.Row="2" >
-            <Button Margin="20,0,20,0" 
+            <Button Margin="40,10" 
                     Text="Learn more"
                     Command="{Binding OpenWebCommand}"
                     BackgroundColor="{StaticResource Primary}"

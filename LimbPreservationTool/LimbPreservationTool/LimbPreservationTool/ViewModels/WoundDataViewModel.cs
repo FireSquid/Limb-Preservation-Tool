@@ -115,11 +115,20 @@ namespace LimbPreservationTool.ViewModels
                 Console.WriteLine( new DateTime(e.Date).ToShortDateString());
                  Wound.Add(new ChartEntry(e.Wound) {Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Wound.ToString(), TextColor = Extensions.ToSKColor(Color.Black) });
                  Ischimia.Add(new ChartEntry(e.Ischemia) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Ischemia.ToString(), TextColor = Extensions.ToSKColor(Color.Black)});
-                 Area.Add(new ChartEntry(e.Size) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Size.ToString(),TextColor = Extensions.ToSKColor(Color.Black) } );
+                if (e.Size >= 0)
+                {
+                 Area.Add(new ChartEntry(e.Size) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Size.ToString(),TextColor=Extensions.ToSKColor(Color.Black) ,Color=AreaGradientColor(e.Size,e.Size,e.Size)  } );
+                }
                  FootInfection.Add(new ChartEntry(e.Infection) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Infection.ToString(),TextColor = Extensions.ToSKColor(Color.Black)});
             });
 
              
+        }
+
+        private SKColor AreaGradientColor(float data,float max, float min)
+        {
+
+            return Extensions.ToSKColor(Color.Black);
         }
         public Dictionary<String,List<ChartEntry>> GetAllChartList() {
             Dictionary<String, List<ChartEntry>> all = new Dictionary<string, List<ChartEntry>>();

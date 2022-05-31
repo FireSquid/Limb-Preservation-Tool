@@ -55,7 +55,11 @@ namespace LimbPreservationTool.ViewModels
 
         public void SetImageSize(float verticalSize)
         {
-            if (App.unexaminedImage == null) return;
+            if (App.unexaminedImage == null)
+            {
+                WoundData.Img = null;
+                return;
+            }
 
             System.Diagnostics.Debug.WriteLine("Setting Image");
             saveBitmap = new SKBitmap((int)(App.unexaminedImage.Width * (verticalSize / App.unexaminedImage.Height)), (int)verticalSize);
@@ -66,10 +70,13 @@ namespace LimbPreservationTool.ViewModels
 
                 SaveImageSource = ImageSource.FromStream(() => SKImage.FromBitmap(saveBitmap).Encode().AsStream());
 
+                ImageHeight = Math.Min(saveBitmap.Height, saveBitmap.Height * (DeviceDisplay.MainDisplayInfo.Width / saveBitmap.Width) * 0.5);
                 ImageIsVisible = true;
+
+                WoundData.Img = Convert.ToBase64String(saveBitmap.Bytes);
             }
 
-            System.Diagnostics.Debug.WriteLine("End Image Size");
+            System.Diagnostics.Debug.WriteLine($"Image Height: {ImageHeight}");
         }
 
         public async Task ConfirmSaveData()
@@ -98,6 +105,8 @@ namespace LimbPreservationTool.ViewModels
             saveData.Infection  = (WoundData.Infection >= 0)    ? WoundData.Infection   : existingData.Infection;
 
             saveData.Size   = (WoundData.Size >= 0)                               ? WoundData.Size    : existingData.Size;
+            System.Diagnostics.Debug.WriteLine($"{saveData} - {WoundData} - {existingData}");
+            System.Diagnostics.Debug.WriteLine($"{saveData.Img} - {WoundData.Img} - {existingData.Img}");
             saveData.Img    = (WoundData.Img != null && WoundData.Img.Length > 0) ? WoundData.Img     : existingData.Img;
 
             await db.SetWoundData(saveData);
@@ -304,6 +313,9 @@ namespace LimbPreservationTool.ViewModels
                 }
             }
         }
+
+        private double _imageHeight;
+        public double ImageHeight { get => _imageHeight; set => SetProperty(ref _imageHeight, value); }
     }
 
 

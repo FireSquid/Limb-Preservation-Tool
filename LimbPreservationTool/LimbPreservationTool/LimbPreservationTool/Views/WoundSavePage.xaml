@@ -170,7 +170,8 @@
                         <Label Margin="0,10" 
                                Text="Wound Size" 
                                FontSize="18" 
-                               HorizontalTextAlignment="Center" />
+                               HorizontalTextAlignment="Center"
+                               TextColor="Black" />
                         <Label Margin="0,10" 
                                Text="{Binding WoundSize}" 
                                FontSize="14" 
@@ -179,6 +180,9 @@
                     <StackLayout IsVisible="{Binding ImageOptionsAreVisible}"
                                  RadioButtonGroup.GroupName="{Binding ResolutionGroup}"
                                  RadioButtonGroup.SelectedValue="{Binding ResolutionSelection}">
+                        <BoxView Margin="0,5" 
+                                 HeightRequest="1" 
+                                 Color="Gray" />
                         <Label Text="Size of Image to Save" FontAttributes="Italic" TextColor="Black"/>
                         <RadioButton Content="Don't Save Image" Value="DSI" TextColor="Black"/>
                         <RadioButton Content="480p" Value="480" TextColor="Black"/>
@@ -186,9 +190,9 @@
                         <RadioButton Content="1080p" Value="1080" TextColor="Black"/>
                     </StackLayout>
                     <StackLayout IsVisible="{Binding ImageIsVisible}">
+                        
                         <Label Text="Preview" FontAttributes="Italic" TextColor="Black"/>
-                        <Image Source="{Binding SaveImageSource}"
-                               Aspect=""/>
+                        <Image Source="{Binding SaveImageSource}" HeightRequest="{Binding ImageHeight}"/>
                     </StackLayout>
                     <StackLayout IsVisible="{Binding ConfirmButtonVisible}">
                         <BoxView Margin="0,5" 

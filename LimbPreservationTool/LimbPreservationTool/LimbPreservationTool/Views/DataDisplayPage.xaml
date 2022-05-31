@@ -127,6 +127,13 @@
                 </StackLayout>
             </StackLayout>
 
+            <StackLayout IsVisible="{Binding ShowImage}">
+                <BoxView Margin="0,5" 
+                         HeightRequest="1" 
+                         Color="Gray" />
+                <Image Source="{Binding WoundImageSource}"/>
+            </StackLayout>
+
             <Button Text="Delete Wound Data"
                     Clicked="OnDeleteWoundClicked"
                     HorizontalOptions="Center" 

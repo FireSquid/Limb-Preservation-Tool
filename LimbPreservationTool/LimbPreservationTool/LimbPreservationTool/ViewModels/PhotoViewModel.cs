@@ -101,7 +101,6 @@ namespace LimbPreservationTool.ViewModels
             scanBitmap = rotated;
 
             App.unexaminedImage = scanBitmap.Copy();
-            CanvasSize = new SKSize(scanBitmap.Width, scanBitmap.Height);
 
             Canvas.RendererSize = CanvasSize;
             Console.WriteLine("CanvasSize: " + CanvasSize.ToString());

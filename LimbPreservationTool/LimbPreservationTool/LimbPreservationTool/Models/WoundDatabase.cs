@@ -147,8 +147,6 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> SetWoundData(DBWoundData woundData)
         {
-            if (!string.IsNullOrEmpty(woundData.Img) && !StringIsSafe(woundData.Img))
-                throw new NonAlphaNumericInsertException(woundData.Img, "DBWoundData");
             if (!string.IsNullOrEmpty(woundData.WoundGroup) && !StringIsSafe(woundData.WoundGroup))
                 throw new NonAlphaNumericInsertException(woundData.WoundGroup, "DBWoundData");
 

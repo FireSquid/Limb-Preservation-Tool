@@ -129,14 +129,23 @@
 
             <Button Text="Delete Wound Data"
                     Clicked="OnDeleteWoundClicked"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center" 
+ 
                     Margin="50,10"
                     xct:ShadowEffect.Color="Black"
                     xct:ShadowEffect.OffsetY="0"
                     xct:ShadowEffect.Opacity="0.9"
                     xct:CornerRadiusEffect.CornerRadius="10"
                     xct:ShadowEffect.Radius="10"/>
+            <Button Text="Back to Home"
+                    Command="{Binding BacktoHome}"
+                    Margin="50, 10"
+                    BackgroundColor="{StaticResource Primary}"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"
+                    TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

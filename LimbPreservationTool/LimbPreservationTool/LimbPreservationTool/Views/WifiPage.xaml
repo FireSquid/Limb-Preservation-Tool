@@ -18,7 +18,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            
+
 
             <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
@@ -207,7 +207,9 @@
                                     <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
-                                       VerticalTextAlignment="Center" 
+                                       VerticalTextAlignment="Center"
+                                           Padding="1"
+                                           FontSize="Large"
                                                FontAttributes="Bold"
                                        Text="0"></Label>
                                     <BoxView VerticalOptions="Center"
@@ -232,6 +234,8 @@
                                     <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                                FontAttributes="Bold"
                                        Text="1"></Label>
@@ -253,10 +257,12 @@
                                              WidthRequest="600"  
                                              Color="SeaGreen"></BoxView>
                                 <StackLayout Orientation="Horizontal"
-                                                 HorizontalOptions="Start">
+                                                 HorizontalOptions="StartAndExpand">
                                     <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                                FontAttributes="Bold"
                                        Text="2"></Label>
@@ -282,6 +288,8 @@
                                     <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                                FontAttributes="Bold"
                                        VerticalTextAlignment="Center" 
                                        Text="3"></Label>
@@ -349,6 +357,8 @@
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                                FontAttributes="Bold"
                                        Text="0"></Label>
                                     <BoxView VerticalOptions="Center"
@@ -373,6 +383,8 @@
                                     <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                                FontAttributes="Bold"
                                                
@@ -414,6 +426,8 @@
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                                FontAttributes="Bold"
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                        Text="2"></Label>
                                     <BoxView VerticalOptions="Center"
@@ -449,6 +463,8 @@
                                 <StackLayout Orientation="Horizontal"
                                                  HorizontalOptions="Start">
                                     <Label TextColor="Black" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalOptions="Center" 
                                                FontAttributes="Bold"
                                        HorizontalOptions="Center" 

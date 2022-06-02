@@ -117,14 +117,18 @@ namespace LimbPreservationTool.ViewModels
                  Ischimia.Add(new ChartEntry(e.Ischemia) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Ischemia.ToString(), TextColor = Extensions.ToSKColor(Color.Black)});
                 if (e.Size >= 0)
                 {
-                 Area.Add(new ChartEntry(e.Size) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Size.ToString(),TextColor=Extensions.ToSKColor(Color.Black) ,Color=AreaGradientColor(e.Size,e.Size,e.Size)  } );
+                 Area.Add(new ChartEntry(e.Size) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel= AreaText(e),TextColor=Extensions.ToSKColor(Color.Black) ,Color=AreaGradientColor(e.Size,e.Size,e.Size)  } );
                 }
                  FootInfection.Add(new ChartEntry(e.Infection) { Label =new DateTime(e.Date).ToShortDateString(),ValueLabel=e.Infection.ToString(),TextColor = Extensions.ToSKColor(Color.Black)});
             });
 
              
         }
-
+        private string AreaText(DBWoundData d)
+        {
+            string text =d.Size.ToString();
+            return text;
+        }
         private SKColor AreaGradientColor(float data,float max, float min)
         {
 

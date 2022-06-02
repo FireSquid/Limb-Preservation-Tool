@@ -90,7 +90,15 @@ namespace LimbPreservationTool.ViewModels
             await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
             photoStream.Seek(0, SeekOrigin.Begin);
             bitmapStream.Seek(0, SeekOrigin.Begin);
-            original = SKBitmap.Decode(bitmapStream);
+            try
+            {
+                original = SKBitmap.Decode(bitmapStream);
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("Image Decoding Failed");
+                return false;
+            }
             Console.WriteLine(original.Width + "x" + original.Height);
             scanBitmap = original.Resize(new SKImageInfo((int)Math.Round(original.Width * 0.5f), (int)Math.Round(original.Height * 0.5f)), SKFilterQuality.High);
 
@@ -248,6 +256,12 @@ namespace LimbPreservationTool.ViewModels
 
         void EnableHighlight()
         {
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                Console.WriteLine("Highlight is disabled on Android");
+                return;
+            }
+
             highlightInputAllowed = true;
             OnPropertyChanged("HighlightInputAllowed");
         }

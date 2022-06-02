@@ -23,6 +23,12 @@ namespace LimbPreservationTool
             await Shell.Current.GoToAsync("//HomePage");
         }
 
+        private async void OnPatientsItemClicked(object sender, EventArgs e)
+        {
+            PatientsPage patientSelectionPage = new PatientsPage();
+            await Navigation.PushModalAsync(patientSelectionPage);
+        }
+
         private async void OnWifiItemClicked(object sender, EventArgs e)
         {
             CleanWifi();
@@ -34,6 +40,8 @@ namespace LimbPreservationTool
         {
             CleanAll();
             //var c = this.Resources["Clear"];
+            WoundDatabase DB = (await WoundDatabase.Database);
+            DB.dataHolder = DBWoundData.Create();   // Clear the selected patient when logging out
             await Shell.Current.GoToAsync("//LoginPage");
         }
 

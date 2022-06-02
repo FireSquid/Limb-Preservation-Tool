@@ -87,15 +87,12 @@
     <TabBar Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </TabBar>
-
     <TabBar>
         <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
     </TabBar>
-
     <TabBar>
         <ShellContent Route="WifiDescPage" ContentTemplate="{DataTemplate local:WifiDescPage}" />
     </TabBar>
-
     <TabBar Title="NewUser">
         <ShellContent Route="NewPatientPage" ContentTemplate="{DataTemplate local:NewPatientPage}" />
     </TabBar>
@@ -104,51 +101,34 @@
     <TabBar Title="PatientSelect">
         <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
     </TabBar>
-
     <TabBar Icon="icon_feed.png">
         <ShellContent Route="HighlightPage" ContentTemplate="{DataTemplate local:HighlightPage}" />
     </TabBar>
     <TabBar Title="Save">
         <ShellContent Route="WoundSavePage" ContentTemplate="{DataTemplate local:WoundSavePage}" />
     </TabBar>
-
-
     <TabBar Title="Result">
         <ShellContent Route="WifiResultPage" ContentTemplate="{DataTemplate local:WifiResultPage}" />
     </TabBar>
-
-
+    
     <MenuItem Text="Home"  IconImageSource="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
-
     </MenuItem>
-
-    <MenuItem Text="WifiTool" IconImageSource="icon_feed.png"  StyleClass="MenuItemLayoutStyle" Clicked="OnWifiItemClicked">
+    <MenuItem Text="Switch Patient" Icon="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnPatientsItemClicked">
     </MenuItem>
-    <!-- 
-        When the Flyout is visible this defines the content to display in the flyout.
-        FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
-        https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
-    -->
-    <FlyoutItem Title="How to Take a Photo" Icon="icon_feed.png">
-        <ShellContent Route="PhotoDescPage" ContentTemplate="{DataTemplate local:PhotoDescPage}" />
-    </FlyoutItem>
-
-    <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
-        <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Patients" Icon="icon_feed.png" >
-        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
-    </FlyoutItem>
-
-
-
-    <FlyoutItem Title="About this App" Icon="icon_feed.png">
-        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-    </FlyoutItem>
-
     <FlyoutItem Title="Wounds" Icon="icon_feed.png">
         <ShellContent Route="WoundGroupPage" ContentTemplate="{DataTemplate local:WoundGroupPage}" />
     </FlyoutItem>
+    <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
+        <ShellContent Route="PhotoDescPage" ContentTemplate="{DataTemplate local:PhotoDescPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Take a Photo_hidden" Icon="icon_feed.png" FlyoutItemIsVisible="False">
+        <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
+    </FlyoutItem>
+    <MenuItem Text="WifiTool" IconImageSource="icon_feed.png"  StyleClass="MenuItemLayoutStyle" Clicked="OnWifiItemClicked">
+    </MenuItem>
+    <FlyoutItem Title="About this App" Icon="icon_feed.png">
+        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>    
 
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->

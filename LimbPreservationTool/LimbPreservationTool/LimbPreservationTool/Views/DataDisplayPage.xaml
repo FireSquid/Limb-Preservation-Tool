@@ -159,7 +159,7 @@
                         <Image Source="{Binding WoundImageSource}"
                                HeightRequest="{Binding ImageHeight}"/>
                     </StackLayout>
-                <Label Text="No Image Saved" IsEnabled="{Binding  ShowImage, Converter={StaticResource InvertedBoolConverter} }" HorizontalOptions="CenterAndExpand"/>
+                <Label Text="No Image Saved" IsVisible="{Binding  ShowImage, Converter={StaticResource InvertedBoolConverter} }" HorizontalOptions="CenterAndExpand"/>
                 </StackLayout>
         </ScrollView>
     </ContentPage.Content>

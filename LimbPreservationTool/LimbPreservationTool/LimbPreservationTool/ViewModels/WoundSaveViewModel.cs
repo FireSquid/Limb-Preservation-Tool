@@ -50,6 +50,10 @@ namespace LimbPreservationTool.ViewModels
 
         public void CreateNewWound()
         {
+            if (string.IsNullOrEmpty(WoundGroupName) || !WoundDatabase.StringIsSafe(WoundGroupName))
+            {
+                return;
+            }
             WoundData = DBWoundData.Create().SetBase(Patient.PatientID, WoundGroupName);
         }
 

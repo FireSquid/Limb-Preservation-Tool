@@ -34,6 +34,8 @@ namespace LimbPreservationTool
         {
             CleanAll();
             //var c = this.Resources["Clear"];
+            WoundDatabase DB = (await WoundDatabase.Database);
+            DB.dataHolder = DBWoundData.Create();   // Clear the selected patient when logging out
             await Shell.Current.GoToAsync("//LoginPage");
         }
 

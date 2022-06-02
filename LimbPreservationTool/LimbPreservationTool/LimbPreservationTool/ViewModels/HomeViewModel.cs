@@ -29,7 +29,7 @@ namespace LimbPreservationTool.ViewModels
             WoundDatabase DB = (await WoundDatabase.Database);
             Guid patientID = DB.dataHolder.PatientID;
             DBPatient patient = await DB.GetPatient(patientID);
-            Patient = "Patient Name: " + patient.PatientName;
+            Patient = $"Patient Name: {patient.PatientName}";
         }
 
         async Task ViewPatientsWoundsPage()
@@ -56,6 +56,8 @@ namespace LimbPreservationTool.ViewModels
         async Task LogOutAction()
         {
             (AppShell.Current as AppShell).CleanAll();
+            WoundDatabase DB = (await WoundDatabase.Database);
+            DB.dataHolder = DBWoundData.Create();   // Clear the selected patient when logging out
             await Shell.Current.GoToAsync("//LoginPage");
         }
 

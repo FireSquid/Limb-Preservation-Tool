@@ -192,7 +192,8 @@
                     <StackLayout IsVisible="{Binding ImageIsVisible}">
                         
                         <Label Text="Preview" FontAttributes="Italic" TextColor="Black"/>
-                        <Image Source="{Binding SaveImageSource}" HeightRequest="{Binding ImageHeight}"/>
+                        <Image Source="{Binding SaveImageSource}" 
+                               HeightRequest="{Binding ImageHeight}"/>
                     </StackLayout>
                     <StackLayout IsVisible="{Binding ConfirmButtonVisible}">
                         <BoxView Margin="0,5" 

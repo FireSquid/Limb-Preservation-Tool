@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using SkiaSharp;
 
 namespace LimbPreservationTool.Models
 {
@@ -113,15 +115,23 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> DeleteWoundData(DBWoundData woundData)
         {
+            // Delete associated image
+            if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null)
+                DeleteImage(woundData.PatientID, woundData.Img);
+
             return await dbConnection.DeleteAsync(woundData);
         }
 
         public async Task DeletePatientsWoundData(DBPatient patient)
         {
             var woundData = await dbConnection.Table<DBWoundData>().Where(data => data.PatientID.Equals(patient.PatientID)).ToListAsync();
-            
+
             foreach (var wound in woundData)
             {
+                // Delete associated images
+                if (!string.IsNullOrEmpty(wound.Img) && wound.PatientID != null)
+                    DeleteImage(wound.PatientID, wound.Img);
+
                 await dbConnection.DeleteAsync(wound);
             }
         }
@@ -145,23 +155,40 @@ namespace LimbPreservationTool.Models
             }
         }
 
-        public async Task<int> SetWoundData(DBWoundData woundData)
+        public async Task<int> SetWoundData(DBWoundData woundData, SKImage imageData = null)
         {
             if (!string.IsNullOrEmpty(woundData.WoundGroup) && !StringIsSafe(woundData.WoundGroup))
                 throw new NonAlphaNumericInsertException(woundData.WoundGroup, "DBWoundData");
 
             if ((await CheckDuplicateData(woundData)) == null)
-            { 
+            {
                 try
                 {
-                    await GetWoundData(woundData.DataID);
+                    var oldData = await GetWoundData(woundData.DataID);
+
+                    if (oldData.Img != woundData.Img)
+                    {
+                        // Make sure to delete old image to avoid filling storage
+                        if (!string.IsNullOrEmpty(oldData.Img) && oldData.PatientID != null)
+                            DeleteImage(oldData.PatientID, oldData.Img);
+
+                        if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null && imageData != null)
+                        {
+                            SaveImage(woundData.PatientID, woundData.Img, imageData);
+                        }
+                    }
 
                     return await dbConnection.UpdateAsync(woundData);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
+                    if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null && imageData != null)
+                    {
+                        SaveImage(woundData.PatientID, woundData.Img, imageData);
+                    }
+
                     return await dbConnection.InsertAsync(woundData);
-                }                
+                }
             }
             else
             {
@@ -192,7 +219,7 @@ namespace LimbPreservationTool.Models
             return woundDict;
         }
 
-        public static bool StringIsSafe(string str)
+        public static bool StringIsSafe(string str) // Checks if string can safely be inserted into the database (stricter than necessary)
         {
             return str.All(c => {
                 return (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c));
@@ -201,11 +228,15 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> DeleteAllPatients()
         {
+            throw new NotImplementedException("DeleteAllPatients needs to delete image files before it can be used");// Make sure to delete all stored images before removing this
+
             return await dbConnection.DeleteAllAsync<DBPatient>();
         }
 
         public async Task<int> DeleteAllWoundData()
         {
+            throw new NotImplementedException("DeleteAllWoundData needs to delete image files before it can be used");// Make sure to delete all stored images before removing this
+
             return await dbConnection.DeleteAllAsync<DBWoundData>();
         }
 
@@ -240,6 +271,46 @@ namespace LimbPreservationTool.Models
                 }
 
             return dists[strA.Length, strB.Length];
+        }
+
+        public static void DeleteImage(Guid patientID, string imgName)
+        {
+            string deletePath = Constants.GetImagePath(patientID, imgName);
+            System.Diagnostics.Debug.WriteLine($"Deleting {deletePath}");
+            File.Delete(deletePath);
+            System.Diagnostics.Debug.WriteLine($"Finished Deleting");
+        }
+
+        public static void SaveImage(Guid patientID, string imgName, SKImage saveImage)
+        {
+            string savePath = Constants.GetImagePath(patientID, imgName);
+            System.Diagnostics.Debug.WriteLine($"Saving to {savePath}");
+
+            using (FileStream imgFileStream = new FileStream(savePath, FileMode.Create))
+            {                
+                using (var imgStream = saveImage.Encode(SKEncodedImageFormat.Png, 100).AsStream())
+                {
+                    System.Diagnostics.Debug.WriteLine("Started Writing");
+                    imgStream.CopyTo(imgFileStream);
+                }                
+            }
+            System.Diagnostics.Debug.WriteLine($"Finished Saving");
+        }
+
+        public static bool LoadImage(Guid patientID, string imgName, out Stream imgStream)
+        {
+            string loadPath = Constants.GetImagePath(patientID, imgName);
+            System.Diagnostics.Debug.WriteLine($"Loading {loadPath}");
+
+            if (!File.Exists(loadPath))
+            {
+                System.Diagnostics.Debug.WriteLine($"Error: Could not locate the image file.");
+                imgStream = Stream.Null;
+                return false;
+            }
+
+            imgStream = File.OpenRead(loadPath);
+            return true;
         }
 
         public DBWoundData dataHolder { get; set; }

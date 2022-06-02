@@ -43,10 +43,18 @@ namespace LimbPreservationTool.ViewModels
 
                     if (value.Img != null)
                     {
-                        var imgBytes = Convert.FromBase64String(value.Img);
-                        WoundImageSource = ImageSource.FromStream(() => new MemoryStream(imgBytes));
-
-                        ShowImage = true;
+                        Stream imgStream;
+                        if (WoundDatabase.LoadImage(value.PatientID, value.Img, out imgStream))
+                        {
+                            ImageHeight = 480;
+                            WoundImageSource = ImageSource.FromStream(() => imgStream);
+                            ShowImage = true;
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine($"Failed to load the image {value.Img} for patient {value.PatientID}");
+                            ShowImage = false;
+                        }                        
                     }
                     else
                     {
@@ -75,5 +83,8 @@ namespace LimbPreservationTool.ViewModels
 
         private ImageSource _woundImageSource;
         public ImageSource WoundImageSource { get => _woundImageSource; set => SetProperty(ref _woundImageSource, value); }
+
+        private double _imageHeight;
+        public double ImageHeight { get => _imageHeight; set => SetProperty(ref _imageHeight, value); }
     }
 }

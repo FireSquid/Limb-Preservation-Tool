@@ -62,18 +62,21 @@ namespace LimbPreservationTool.ViewModels
             }
 
             System.Diagnostics.Debug.WriteLine("Setting Image");
-            saveBitmap = new SKBitmap((int)(App.unexaminedImage.Width * (verticalSize / App.unexaminedImage.Height)), (int)verticalSize);
+            SKBitmap saveBitmap = new SKBitmap((int)(App.unexaminedImage.Width * (verticalSize / App.unexaminedImage.Height)), (int)verticalSize);
 
             if (App.unexaminedImage.ScalePixels(saveBitmap, SKFilterQuality.Medium))
             {
                 System.Diagnostics.Debug.WriteLine($"Size: {new SKSize(saveBitmap.Width, saveBitmap.Height)}");
 
-                SaveImageSource = ImageSource.FromStream(() => SKImage.FromBitmap(saveBitmap).Encode().AsStream());
+                saveSKImage = SKImage.FromBitmap(saveBitmap);                
+                SaveImageSource = ImageSource.FromStream(() => saveSKImage.Encode(SKEncodedImageFormat.Png, 100).AsStream());
 
                 ImageHeight = Math.Min(saveBitmap.Height, saveBitmap.Height * (DeviceDisplay.MainDisplayInfo.Width / saveBitmap.Width) * 0.5);
                 ImageIsVisible = true;
 
-                WoundData.Img = Convert.ToBase64String(saveBitmap.Bytes);
+                WoundData.Img = $"{DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss")}.png";
+
+                System.Diagnostics.Debug.WriteLine($"Set Img to {WoundData.Img}");
             }
 
             System.Diagnostics.Debug.WriteLine($"Image Height: {ImageHeight}");
@@ -109,7 +112,8 @@ namespace LimbPreservationTool.ViewModels
             System.Diagnostics.Debug.WriteLine($"{saveData.Img} - {WoundData.Img} - {existingData.Img}");
             saveData.Img    = (WoundData.Img != null && WoundData.Img.Length > 0) ? WoundData.Img     : existingData.Img;
 
-            await db.SetWoundData(saveData);
+            await db.SetWoundData(saveData, saveSKImage);
+
 
             System.Diagnostics.Debug.WriteLine($"Finished Saving Data");
         }
@@ -286,10 +290,10 @@ namespace LimbPreservationTool.ViewModels
         private SKSize _saveCanvasSize;
         public SKSize SaveCanvasSize { get => _saveCanvasSize; set => SetProperty(ref _saveCanvasSize, value); }
 
-        private SKBitmap saveBitmap;
-
         private ImageSource _saveImageSource;
         public ImageSource SaveImageSource { get => _saveImageSource; set => SetProperty(ref _saveImageSource, value); }
+
+        private SKImage saveSKImage;
 
         private string _resolutionGroup = "ResolutionGroup";
         public string ResolutionGroup { get => _resolutionGroup; set => SetProperty(ref _resolutionGroup, value); }

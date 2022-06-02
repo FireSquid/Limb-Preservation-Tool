@@ -55,7 +55,6 @@
                    BackgroundColor="WhiteSmoke" 
                    TextColor="Black" 
                    xct:CornerRadiusEffect.CornerRadius="10" 
-                   IsPassword="True"
                    Text="{Binding Name}"/>
             <Entry Placeholder="Email" 
                    PlaceholderColor="SlateGray" 
@@ -63,7 +62,6 @@
                    BackgroundColor="WhiteSmoke" 
                    TextColor="Black" 
                    xct:CornerRadiusEffect.CornerRadius="10" 
-                   IsPassword="True"
                    Text="{Binding Email}"/>
             <Button VerticalOptions="Center" 
                     Text="Create New Account" 

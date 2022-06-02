@@ -18,14 +18,14 @@
             <StackLayout>
             </StackLayout>
         </ScrollView>-->
-        <ScrollView VerticalOptions="CenterAndExpand">
+        <ScrollView VerticalOptions="Fill" BackgroundColor= "{StaticResource MainBG}">
             <AbsoluteLayout>
                 <StackLayout>                
 
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1* "/>
-                            <RowDefinition Height="7.5* "/>
+                            <RowDefinition Height="7.5*"/>
                             <RowDefinition Height="0.75* "/>
                             <RowDefinition Height="1* "/>
                             <RowDefinition Height="1* "/>
@@ -53,6 +53,7 @@
                             <customcontrols:NormalCanvas  x:Name = "scanCanvas"   
 										          Renderer="{Binding Canvas , Source={ StaticResource SharedPhotoViewModel} }" 
 											      Size="{Binding CanvasSize,  Source={ StaticResource SharedPhotoViewModel} }" 
+                                                          
 											      >
                             </customcontrols:NormalCanvas>
                             <Grid.Effects >

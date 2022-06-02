@@ -16,6 +16,7 @@ using LimbPreservationTool.Views;
 using System.Drawing;
 using System.IO;
 using SkiaSharp;
+using FFImageLoading;
 using LimbPreservationTool.Renderers;
 using LimbPreservationTool.CustomComponents;
 using Xamarin.CommunityToolkit.Extensions;
@@ -82,14 +83,15 @@ namespace LimbPreservationTool.ViewModels
             }
             // Load the picture from a stream and set as the image source
             photoStream = await photo.OpenReadAsync();
+            
             Image tmp = new Image() { Source = photo.FullPath };
-            Console.WriteLine(tmp.Aspect);
             PictureStatus = $"Successfully obtained photo";
             var bitmapStream = new MemoryStream();
             await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
             photoStream.Seek(0, SeekOrigin.Begin);
             bitmapStream.Seek(0, SeekOrigin.Begin);
-            original = SKBitmap.Decode(bitmapStream);   
+            original = SKBitmap.Decode(bitmapStream);
+            Console.WriteLine(original.Width + "x" + original.Height);
             scanBitmap = original.Resize(new SKImageInfo((int)Math.Round(original.Width * 0.5f), (int)Math.Round(original.Height * 0.5f)), SKFilterQuality.High);
             //var resizeFactor = 0.5f;
             //var toBitmap = new SKBitmap((int)Math.Round(scanBitmap.Width * resizeFactor), (int)Math.Round(scanBitmap.Height * resizeFactor), scanBitmap.ColorType, scanBitmap.AlphaType);

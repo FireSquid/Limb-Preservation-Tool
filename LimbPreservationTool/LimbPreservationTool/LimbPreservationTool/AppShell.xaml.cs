@@ -23,6 +23,12 @@ namespace LimbPreservationTool
             await Shell.Current.GoToAsync("//HomePage");
         }
 
+        private async void OnPatientsItemClicked(object sender, EventArgs e)
+        {
+            PatientsPage patientSelectionPage = new PatientsPage();
+            await Navigation.PushModalAsync(patientSelectionPage);
+        }
+
         private async void OnWifiItemClicked(object sender, EventArgs e)
         {
             CleanWifi();

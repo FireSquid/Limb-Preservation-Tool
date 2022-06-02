@@ -108,14 +108,16 @@
     
     <MenuItem Text="Home"  IconImageSource="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
     </MenuItem>
-    <FlyoutItem Title="Patients" Icon="icon_feed.png" >
-        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
-    </FlyoutItem>
+    <MenuItem Text="Switch Patient" Icon="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnPatientsItemClicked">
+    </MenuItem>
     <FlyoutItem Title="Wounds" Icon="icon_feed.png">
         <ShellContent Route="WoundGroupPage" ContentTemplate="{DataTemplate local:WoundGroupPage}" />
     </FlyoutItem>
     <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
         <ShellContent Route="PhotoDescPage" ContentTemplate="{DataTemplate local:PhotoDescPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Take a Photo_hidden" Icon="icon_feed.png" FlyoutItemIsVisible="False">
+        <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
     </FlyoutItem>
     <MenuItem Text="WifiTool" IconImageSource="icon_feed.png"  StyleClass="MenuItemLayoutStyle" Clicked="OnWifiItemClicked">
     </MenuItem>

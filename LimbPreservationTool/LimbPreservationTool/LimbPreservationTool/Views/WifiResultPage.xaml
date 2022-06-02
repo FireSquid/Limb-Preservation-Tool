@@ -70,7 +70,6 @@
                             TextColor="White" />
                     <Button Margin="50,10" 
                             Text="Back Home"
-                            xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"

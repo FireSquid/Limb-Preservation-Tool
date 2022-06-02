@@ -22,7 +22,7 @@
             </Grid.RowDefinitions>
 
 
-            
+
 
             <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
@@ -47,11 +47,11 @@
                        Margin="50,10" 
                        TextColor="{Binding WifiColor ,Source ={StaticResource SharedWifiViewModel}}"/>
 
-                    
+
 
 
                 <ScrollView>
-                    <StackLayout>
+                    <StackLayout >
                         <Entry Placeholder="Wound Grade" 
                            PlaceholderColor="SlateGray" 
                            Margin="50,10" 
@@ -198,7 +198,7 @@
                                      HorizontalOptions="Center">
                             <StackLayout Orientation="Vertical" 
                                              HorizontalOptions="FillAndExpand"
-                                         Padding="10" 
+                                         Padding="15" 
                                              xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
@@ -389,7 +389,7 @@
                                      HorizontalOptions="Center">
                             <StackLayout Orientation="Vertical" 
                                              HorizontalOptions="FillAndExpand"
-                                         Padding="10" 
+                                         Padding="15" 
                                              xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
@@ -530,7 +530,7 @@
                         <StackLayout VerticalOptions="Center" 
                                      HorizontalOptions="Center">
                             <StackLayout Orientation="Vertical" 
-                                         Padding="10" 
+                                         Padding="15" 
                                              xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"

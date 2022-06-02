@@ -91,6 +91,7 @@
                             IsVisible="{Binding WoundGroupsAreVisible}"/>
                     <ListView x:Name="WoundGroups"
                                 Margin="0"
+                                BackgroundColor="Transparent"
                                 ItemSelected="OnWoundGroupSelected"
                                 ItemsSource="{Binding WoundGroupsList}"
                                 IsVisible="{Binding WoundGroupsAreVisible}">

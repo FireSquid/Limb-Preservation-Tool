@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.WoundGroupPage"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
                
              xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
               ios:Page.UseSafeArea="false"
@@ -16,8 +17,8 @@
     <ContentPage.Content>
         <Grid>
             <StackLayout BackgroundColor="{StaticResource MainBG}">
-                
-            <Label Text="Wound Select Page" 
+
+                <Label Text="Wound Select Page" 
                        FontSize="Large" 
                        Margin="50,10" 
                        TextColor="Black" 
@@ -25,12 +26,12 @@
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 
                        VerticalOptions="CenterAndExpand" />
-            <BoxView VerticalOptions="Center"
+                <BoxView VerticalOptions="Center"
                          HorizontalOptions="Center"
                          HeightRequest="2"
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
-            <Label Text="Please select one of the Patient's wounds below" 
+                <Label Text="Please select one of the Patient's wounds below" 
                        FontSize="Subtitle" 
                        FontAttributes="Italic"
                        HorizontalOptions="CenterAndExpand" 
@@ -38,41 +39,50 @@
                        Margin="50,10" 
                        TextColor="Black"/>
 
-            <ListView x:Name="WoundGroupList"
+                <ListView x:Name="WoundGroupList"
                     ItemSelected="OnWoundGroupSelected"
                     BackgroundColor="{StaticResource MainBG}"
                     ItemsSource="{Binding WoundGroupListSource}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout    Margin="20,0"
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout    Margin="20,0"
                                         Orientation="Horizontal"
                                         BackgroundColor="WhiteSmoke"
                                       
                                         HorizontalOptions="FillAndExpand">
 
-                                <Label  Text="{Binding Key}"
+                                    <Label  Text="{Binding Key}"
                                     VerticalTextAlignment="Center"
                                     TextColor="Black"
                                         FontSize="Medium"
                                     Padding="5"
                                     HorizontalOptions="StartAndExpand" />
-                                <Label  Text="Number of Entries:"
+                                    <Label  Text="Number of Entries:"
                                     VerticalTextAlignment="Center"
                                         FontSize="Medium"
                                     TextColor="Black"
                                     HorizontalOptions="StartAndExpand" />
-                                <Label  Text="{Binding Value.Count}"
+                                    <Label  Text="{Binding Value.Count}"
                                     VerticalTextAlignment="Center"
                                     TextColor="Black"
                                         FontSize="Medium"
                                     HorizontalOptions="StartAndExpand" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
-            </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                <Button Margin="50,20" 
+                            Text="Back Home"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
+                            Command="{Binding BacktoHome}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

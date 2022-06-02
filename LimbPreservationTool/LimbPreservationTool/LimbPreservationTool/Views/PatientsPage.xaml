@@ -48,12 +48,13 @@
                 <ScrollView>
                     <ListView x:Name="PatientList"
                             Margin="20"
+                              BackgroundColor="Transparent"
                             ItemSelected="OnPatientSelected"
                             ItemsSource="{Binding PatientsListSource}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout Margin="20,0,0,0"
+                                    <StackLayout Margin="20,0"
                                              Orientation="Horizontal"
                                                  BackgroundColor="WhiteSmoke"
                                              HorizontalOptions="FillAndExpand">

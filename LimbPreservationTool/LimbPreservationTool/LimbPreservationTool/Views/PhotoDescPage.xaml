@@ -4,13 +4,18 @@
              xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
              x:Class="LimbPreservationTool.Views.PhotoDescPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             >
 
     <ContentPage.BindingContext>
         <vm:PhotoDescViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
+        <Grid>
         <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
@@ -87,5 +92,6 @@
                 </StackLayout>
             </ScrollView>
         </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

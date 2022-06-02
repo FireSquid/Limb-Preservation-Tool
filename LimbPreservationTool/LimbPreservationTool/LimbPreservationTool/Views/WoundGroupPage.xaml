@@ -2,14 +2,21 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.WoundGroupPage"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+               
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             Shell.NavBarIsVisible="True"
+             >
 
     <ContentPage.BindingContext>
         <vm:WoundGroupViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <StackLayout BackgroundColor="{StaticResource MainBG}">
+        <Grid>
+            <StackLayout BackgroundColor="{StaticResource MainBG}">
+                
             <Label Text="Wound Select Page" 
                        FontSize="Large" 
                        Margin="50,10" 
@@ -66,5 +73,6 @@
                 </ListView.ItemTemplate>
             </ListView>
         </StackLayout>
+            </Grid>
     </ContentPage.Content>
 </ContentPage>

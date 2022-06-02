@@ -171,6 +171,8 @@ namespace LimbPreservationTool.Models
             catch (Exception e)
             {
                 Console.Write(e.Message);
+
+                await App.Current.MainPage.DisplayAlert("Error","Server Is Down","OK");
             }
             return Stream.Null;
         }

@@ -160,7 +160,6 @@ namespace LimbPreservationTool.ViewModels
             DisenableAll();
             if (scanBitmap == null)
             {
-
                 Console.Write("Has not taken a photo as bitmap");
                 return false;
             }

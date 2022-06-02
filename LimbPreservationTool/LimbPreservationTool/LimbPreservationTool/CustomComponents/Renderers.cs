@@ -1,12 +1,16 @@
 ﻿using System;
 using LimbPreservationTool.CustomComponents;
 using SkiaSharp;
+using SkiaSharp.Views.Forms;
+using Xamarin.Forms;
 
 namespace LimbPreservationTool.Renderers
 {
-
+    
     public class NormalRenderer : IRenderers
     {
+
+        public SKColor bgm; 
         public event EventHandler RefreshRequested;
         //
         //        private SKColor fillColor { get; set; } = new SKColor(160, 160, 160);
@@ -43,6 +47,7 @@ namespace LimbPreservationTool.Renderers
         {
 
             imageBitmap = null;
+            bgm = Extensions.ToSKColor(Color.NavajoWhite);
         }
 
         public void ClearAll()
@@ -54,13 +59,21 @@ namespace LimbPreservationTool.Renderers
 
         public void PaintSurface(SKSurface surface, SKImageInfo info)
         {
+
             SKCanvas canvas = surface.Canvas;
-            canvas.Clear(SKColors.White);
-
-            if (imageBitmap != null)
+            
+            canvas.Clear(bgm);
+            if (this.imageBitmap != null)
             {
+                float scale = Math.Min((float)info.Width / imageBitmap.Width, 
+                               (float)info.Height / imageBitmap.Height);
+                float x = (info.Width - scale * imageBitmap.Width) / 2;
+                float y = (info.Height - scale * imageBitmap.Height) / 2;
+                SKRect destRect = new SKRect(x, y, x + scale * imageBitmap.Width, 
+                                           y + scale * imageBitmap.Height);
 
-                canvas.DrawBitmap(imageBitmap, info.Rect);
+                canvas.DrawBitmap(imageBitmap, destRect);
+//                canvas.DrawBitmap(imageBitmap, info.Rect);
             }
         }
     }

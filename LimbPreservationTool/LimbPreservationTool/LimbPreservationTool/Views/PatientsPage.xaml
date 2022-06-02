@@ -4,6 +4,7 @@
              x:Class="LimbPreservationTool.Views.PatientsPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             Shell.NavBarIsVisible="True"
              >
 
     <ContentPage.BindingContext>
@@ -18,7 +19,7 @@
             <StackLayout   BackgroundColor="NavajoWhite">
                 <Label Text="Patient Page" 
                    FontSize="Large" 
-                   Margin="50,10" 
+                   Margin="100,10" 
                    TextColor="Black" 
                    FontAttributes= "Bold"
                    HorizontalOptions="CenterAndExpand" 

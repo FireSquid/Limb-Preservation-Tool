@@ -171,7 +171,6 @@
                             xct:CornerRadiusEffect.CornerRadius="10"
                             xct:ShadowEffect.Radius="10"/>
                 </StackLayout>
-            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

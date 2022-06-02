@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.WoundSavePage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels" xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls">
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels" 
+             xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
              xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
               ios:Page.UseSafeArea="false"
              >
@@ -14,6 +14,7 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
+        <Grid BackgroundColor="NavajoWhite">
         <ScrollView BackgroundColor="NavajoWhite">
             <StackLayout>            
                 <!--
@@ -224,5 +225,6 @@
                 </StackLayout>            
             </StackLayout>
         </ScrollView>
+       </Grid>
     </ContentPage.Content>
 </ContentPage>

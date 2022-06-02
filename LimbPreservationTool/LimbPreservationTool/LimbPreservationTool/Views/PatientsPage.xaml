@@ -29,6 +29,13 @@
                      HeightRequest="2"
                      WidthRequest="200"  
                      Color="SeaGreen"></BoxView>
+                <Label Text="Please select or add a patient below" 
+                       FontSize="Subtitle" 
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
                 <Entry  Placeholder="Search..." 
                         PlaceholderColor="SlateGray" 
                         Margin="50,20" 
@@ -47,11 +54,13 @@
                                 <ViewCell>
                                     <StackLayout Margin="20,0,0,0"
                                              Orientation="Horizontal"
+                                                 BackgroundColor="WhiteSmoke"
                                              HorizontalOptions="FillAndExpand">
                                         <Label Text="{Binding PatientName}"
                                            HorizontalTextAlignment="Center"
                                            VerticalTextAlignment="Center"
-                                           FontSize="Subtitle"
+                                               Padding="5"
+                                           FontSize="Medium"
                                            TextColor="{Binding Path=BindingContext.PatientOptionColor, Source={x:Reference PatientList}}"
                                            HorizontalOptions="StartAndExpand" />
                                     </StackLayout>

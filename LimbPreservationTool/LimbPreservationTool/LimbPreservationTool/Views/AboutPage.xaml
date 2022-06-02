@@ -75,7 +75,7 @@
                     xct:ShadowEffect.Opacity="0.9"
                     xct:CornerRadiusEffect.CornerRadius="10"
                     xct:ShadowEffect.Radius="10"/>
-            <Button Margin="40,10,40,0" Text="Back to Home"
+            <Button Margin="40,2" Text="Back to Home"
                     Command="{Binding BacktoHome}"
                     BackgroundColor="{StaticResource Primary}"
                     xct:ShadowEffect.Color="Black"

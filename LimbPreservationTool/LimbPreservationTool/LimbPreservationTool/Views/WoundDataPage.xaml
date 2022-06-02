@@ -59,11 +59,14 @@
                                 <ViewCell>
                                     <StackLayout    Margin="20,0"
                                         Orientation="Horizontal"
+                                                 
                                         BackgroundColor="WhiteSmoke"
                                         HorizontalOptions="FillAndExpand">
                                         <Label  Text="{Binding dateString}"
                                     VerticalTextAlignment="Center"
                                     TextColor="Black"
+                                                FontSize="Medium"
+                                                
                                     Padding="5"
                                     HorizontalOptions="StartAndExpand" />
                                     </StackLayout>
@@ -76,9 +79,9 @@
                     <StackLayout>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width=".75*"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width=".75*"/>
                             </Grid.ColumnDefinitions>
                             <Button x:Name="Previous" BackgroundColor="SeaGreen" Grid.Column="0" Text="&lt;" FontSize="Large" FontAttributes="Bold" Margin="20,0" HorizontalOptions="Start" Command="{Binding PreviousChartCommand}"/>
                             <Label Grid.Column="1" Text="{Binding CurrentSectionName}" FontSize="Large" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
@@ -91,9 +94,9 @@
                             Opacity=".8"
                             HasShadow="True"
                             BackgroundColor="White">
-                        <ScrollView Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                            <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200"/>
-                        </ScrollView>
+                            <ScrollView Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200"/>
+                            </ScrollView>
                         </Frame>
                     </StackLayout>
                 </Grid>

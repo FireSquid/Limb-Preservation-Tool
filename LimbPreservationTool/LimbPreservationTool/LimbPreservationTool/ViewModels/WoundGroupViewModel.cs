@@ -1,10 +1,12 @@
 ﻿using LimbPreservationTool.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using LimbPreservationTool.Views;
+using System.Windows.Input;
+
+
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -12,7 +14,9 @@ namespace LimbPreservationTool.ViewModels
     {
         public WoundGroupViewModel()
         {
+            BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
         }
+        public ICommand BacktoHome { get; }
 
         public async Task Initialize(DBPatient patient)
         {

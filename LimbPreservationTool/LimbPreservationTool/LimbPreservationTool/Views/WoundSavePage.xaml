@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.WoundSavePage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             >
 
     <ContentPage.BindingContext>
         <vm:WoundSaveViewModel />
@@ -35,7 +38,7 @@
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" />
                 <StackLayout IsVisible="{Binding WoundGroupIsVisible}">
-                    <BoxView Margin="0,5" 
+                    <BoxView Margin="20,5" 
                              HeightRequest="1" 
                              Color="Gray" />
                     <Label  Text="Wound" 
@@ -88,18 +91,22 @@
                             IsVisible="{Binding WoundGroupsAreVisible}"/>
                     <ListView x:Name="WoundGroups"
                                 Margin="0"
+                                BackgroundColor="Transparent"
                                 ItemSelected="OnWoundGroupSelected"
                                 ItemsSource="{Binding WoundGroupsList}"
                                 IsVisible="{Binding WoundGroupsAreVisible}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout    Margin="10,0,0,0"
-                                                    Orientation="Horizontal"
-                                                    HorizontalOptions="FillAndExpand">
+                                    <StackLayout   Margin="20,0"
+                                        Orientation="Horizontal"
+                                        BackgroundColor="WhiteSmoke"
+                                        HorizontalOptions="FillAndExpand">
                                         <Label  Text="{Binding Name}"
                                                 TextColor="Black"
                                                 VerticalTextAlignment="Center"
+                                                Padding="5"
+                                                FontSize="Medium"
                                                 HorizontalOptions="StartAndExpand" />
                                     </StackLayout>
                                 </ViewCell>
@@ -108,7 +115,7 @@
                     </ListView>
                 </StackLayout>
                 <StackLayout IsVisible="{Binding FinalIsVisible}">
-                    <BoxView Margin="0,5" 
+                    <BoxView Margin="20,5" 
                              HeightRequest="1" 
                              Color="Gray" />
                     <Label  Text="Choose Measurement Date" 
@@ -134,7 +141,7 @@
                                 xct:ShadowEffect.Radius="10"
                                 TextColor="Black"/>
                     <StackLayout IsVisible="{Binding WifiIsVisible}">
-                        <BoxView Margin="0,5" 
+                        <BoxView Margin="20,5" 
                                  HeightRequest="1" 
                                  Color="Gray" />
                         <Label  Text="WIfi Data" 
@@ -177,19 +184,22 @@
                                TextColor="Black" />
                     </StackLayout>
                     <StackLayout IsVisible="{Binding ConfirmButtonVisible}">
-                        <BoxView Margin="0,5" 
+                        <BoxView Margin="20,5" 
                                  HeightRequest="1" 
                                  Color="Gray" />
                         <Button Margin="50, 0" 
                                 Text="Save Wound Data"
-                                xct:ShadowEffect.Color="Black"
                                 xct:ShadowEffect.OffsetY="0"
                                 xct:ShadowEffect.Opacity="0.9"
                                 xct:CornerRadiusEffect.CornerRadius="10"
                                 xct:ShadowEffect.Radius="10" 
+                                
                                 Clicked="OnConfirmSaveDataClicked"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White" />
+                        <BoxView Margin="0,5" 
+                                 HeightRequest="1" 
+                                 Color="NavajoWhite" />
                     </StackLayout>
                 </StackLayout>
             </StackLayout>

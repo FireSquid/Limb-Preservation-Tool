@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.WifiPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             >
 
 
 
@@ -15,8 +18,11 @@
 
         <Grid BackgroundColor="NavajoWhite" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
+
+
+
 
             <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
@@ -42,31 +48,10 @@
                        TextColor="{Binding WifiColor ,Source ={StaticResource SharedWifiViewModel}}"/>
 
 
-                <ScrollView VerticalOptions="CenterAndExpand">
-                    <StackLayout>
 
-                        <!--
-                    <Label Text="Date of Measurements:"
-                            FontSize="Subtitle"
-                            FontAttributes="Bold"
-                            Margin="50, 0"
-                            HorizontalTextAlignment="Start"
-                            TextColor="Black">
-                    </Label>
 
-                    <DatePicker x:Name="startDatePicker"
-                                Format="D"
-                                Margin="50,0, 50, 10" 
-                                BackgroundColor="WhiteSmoke" 
-                                xct:ShadowEffect.OffsetY="0"
-                                xct:ShadowEffect.Opacity="0.9"
-                                xct:CornerRadiusEffect.CornerRadius="10"
-                                xct:ShadowEffect.Radius="10"
-                                TextColor="Black"
-                                MinimumDate="01/01/2022"
-                                Date="{Binding SaveDateInternal,Source ={StaticResource SharedWifiViewModel}}"
-                                />
--->
+                <ScrollView>
+                    <StackLayout >
                         <Entry Placeholder="Wound Grade" 
                            PlaceholderColor="SlateGray" 
                            Margin="50,10" 
@@ -89,6 +74,7 @@
                            PlaceholderColor="SlateGray" 
                            Margin="50,10" 
                            BackgroundColor="WhiteSmoke" 
+                               
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            TextColor="Black" 
                            Keyboard="Numeric" 
@@ -114,7 +100,37 @@
 
                            TextChanged="OnTextChanged"
                            Text="{Binding IschemiaGrade,Source ={StaticResource SharedWifiViewModel}}"/>
-                        <Entry Placeholder="Toe Pressure Grade (in mm hG)" 
+                        <Button Clicked="ischemiaInfoOn"  
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10" 
+                            Margin="50,10"
+                            Text="Show Ischemia Info"></Button>
+                        <Label Text="Optional Tests for Ischemia Grade" 
+                       FontSize="Large" 
+                       Margin="50,30, 50, 10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalOptions="Center" />
+                        <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+
+                        <Label Text="Only fill this out if you entered '-1' for the Ischemia Grade above, or else it will be ignored" 
+                       FontSize="Subtitle" 
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="40,10" 
+                       TextColor="Black"/>
+
+                        <Entry Placeholder="Toe Pressure Grade" 
                            PlaceholderColor="SlateGray" 
                            Margin="50,10" 
                            BackgroundColor="WhiteSmoke" 
@@ -130,7 +146,7 @@
                            xct:CornerRadiusEffect.CornerRadius="10" 
                            Keyboard="Numeric" 
                            Text="{Binding AnkleBrachialIndex,Source ={StaticResource SharedWifiViewModel}}"/>
-                        <Entry Placeholder="Ankle Systolic Pressure (in mm hG)" 
+                        <Entry Placeholder="Ankle Systolic Pressure" 
                            PlaceholderColor="SlateGray" 
                            Margin="50,10" 
                            BackgroundColor="WhiteSmoke" 
@@ -164,125 +180,330 @@
 
 
 
-                <ScrollView Grid.Row="0" 
-                        VerticalOptions="StartAndExpand" 
+            </StackLayout>
+
+            <BoxView BackgroundColor="Black" Opacity="0.5" Grid.Row="0" x:Name="overlayCover" IsVisible="False"></BoxView>
+
+            <ScrollView Grid.Row="0" 
+                        VerticalOptions="CenterAndExpand" 
                         HorizontalOptions="CenterAndExpand">
-                    <StackLayout>
-                        <ContentView x:Name="infectionView" 
+                <StackLayout>
+                    <ContentView x:Name="ischemiaView" 
                                  Padding="10, 0" 
                                  Margin="20"
                                  IsVisible="false" 
                                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                                  AbsoluteLayout.LayoutFlags="All">
-                            <StackLayout VerticalOptions="Center" 
+                        <StackLayout VerticalOptions="CenterAndExpand" 
                                      HorizontalOptions="Center">
-                                <StackLayout Orientation="Vertical" 
-                                         Padding="10" 
+                            <StackLayout Orientation="Vertical" 
+                                             HorizontalOptions="FillAndExpand"
+                                         Padding="15" 
+                                             xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="20"
+                            xct:ShadowEffect.Radius="10" 
                                          BackgroundColor="White">
+                                <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                       VerticalTextAlignment="Center" 
+                                       FontSize="Title"
+                                       FontAttributes="Bold"
+                                       Text="Ischemia Grading Info:"></Label>
+                                <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
+                                                 HorizontalOptions="FillAndExpand">
+                                    <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                       VerticalTextAlignment="Center"
+                                           Padding="1"
+                                           FontSize="Large"
+                                               FontAttributes="Bold"
+                                       Text="0"></Label>
+                                    <BoxView VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             HeightRequest="50"
+                                             WidthRequest="2"  
+                                             Color="SeaGreen"></BoxView>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Toe Pressure > 60 mm Hg"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Brachial Index > 0.8"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Systolic Pressure  > 100 mm Hg"></Label>
+                                    </StackLayout>
+                                </StackLayout>
+
+
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="#eeedf3"
+                                             Padding="5"
+                                                 HorizontalOptions="FillAndExpand">
+                                    <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
+                                       VerticalTextAlignment="Center" 
+                                               FontAttributes="Bold"
+                                       Text="1"></Label>
+                                    <BoxView VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             HeightRequest="50"
+                                             WidthRequest="2"  
+                                             Color="SeaGreen"></BoxView>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Toe Pressure: 40-59 mm Hg"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Brachial Index: 0.6-0.79"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Systolic Pressure: 70-100 mm Hg"></Label>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
+                                                 HorizontalOptions="StartAndExpand">
+
+                                    <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
+                                       VerticalTextAlignment="Center" 
+                                               FontAttributes="Bold"
+                                       Text="2"></Label>
+                                    <BoxView VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             HeightRequest="75"
+                                             WidthRequest="2"  
+                                             Color="SeaGreen"></BoxView>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Toe Pressure: 30-38 mm Hg"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Brachial Index: 0.4-0.59"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Systolic Pressure: 50-70 mm Hg"></Label>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="#eeedf3"
+                                             Padding="5"
+                                                 HorizontalOptions="FillAndExpand">
+                                    <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
+                                               FontAttributes="Bold"
+                                       VerticalTextAlignment="Center" 
+                                       Text="3"></Label>
+                                    <BoxView VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             HeightRequest="50"
+                                             WidthRequest="2"  
+                                             Color="SeaGreen"></BoxView>
+                                    <StackLayout Orientation="Vertical">
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Toe Pressure &lt; 30 mm Hg"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Brachial Index &lt; 0.39"></Label>
+                                        <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Start" 
+                                       VerticalTextAlignment="Center" 
+                                       Text="&#x2022; Ankle Systolic Pressure  &lt; 30 mm Hg"></Label>
+                                    </StackLayout>
+                                </StackLayout>
+
+                                <Button Margin="50, 10"
+                                        Clicked="ischemiaViewOff" 
+                                        xct:ShadowEffect.Color="Black"
+                                        xct:ShadowEffect.OffsetY="0"
+                                        xct:ShadowEffect.Opacity="0.9"
+                                        xct:CornerRadiusEffect.CornerRadius="10"
+                                        xct:ShadowEffect.Radius="10"
+                                        Text="Close"></Button>
+                            </StackLayout>
+                        </StackLayout>
+                    </ContentView>
+                </StackLayout>
+            </ScrollView>
+
+            <ScrollView Grid.Row="0" 
+                        VerticalOptions="CenterAndExpand" 
+                        HorizontalOptions="CenterAndExpand">
+                <StackLayout>
+                    <ContentView x:Name="infectionView" 
+                                 Padding="10, 0" 
+                                 Margin="20"
+                                 IsVisible="false" 
+                                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
+                                 AbsoluteLayout.LayoutFlags="All">
+                        <StackLayout VerticalOptions="CenterAndExpand" 
+                                     HorizontalOptions="Center">
+                            <StackLayout Orientation="Vertical" 
+                                             HorizontalOptions="FillAndExpand"
+                                         Padding="15" 
+                                             xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="20"
+                            xct:ShadowEffect.Radius="10" 
+                                         BackgroundColor="White">
+                                <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                       VerticalTextAlignment="Center" 
+                                       FontSize="Title"
+                                       FontAttributes="Bold"
+                                       Text="Infection Grading Info:"></Label>
+                                <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
+                                                 HorizontalOptions="FillAndExpand">
+                                    <Label TextColor="Black" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="Center" 
+                                       VerticalTextAlignment="Center"
+                                           Padding="1"
+                                           FontSize="Large"
+                                               FontAttributes="Bold"
+                                       Text="0"></Label>
+                                    <BoxView VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             HeightRequest="50"
+                                             WidthRequest="2"  
+                                             Color="SeaGreen"></BoxView>
                                     <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
-                                       FontSize="Subtitle"
-                                       FontAttributes="Bold"
-                                       Text="Infection Grading Info:"></Label>
-                                    <StackLayout Orientation="Horizontal"
-                                                 HorizontalOptions="Start">
-                                        <Label TextColor="Black" 
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Center" 
-                                       VerticalTextAlignment="Center" 
-                                               FontAttributes="Bold"
-                                       Text="0"></Label>
-                                        <BoxView VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             HeightRequest="50"
-                                             WidthRequest="2"  
-                                             Color="SeaGreen"></BoxView>
-                                        <Label TextColor="Black" 
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Center" 
-                                       VerticalTextAlignment="Center" 
                                        Text="&#x2022; No Symptoms or signs of infection"></Label>
-                                    </StackLayout>
-                                    
-                                    <BoxView VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             HeightRequest="2"
-                                             WidthRequest="200"  
-                                             Color="SeaGreen"></BoxView>
-                                    <StackLayout Orientation="Horizontal"
-                                                 HorizontalOptions="Start">
-                                        <Label TextColor="Black" 
+                                </StackLayout>
+
+
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
+                                             BackgroundColor="#eeedf3"
+                                                 HorizontalOptions="FillAndExpand">
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                                FontAttributes="Bold"
                                        Text="1"></Label>
-                                        <BoxView VerticalOptions="Center"
+                                    <BoxView VerticalOptions="Center"
                                              HorizontalOptions="Center"
                                              HeightRequest="50"
                                              WidthRequest="2"  
                                              Color="SeaGreen"></BoxView>
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Local infection involving only skin, SQ tissue"></Label>
-                                    </StackLayout>
-                                    
-                                    <BoxView VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             HeightRequest="2"
-                                             WidthRequest="200"  
-                                             Color="SeaGreen"></BoxView>
-                                    <StackLayout Orientation="Horizontal"
-                                                 HorizontalOptions="Start">
-                                        <Label TextColor="Black" 
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
+                                                 HorizontalOptions="StartAndExpand">
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                                FontAttributes="Bold"
                                        Text="2"></Label>
-                                        <BoxView VerticalOptions="Center"
+                                    <BoxView VerticalOptions="Center"
                                              HorizontalOptions="Center"
-                                             HeightRequest="50"
+                                             HeightRequest="75"
                                              WidthRequest="2"  
                                              Color="SeaGreen"></BoxView>
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Local infection with erythema >2cm, or involving structures deeper than skin, SQ (eg. abscess, osteomyelitis)"></Label>
-                                    </StackLayout>
-                                    
-                                    <BoxView VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             HeightRequest="2"
-                                             WidthRequest="200"  
-                                             Color="SeaGreen"></BoxView>
-                                    <StackLayout Orientation="Horizontal"
-                                                 HorizontalOptions="Start">
-                                        <Label TextColor="Black" 
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
+                                             BackgroundColor="#eeedf3"
+                                                 HorizontalOptions="FillAndExpand">
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                                FontAttributes="Bold"
                                        VerticalTextAlignment="Center" 
                                        Text="3"></Label>
-                                        <BoxView VerticalOptions="Center"
+                                    <BoxView VerticalOptions="Center"
                                              HorizontalOptions="Center"
                                              HeightRequest="50"
                                              WidthRequest="2"  
                                              Color="SeaGreen"></BoxView>
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Local infection with signs of SIRS"></Label>
-                                    </StackLayout>
-                                    
-                                    <Button HorizontalOptions="Center" 
-                                        VerticalOptions="Center" 
+                                </StackLayout>
+
+                                <Button Margin="50, 10"
                                         Clicked="infectionViewOff" 
                                         xct:ShadowEffect.Color="Black"
                                         xct:ShadowEffect.OffsetY="0"
@@ -290,177 +511,183 @@
                                         xct:CornerRadiusEffect.CornerRadius="10"
                                         xct:ShadowEffect.Radius="10"
                                         Text="Close"></Button>
-                                </StackLayout>
                             </StackLayout>
-                        </ContentView>
-                    </StackLayout>
-                </ScrollView>
+                        </StackLayout>
+                    </ContentView>
+                </StackLayout>
+            </ScrollView>
 
-                <ScrollView Grid.Row="0" 
-                        VerticalOptions="StartAndExpand" 
+            <ScrollView Grid.Row="0" 
+                        VerticalOptions="CenterAndExpand" 
                         HorizontalOptions="CenterAndExpand">
-                    <StackLayout>
-                        <ContentView x:Name="woundView" 
+                <StackLayout>
+                    <ContentView x:Name="woundView" 
                                  Padding="10, 0" 
                                  Margin="20"
                                  IsVisible="false" 
                                  AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
                                  AbsoluteLayout.LayoutFlags="All">
-                            <StackLayout VerticalOptions="Center" 
+                        <StackLayout VerticalOptions="Center" 
                                      HorizontalOptions="Center">
-                                <StackLayout Orientation="Vertical" 
-                                         Padding="10" 
+                            <StackLayout Orientation="Vertical" 
+                                         Padding="15" 
+                                             xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="20"
+                            xct:ShadowEffect.Radius="10" 
                                          BackgroundColor="White">
-                                    <Label TextColor="Black" 
+                                <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
-                                       FontSize="Subtitle"
+                                       FontSize="Title"
                                        FontAttributes="Bold"
                                        VerticalTextAlignment="Center" 
                                        Text="Wound Grading Info:"></Label>
-                                    <StackLayout Orientation="Horizontal"
+                                <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
                                                  HorizontalOptions="FillAndExpand">
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                                FontAttributes="Bold"
                                        Text="0"></Label>
-                                        <BoxView VerticalOptions="Center"
+                                    <BoxView VerticalOptions="Center"
                                              HorizontalOptions="Center"
                                              HeightRequest="50"
                                              WidthRequest="2"  
                                              Color="SeaGreen"></BoxView>
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; No Wound"></Label>
-                                    </StackLayout>
-                                    
-                                    <BoxView VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             HeightRequest="2"
-                                             WidthRequest="200"  
-                                             Color="SeaGreen"></BoxView>
-                                    <StackLayout Orientation="Horizontal"
+                                </StackLayout>
+
+
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
+                                             BackgroundColor="#eeedf3"
                                                  HorizontalOptions="Start">
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                                FontAttributes="Bold"
                                                
                                        Text="1"></Label>
-                                        <BoxView VerticalOptions="Center"
+                                    <BoxView VerticalOptions="Center"
                                              HorizontalOptions="Center"
                                              HeightRequest="50"
                                              WidthRequest="2"  
                                              Color="SeaGreen"></BoxView>
-                                        <StackLayout Orientation="Vertical">
-                                            <Label TextColor="Black" 
+                                    <StackLayout Orientation="Vertical">
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Small, shallow ulcer"></Label>
-                                            <Label TextColor="Black" 
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; No exposed bone, unless limited to distal phalanx"></Label>
-                                            <Label TextColor="Black" 
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; No gangrene"></Label>
-                                        </StackLayout>
                                     </StackLayout>
-                                    
+                                </StackLayout>
 
-                                    
-                                    <BoxView VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             HeightRequest="2"
-                                             WidthRequest="200"  
-                                             Color="SeaGreen"></BoxView>
-                                    <StackLayout Orientation="Horizontal"
+                                <StackLayout Orientation="Horizontal"
+                                             Padding="5"
                                                  HorizontalOptions="Start">
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                                FontAttributes="Bold"
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalTextAlignment="Center" 
                                        Text="2"></Label>
-                                        <BoxView VerticalOptions="Center"
+                                    <BoxView VerticalOptions="Center"
                                              HorizontalOptions="Center"
                                              HeightRequest="50"
                                              WidthRequest="2"  
                                              Color="SeaGreen"></BoxView>
-                                        <StackLayout Orientation="Vertical">
-                                            <Label TextColor="Black" 
+                                    <StackLayout Orientation="Vertical">
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Deeper ulcer with exposed bone joint, or tendon, not involving tissue heel"></Label>
-                                            <Label TextColor="Black" 
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Shallow heel ulcer without calcaneal involvement"></Label>
-                                            <Label TextColor="Black" 
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Gangrene limited to digits"></Label>
-                                        </StackLayout>
                                     </StackLayout>
-                                    
-                                    
-                                    <BoxView VerticalOptions="Center"
-                                             HorizontalOptions="Center"
-                                             HeightRequest="2"
-                                             WidthRequest="200"  
-                                             Color="SeaGreen"></BoxView>
-                                    <StackLayout Orientation="Horizontal"
+                                </StackLayout>
+
+                                <StackLayout Orientation="Horizontal"
+                                             BackgroundColor="#eeedf3"
+                                             Padding="5"
                                                  HorizontalOptions="Start">
-                                        <Label TextColor="Black" 
+                                    <Label TextColor="Black" 
+                                           Padding="1"
+                                           FontSize="Large"
                                        VerticalOptions="Center" 
                                                FontAttributes="Bold"
                                        HorizontalOptions="Center" 
                                        VerticalTextAlignment="Center" 
                                        Text="3"></Label>
-                                        <BoxView VerticalOptions="Center"
+                                    <BoxView VerticalOptions="Center"
                                              HorizontalOptions="Center"
                                              HeightRequest="150"
                                              WidthRequest="2"  
                                              Color="SeaGreen"></BoxView>
-                                        <StackLayout Orientation="Vertical">
-                                            <Label TextColor="Black" 
+                                    <StackLayout Orientation="Vertical">
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Extensive, deep ulcer involving forefoot/midfoot"></Label>
-                                            <Label TextColor="Black" 
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Deep, full thickness heel ulcer and/or calcaneal involvement"></Label>
-                                            <Label TextColor="Black" 
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Extensive gangrene involving forefoot/midfoot"></Label>
-                                            <Label TextColor="Black" 
+                                        <Label TextColor="Black" 
                                        VerticalOptions="Center" 
                                        HorizontalOptions="Start" 
                                        VerticalTextAlignment="Center" 
                                        Text="&#x2022; Full thickness heel necrosis and calcaneal involvement"></Label>
-                                        </StackLayout>
                                     </StackLayout>
-                                    
-                                    
-                                    <Button HorizontalOptions="Center" 
-                                        VerticalOptions="Center" 
+                                </StackLayout>
+
+
+                                <Button Margin="50, 10" 
                                         Clicked="woundInfoOff" 
                                         xct:ShadowEffect.Color="Black"
                                         xct:ShadowEffect.OffsetY="0"
@@ -468,12 +695,13 @@
                                         xct:CornerRadiusEffect.CornerRadius="10"
                                         xct:ShadowEffect.Radius="10"
                                         Text="Close"></Button>
-                                </StackLayout>
                             </StackLayout>
-                        </ContentView>
-                    </StackLayout>
-                </ScrollView>
-            </StackLayout>
+                        </StackLayout>
+                    </ContentView>
+                </StackLayout>
+            </ScrollView>
+
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

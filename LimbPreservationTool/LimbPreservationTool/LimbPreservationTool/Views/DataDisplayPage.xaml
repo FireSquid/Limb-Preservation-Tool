@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.DataDisplayPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             >
 
     <ContentPage.BindingContext>
         <vm:DataDisplayViewModel />
@@ -129,14 +132,23 @@
 
             <Button Text="Delete Wound Data"
                     Clicked="OnDeleteWoundClicked"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center" 
+ 
                     Margin="50,10"
                     xct:ShadowEffect.Color="Black"
                     xct:ShadowEffect.OffsetY="0"
                     xct:ShadowEffect.Opacity="0.9"
                     xct:CornerRadiusEffect.CornerRadius="10"
                     xct:ShadowEffect.Radius="10"/>
+            <Button Text="Back to Home"
+                    Command="{Binding BacktoHome}"
+                    Margin="50, 10"
+                    BackgroundColor="{StaticResource Primary}"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"
+                    TextColor="White" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

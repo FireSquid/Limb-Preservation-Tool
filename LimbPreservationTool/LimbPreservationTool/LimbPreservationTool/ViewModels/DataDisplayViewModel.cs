@@ -14,7 +14,10 @@ namespace LimbPreservationTool.ViewModels
     {
         public DataDisplayViewModel()
         {
-        }        
+            BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
+        }
+
+        public ICommand BacktoHome { get; }
 
         private async Task UpdatePatientName(Guid patientID)
         {

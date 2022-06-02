@@ -44,11 +44,9 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task<bool> VerifyLoginEntry()
         {
-            //return true;
             try
             {
-                return true;
-                // return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+                return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
             }
             catch (Exception ex)
             {

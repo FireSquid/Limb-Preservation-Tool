@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace LimbPreservationTool.ViewModels
@@ -46,7 +47,7 @@ namespace LimbPreservationTool.ViewModels
                         Stream imgStream;
                         if (WoundDatabase.LoadImage(value.PatientID, value.Img, out imgStream))
                         {
-                            ImageHeight = 480;
+                            ImageHeight = DeviceDisplay.MainDisplayInfo.Width * 2 / 3;
                             WoundImageSource = ImageSource.FromStream(() => imgStream);
                             ShowImage = true;
                         }

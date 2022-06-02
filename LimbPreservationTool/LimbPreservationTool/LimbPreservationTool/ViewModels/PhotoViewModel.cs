@@ -93,11 +93,7 @@ namespace LimbPreservationTool.ViewModels
             original = SKBitmap.Decode(bitmapStream);
             Console.WriteLine(original.Width + "x" + original.Height);
             scanBitmap = original.Resize(new SKImageInfo((int)Math.Round(original.Width * 0.5f), (int)Math.Round(original.Height * 0.5f)), SKFilterQuality.High);
-            //var resizeFactor = 0.5f;
-            //var toBitmap = new SKBitmap((int)Math.Round(scanBitmap.Width * resizeFactor), (int)Math.Round(scanBitmap.Height * resizeFactor), scanBitmap.ColorType, scanBitmap.AlphaType);
-            //var image = SKImage.FromBitmap(toBitmap);
-            //var data = image.Encode(SKEncodedImageFormat.Jpeg, 100);
-            //scanBitmap = SKBitmap.Decode(data);
+
             var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
 
             using (var surface = new SKCanvas(rotated))
@@ -114,46 +110,9 @@ namespace LimbPreservationTool.ViewModels
             Canvas.ImageBitmap = scanBitmap.Copy();
             EnableHighlight();
             EnableExamine();
-            //SetProperty(ref pictureInputAllowed, false);
-
-            //PR.ImageBitmap = scanBitmap.Copy();
-            //photoStream = await PhotoRotator(photoStream);
-            //LastPhoto = ImageSource.FromStream(() => photoStream);
-
-            //using (var stream = await photo.OpenReadAsync())
-            //BeginInvoke(()=>ExaminePhoto());
             return true;
         }
 
-
-        //        public async Task ExaminePhoto()
-        //        {
-        //
-        //            if (photo == null)
-        //            {
-        //                Console.Write("Has not taken a photo");
-        //                return;
-        //            }
-        //            // photoStream = await photo.OpenReadAsync();
-        //
-        //            Console.WriteLine("#_#_#_#_#_#_#_#_# EXAMINING");
-        //
-        //            Stream e = await Doctor.GetInstance().Examine(photoStream);
-        //            //examineEnabled = false;
-        //            if (!e.Equals(Stream.Null))
-        //            {
-        //                e = await PhotoRotator(e);
-        //                LastPhoto = ImageSource.FromStream(() => e);
-        //
-        //                //var bitmapStream = new MemoryStream();
-        //
-        //                //await photoStream.CopyToAsync(bitmapStream); //copying will reset neither streams' position
-        //
-        //                //bitmapStream.Seek(0, SeekOrigin.Begin);
-        //                Console.WriteLine("Examine  f inished");
-        //            }
-        //        }
-        //
         public async Task<bool> ExamineHighlight()
         {
 
@@ -191,29 +150,7 @@ namespace LimbPreservationTool.ViewModels
             return true;
             //EraseAll();
         }
-        //
-        //        private async Task<Stream> PhotoRotator(Stream pS)
-        //        {
-        //
-        //            var bitmapStream = new MemoryStream();
-        //            await pS.CopyToAsync(bitmapStream); //copying will reset neither streams' position
-        //            pS.Seek(0, SeekOrigin.Begin);
-        //            bitmapStream.Seek(0, SeekOrigin.Begin);
-        //            var scanBitmap = SKBitmap.Decode(bitmapStream);
-        //            var rotated = new SKBitmap(scanBitmap.Height, scanBitmap.Width);
-        //
-        //            using (var surface = new SKCanvas(rotated))
-        //            {
-        //                surface.Translate(rotated.Width, 0);
-        //                surface.RotateDegrees(90);
-        //                surface.DrawBitmap(scanBitmap, 0, 0);
-        //            }
-        //            scanBitmap = rotated;
-        //            SKImage image = SKImage.FromBitmap(scanBitmap);
-        //            SKData encodedData = image.Encode(SKEncodedImageFormat.Png, 100);
-        //            return encodedData.AsStream();
-        //        }
-        //
+
         public void EraseAll()
         {
 

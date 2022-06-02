@@ -7,9 +7,6 @@
              Shell.NavBarIsVisible="True"
              >
 
-    <ContentPage.BindingContext>
-        <vm:PatientsViewModel />
-    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <Grid BackgroundColor="NavajoWhite" >
@@ -19,6 +16,7 @@
             <StackLayout   BackgroundColor="NavajoWhite">
                 <Label Text="Patient Page" 
                    FontSize="Large" 
+                   Padding="0,100,0,100"
                    Margin="100,10" 
                    TextColor="Black" 
                    FontAttributes= "Bold"
@@ -50,14 +48,18 @@
                             Margin="20"
                               BackgroundColor="Transparent"
                             ItemSelected="OnPatientSelected"
-                            ItemsSource="{Binding PatientsListSource}">
+                            ItemsSource="{Binding PatientsListSource}"
+                              
+                              >
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <StackLayout Margin="20,0"
                                              Orientation="Horizontal"
                                                  BackgroundColor="WhiteSmoke"
-                                             HorizontalOptions="FillAndExpand">
+                                             HorizontalOptions="FillAndExpand"
+                                                 HeightRequest="1"
+                                                 >
                                         <Label Text="{Binding PatientName}"
                                            HorizontalTextAlignment="Center"
                                            VerticalTextAlignment="Center"

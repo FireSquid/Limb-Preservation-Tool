@@ -47,15 +47,18 @@
                                 <Label  Text="{Binding Key}"
                                     VerticalTextAlignment="Center"
                                     TextColor="Black"
+                                        FontSize="Medium"
                                     Padding="5"
                                     HorizontalOptions="StartAndExpand" />
                                 <Label  Text="Number of Entries:"
                                     VerticalTextAlignment="Center"
+                                        FontSize="Medium"
                                     TextColor="Black"
                                     HorizontalOptions="StartAndExpand" />
                                 <Label  Text="{Binding Value.Count}"
                                     VerticalTextAlignment="Center"
                                     TextColor="Black"
+                                        FontSize="Medium"
                                     HorizontalOptions="StartAndExpand" />
                             </StackLayout>
                         </ViewCell>

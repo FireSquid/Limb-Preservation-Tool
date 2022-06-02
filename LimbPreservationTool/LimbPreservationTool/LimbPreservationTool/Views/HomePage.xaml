@@ -37,7 +37,7 @@
                        TextColor="Black"/>
                 <Label Text="{Binding Patient}" 
                        FontSize="Subtitle" 
-                       FontAttributes="Italic"
+                       FontAttributes="Bold"
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
@@ -93,7 +93,6 @@
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,10" Text="Log Out"
-                            xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"

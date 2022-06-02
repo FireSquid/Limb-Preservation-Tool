@@ -31,7 +31,15 @@ namespace LimbPreservationTool.ViewModels
             Title = "Wifi results";
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
+            if (ampInfo == "VeryLow")
+            {
+                ampInfo = "Very Low";
+            }
 
+            if (revInfo == "VeryLow")
+            {
+                revInfo = "Very Low";
+            }
             AmputationInfo = $"Your estimate risk for amputation at 1 year is: \n" + ampInfo;
             AmputationColor = ampColor;
 
@@ -48,7 +56,7 @@ namespace LimbPreservationTool.ViewModels
 
         public ICommand SaveWifiData { get; }
 
-        public ICommand BacktoHome { get; }        
+        public ICommand BacktoHome { get; }
 
 
         private string amputationInfo;

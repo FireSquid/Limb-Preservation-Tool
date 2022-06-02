@@ -133,9 +133,9 @@ namespace LimbPreservationTool.ViewModels
         public Dictionary<String,List<ChartEntry>> GetAllChartList() {
             Dictionary<String, List<ChartEntry>> all = new Dictionary<string, List<ChartEntry>>();
             all.Add("Wound",new List<ChartEntry>(Wound));
-            all.Add("Ischimia",new List<ChartEntry>(Ischimia));
+            all.Add("Ischemia",new List<ChartEntry>(Ischimia));
             all.Add("Area",new List<ChartEntry>(Area));
-            all.Add("FootInfection",new List<ChartEntry>(FootInfection));
+            all.Add("Foot Infection",new List<ChartEntry>(FootInfection));
             return all;
         }
         

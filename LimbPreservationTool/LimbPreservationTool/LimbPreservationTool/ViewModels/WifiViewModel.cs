@@ -155,8 +155,7 @@ namespace LimbPreservationTool.ViewModels
             }
 
 
-            await Shell.Current.GoToAsync($"//{nameof(WifiResultPage)}");
-            App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
+            await App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
 
             ClearStartInfo();
         }

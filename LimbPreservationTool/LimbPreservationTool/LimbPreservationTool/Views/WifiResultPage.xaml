@@ -10,9 +10,6 @@
              
              >
 
-    <ContentPage.BindingContext>
-        <vm:WifiResultModel />
-    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout Spacing="0" 

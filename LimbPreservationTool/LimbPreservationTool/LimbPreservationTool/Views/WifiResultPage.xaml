@@ -4,11 +4,12 @@
              xmlns:gradient ="clr-namespace:Syncfusion.XForms.Graphics;assembly=Syncfusion.Core.XForms"
              x:Class="LimbPreservationTool.Views.WifiResultPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             
+             >
 
-    <ContentPage.BindingContext>
-        <vm:WifiResultModel />
-    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout Spacing="0" 
@@ -34,6 +35,7 @@
                            BackgroundColor="{Binding AmputationColor}"  
                            TextColor="Black"
                            FontSize="Title" 
+                           Padding="5"
                            FontAttributes="Italic"
                            HorizontalOptions="CenterAndExpand" 
                            HorizontalTextAlignment="Center" 
@@ -42,6 +44,7 @@
                            BackgroundColor="{Binding RevascColor}"  
                            TextColor="Black"
                            FontSize="Title" 
+                           Padding="5"
                            FontAttributes="Italic"
                            HorizontalOptions="CenterAndExpand" 
                            HorizontalTextAlignment="Center" 
@@ -70,7 +73,6 @@
                             TextColor="White" />
                     <Button Margin="50,10" 
                             Text="Back Home"
-                            xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"

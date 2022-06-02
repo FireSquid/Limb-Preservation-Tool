@@ -18,14 +18,14 @@
             <StackLayout>
             </StackLayout>
         </ScrollView>-->
-        <ScrollView VerticalOptions="CenterAndExpand">
+        <ScrollView VerticalOptions="Fill" BackgroundColor= "{StaticResource MainBG}">
             <AbsoluteLayout>
-                <StackLayout>                
+                <StackLayout>
 
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="1* "/>
-                            <RowDefinition Height="7.5* "/>
+                            <RowDefinition Height="7.5*"/>
                             <RowDefinition Height="0.75* "/>
                             <RowDefinition Height="1* "/>
                             <RowDefinition Height="1* "/>
@@ -33,10 +33,8 @@
 
                         <Button x:Name="CameraBtn" 
                         Grid.Row="0" 
-                        Margin="0,10,0,0" 
+                        Margin="50,10" 
                         Text="Take a Picture"
-                        HorizontalOptions="Center" 
-                        VerticalOptions="Center" 
                         xct:ShadowEffect.Color="Black"
                         xct:ShadowEffect.OffsetY="0"
                         xct:ShadowEffect.Opacity="0.9"
@@ -53,6 +51,7 @@
                             <customcontrols:NormalCanvas  x:Name = "scanCanvas"   
 										          Renderer="{Binding Canvas , Source={ StaticResource SharedPhotoViewModel} }" 
 											      Size="{Binding CanvasSize,  Source={ StaticResource SharedPhotoViewModel} }" 
+                                                          
 											      >
                             </customcontrols:NormalCanvas>
                             <Grid.Effects >
@@ -62,8 +61,7 @@
                         <Grid Grid.Row= "2">
                             <Button x:Name = "HighLightBtn"   
                             Text="Hightlight Detail"
-                            HorizontalOptions="Center" 
-                            VerticalOptions="Center" 
+                                    Margin="50,0"
                             xct:CornerRadiusEffect.CornerRadius="10"
                             Command="{Binding HighlightCommand,  Source={ StaticResource SharedPhotoViewModel} }"
                             BackgroundColor="{StaticResource Primary}"
@@ -75,11 +73,9 @@
 
                         <Button x:Name="ExamineBtn" 
                         Grid.Row="3" 
-                        Margin="0,5,0,0" 
+                        Margin="50, 0" 
                         Text="Examine this Picture"
                         Command="{Binding ExaminePhotoCommand,  Source={ StaticResource SharedPhotoViewModel} }"
-                        HorizontalOptions="Center" 
-                        VerticalOptions="Center" 
                         xct:CornerRadiusEffect.CornerRadius="10"           
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White" 
@@ -88,18 +84,16 @@
 
                         <Button x:Name="SaveBtn" 
                         Grid.Row="4" 
-                        Margin="0,5,0,0" 
+                        Margin="50, 0" 
                         Text="Save Picture and Wound Size"
-                        Clicked="OnSaveWifiData"
-                        HorizontalOptions="Center" 
-                        VerticalOptions="Center" 
+                        Clicked="OnSaveWifiData" 
                         xct:CornerRadiusEffect.CornerRadius="10"           
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White" 
 					    IsEnabled="{Binding SaveDataAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
 										    />
                     </Grid>
-                
+
                 </StackLayout >
 
                 <StackLayout

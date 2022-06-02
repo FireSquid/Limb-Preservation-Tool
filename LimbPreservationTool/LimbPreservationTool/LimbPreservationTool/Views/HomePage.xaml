@@ -3,19 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="LimbPreservationTool.Views.HomePage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             
+             >
 
     <ContentPage.BindingContext>
         <vm:HomeViewModel />
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
+        <Grid BackgroundColor="{StaticResource MainBG}">
+
         <StackLayout Spacing="0" 
                      BackgroundColor="{StaticResource MainBG}">
             <StackLayout>
                 <Label Text="Limb Preservation Tool" 
-                       FontSize="30" 
-                       Margin="50,30" 
+                       FontSize="Title" 
+                       Margin="50,20" 
                        TextColor="Black" 
                        FontAttributes= "Bold"
                        HorizontalOptions="CenterAndExpand" 
@@ -35,7 +41,7 @@
                        TextColor="Black"/>
                 <Label Text="{Binding Patient}" 
                        FontSize="Subtitle" 
-                       FontAttributes="Italic"
+                       FontAttributes="Bold"
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 
                        Margin="50,10" 
@@ -91,18 +97,20 @@
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
                     <Button Margin="50,10" Text="Log Out"
-                            xct:ShadowEffect.Color="Black"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"
-                            xct:ShadowEffect.Radius="10" 
+                            xct:ShadowEffect.Radius="5" 
                             Command="{Binding LogOutCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
+
 
                 </StackLayout>
             </ScrollView>
 
         </StackLayout>
+
+</Grid>
     </ContentPage.Content>
 </ContentPage>

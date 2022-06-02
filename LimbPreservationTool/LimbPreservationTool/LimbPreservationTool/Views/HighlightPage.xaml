@@ -5,24 +5,27 @@
     xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
     xmlns:tk="http://xamarin.com/schemas/2020/toolkit"
     xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
-    x:Class="LimbPreservationTool.Views.HighlightPage">
+    x:Class="LimbPreservationTool.Views.HighlightPage"
+    xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="false"
+    >
 
     <ContentPage.BindingContext>
         <Binding Source= "{StaticResource SharedPhotoViewModel}"/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <Grid>
+        <Grid BackgroundColor="{StaticResource MainBG}">
             <Grid.RowDefinitions>
 
                 <RowDefinition Height="1* "/>
-                <RowDefinition Height="7.5* "/>
+                <RowDefinition Height="8*"/>
                 <RowDefinition Height = "1.5*"/>
             </Grid.RowDefinitions>
 
             <Button Grid.Row="0" Text= "Preview" Command="{Binding PreviewCommand , Source={ StaticResource SharedPhotoViewModel}}"  ></Button>
             <customcontrols:HighlightCanvas Grid.Row= "1" Renderer="{Binding Highlighter, Source={ StaticResource SharedPhotoViewModel} , Mode=TwoWay}"  >
             </customcontrols:HighlightCanvas >
-            <Grid Grid.Row ="2">
+            <Grid Grid.Row ="2" Margin="0,0,0,10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width = "5*"/>
                     <ColumnDefinition Width = "5*"/>

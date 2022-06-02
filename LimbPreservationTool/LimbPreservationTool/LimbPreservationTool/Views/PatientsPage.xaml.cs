@@ -15,12 +15,13 @@ namespace LimbPreservationTool.Views
     public partial class PatientsPage : ContentPage
     {
         PatientsViewModel viewModel;
+        bool deleteConfirm = false;
 
         public PatientsPage()
         {
             InitializeComponent();
             viewModel = new PatientsViewModel();
-            this.BindingContext = viewModel;            
+            this.BindingContext = viewModel;
         }
 
         protected override async void OnAppearing()
@@ -38,9 +39,22 @@ namespace LimbPreservationTool.Views
 
                 if (viewModel.PatientDeleteMode)
                 {
-                    await (await WoundDatabase.Database).DeletePatient(patient);
 
-                    await viewModel.UpdatePatientList();
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        var result = await this.DisplayAlert("Warning!", "Are you sure you want to delete this patient?", "Yes", "No");
+
+                        if (result)
+                        {
+                            await (await WoundDatabase.Database).DeletePatient(patient);
+
+                            await viewModel.UpdatePatientList();
+                        }
+                    });
+
+                    deleteConfirm = false;
+                    viewModel.ToggleDeleteMode();
+
                 }
                 else
                 {
@@ -48,10 +62,11 @@ namespace LimbPreservationTool.Views
 
                     await Navigation.PopModalAsync();
                 }
-            }            
+                 ((ListView)sender).SelectedItem = null;
+            }
         }
 
-        private async void OnAddNewPatientClicked(object sender, EventArgs e)
+        async void OnAddNewPatientClicked(object sender, EventArgs e)
         {
             NewPatientPage newPage = new NewPatientPage();
             await Navigation.PushModalAsync(newPage);

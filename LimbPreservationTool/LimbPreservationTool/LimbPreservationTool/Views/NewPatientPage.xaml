@@ -5,15 +5,12 @@
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels">
 
-    <ContentPage.BindingContext>
-        <vm:NewPatientViewModel />
-    </ContentPage.BindingContext>
 
     <ContentPage.Content>
         <StackLayout BackgroundColor="NavajoWhite">
             <Label Text="Create New Patient" 
                    FontSize="Large" 
-                   Margin="50,10" 
+                   Margin="100,10" 
                    TextColor="Black" 
                    FontAttributes= "Bold"
                    HorizontalOptions="CenterAndExpand" 
@@ -24,13 +21,15 @@
                      HeightRequest="2"
                      WidthRequest="200"  
                      Color="SeaGreen"></BoxView>
-            <Entry Placeholder="Enter Patient Name..." 
+            <Entry Placeholder="Enter Patient Name...." 
                    PlaceholderColor="SlateGray" 
                    Margin="50,40" 
                    BackgroundColor="WhiteSmoke"
                    xct:CornerRadiusEffect.CornerRadius="10" 
                    TextColor="Black" 
-                   Text="{Binding PatientName}"/>
+                   Text="{Binding PatientName}"
+                    HeightRequest="1" 
+                   />
             <Button Margin="50, 30"
                     Text="Create Patient" 
                     Clicked="OnCreatePatientClicked"

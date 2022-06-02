@@ -13,7 +13,7 @@
     </ContentPage.BindingContext>
 
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView BackgroundColor="{StaticResource MainBG}">
             <StackLayout BackgroundColor="{StaticResource MainBG}">
                 <StackLayout BackgroundColor="{StaticResource MainBG}">
                     <Label Text="{Binding PatientName}" 
@@ -159,17 +159,7 @@
                         <Image Source="{Binding WoundImageSource}"
                                HeightRequest="{Binding ImageHeight}"/>
                     </StackLayout>
-
-                    <Button Text="Delete Wound Data"
-                            Clicked="OnDeleteWoundClicked"
-                            HorizontalOptions="Center" 
-                            VerticalOptions="Center" 
-                            Margin="50,10"
-                            xct:ShadowEffect.Color="Black"
-                            xct:ShadowEffect.OffsetY="0"
-                            xct:ShadowEffect.Opacity="0.9"
-                            xct:CornerRadiusEffect.CornerRadius="10"
-                            xct:ShadowEffect.Radius="10"/>
+                <Label Text="No Image Saved" IsEnabled="{Binding  ShowImage, Converter={StaticResource InvertedBoolConverter} }" HorizontalOptions="CenterAndExpand"/>
                 </StackLayout>
         </ScrollView>
     </ContentPage.Content>

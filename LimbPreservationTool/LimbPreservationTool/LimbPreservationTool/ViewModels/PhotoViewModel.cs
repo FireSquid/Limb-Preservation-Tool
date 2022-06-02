@@ -177,7 +177,10 @@ namespace LimbPreservationTool.ViewModels
         {
             if(Device.RuntimePlatform == Device.Android)
             {
-                Console.WriteLine("Highlight is disabled on Android");
+                //Console.WriteLine("Highlight is disabled on Android")
+                //;
+
+                App.Current.MainPage.DisplayAlert("Oops","Android does not support highlighting yet","OK");
                 return false;
             }
 

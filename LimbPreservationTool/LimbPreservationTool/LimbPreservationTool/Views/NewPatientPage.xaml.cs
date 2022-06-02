@@ -19,7 +19,7 @@ namespace LimbPreservationTool.Views
         public NewPatientPage()
         {
             InitializeComponent();
-            viewModel = new NewPatientViewModel();
+            viewModel = new NewPatientViewModel(); //Don't declare binding context in xaml if set in code behind
             this.BindingContext = viewModel;
         }
 

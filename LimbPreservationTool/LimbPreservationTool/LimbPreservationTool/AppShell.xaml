@@ -94,7 +94,12 @@
         <ShellContent Route="WifiDescPage" ContentTemplate="{DataTemplate local:WifiDescPage}" />
     </TabBar>
     <TabBar Title="NewUser">
-        <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
+        <ShellContent Route="NewPatientPage" ContentTemplate="{DataTemplate local:NewPatientPage}" />
+    </TabBar>
+    
+    
+    <TabBar Title="PatientSelect">
+        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
     </TabBar>
     <TabBar Icon="icon_feed.png">
         <ShellContent Route="HighlightPage" ContentTemplate="{DataTemplate local:HighlightPage}" />
@@ -125,8 +130,6 @@
         <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>    
 
-    <MenuItem Text ="Log Out" Icon="icon_feed.png" Clicked="OnLogoutItemClicked">
-    </MenuItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
 

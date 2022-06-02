@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
+using LimbPreservationTool.ViewModels;
 
 namespace LimbPreservationTool.Models
 {
@@ -123,11 +124,15 @@ namespace LimbPreservationTool.Models
 
         public async Task<Stream> Examine(Stream imageStream)
         {
+            WoundDatabase DB = (await WoundDatabase.Database);
+            Guid patientID = DB.dataHolder.PatientID;
+            DBPatient patient = await DB.GetPatient(patientID);
+            
             Console.WriteLine("-------------Examining");
             Console.WriteLine("-------------Created Stream");
             Scan scan = new Scan()
             {
-                patientID = "123456789" ,  //should be something like patient.patientname
+                patientID = patient.PatientName,
                 date = DateTime.Now.ToString().Replace(' ', '_').Replace('/', '-'),
                 imageStream = imageStream
             };
@@ -176,15 +181,6 @@ namespace LimbPreservationTool.Models
             }
             return Stream.Null;
         }
-
-        //public void LookUpRecentScore(String patientID)
-        //{
-
-        //    //Scan scan = new Scan() { patientID = "12345678910", date = "1970-01-01 10:00:00", image = image };
-        //    //string jsonScan = JsonConvert.SerializeObject(scan);
-        //    //var client = new HttpClient();
-        //    //HttpResponseMessage response = await client.PostAsync(new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze"), new StringContent(jsonScan));
-        //}
 
     }
 

@@ -39,16 +39,19 @@ namespace LimbPreservationTool.Views
 
                 if (viewModel.PatientDeleteMode)
                 {
-                    infectionView.IsVisible = true;
-                    await Task.Delay(3000);
-                    if (deleteConfirm)
+
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await (await WoundDatabase.Database).DeletePatient(patient);
+                        var result = await this.DisplayAlert("Warning!", "Are you sure you want to delete this patient?", "Yes", "No");
 
-                        await viewModel.UpdatePatientList();
-                    }
+                        if (result)
+                        {
+                            await (await WoundDatabase.Database).DeletePatient(patient);
 
-                    infectionView.IsVisible = false;
+                            await viewModel.UpdatePatientList();
+                        }
+                    });
+
                     deleteConfirm = false;
                     viewModel.ToggleDeleteMode();
 
@@ -59,12 +62,8 @@ namespace LimbPreservationTool.Views
 
                     await Navigation.PopModalAsync();
                 }
+                 ((ListView)sender).SelectedItem = null;
             }
-        }
-
-        async void ConfirmDeletePatient(object sender, EventArgs e)
-        {
-            deleteConfirm = true;
         }
 
         async void OnAddNewPatientClicked(object sender, EventArgs e)
@@ -76,16 +75,6 @@ namespace LimbPreservationTool.Views
         private void onToggleDeleteModeClicked(object sender, EventArgs e)
         {
             viewModel.ToggleDeleteMode();
-        }
-        private void infectionInfoOn(object sender, EventArgs e)
-        {
-
-
-        }
-        private void infectionViewOff(object sender, EventArgs e)
-        {
-            infectionView.IsVisible = false;
-
         }
     }
 }

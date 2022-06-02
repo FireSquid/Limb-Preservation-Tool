@@ -98,51 +98,7 @@
                     TextColor="White" />
 
             </StackLayout>
-            <ScrollView Grid.Row="0" 
-                        VerticalOptions="CenterAndExpand" 
-                        HorizontalOptions="CenterAndExpand">
-                <StackLayout>
-                    <ContentView x:Name="infectionView" 
-                                 Padding="10, 0" 
-                                 Margin="20"
-                                 IsVisible="false" 
-                                 AbsoluteLayout.LayoutBounds="0, 0, 1, 1" 
-                                 AbsoluteLayout.LayoutFlags="All">
-                        <StackLayout VerticalOptions="Center" 
-                                     HorizontalOptions="Center">
-                            <StackLayout Orientation="Vertical" 
-                                         Padding="10" 
-                                         BackgroundColor="White">
-                                <Label TextColor="Black" 
-                                       VerticalOptions="Center" 
-                                       HorizontalOptions="Center" 
-                                       VerticalTextAlignment="Center" 
-                                       FontSize="Subtitle"
-                                       FontAttributes="Bold"
-                                       Text="Are you sure you want to delete this patient?"></Label>
-                                <Button HorizontalOptions="Center" 
-                                        VerticalOptions="Center" 
-                                        Clicked="ConfirmDeletePatient" 
-                                        xct:ShadowEffect.Color="Black"
-                                        xct:ShadowEffect.OffsetY="0"
-                                        xct:ShadowEffect.Opacity="0.9"
-                                        xct:CornerRadiusEffect.CornerRadius="10"
-                                        xct:ShadowEffect.Radius="10"
-                                        Text="Yes"></Button>
-                                <Button HorizontalOptions="Center" 
-                                        VerticalOptions="Center" 
-                                        Clicked="infectionViewOff" 
-                                        xct:ShadowEffect.Color="Black"
-                                        xct:ShadowEffect.OffsetY="0"
-                                        xct:ShadowEffect.Opacity="0.9"
-                                        xct:CornerRadiusEffect.CornerRadius="10"
-                                        xct:ShadowEffect.Radius="10"
-                                        Text="No"></Button>
-                            </StackLayout>
-                        </StackLayout>
-                    </ContentView>
-                </StackLayout>
-            </ScrollView>
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

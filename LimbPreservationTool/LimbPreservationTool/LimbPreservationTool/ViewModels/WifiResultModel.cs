@@ -14,15 +14,15 @@ namespace LimbPreservationTool.ViewModels
         // default constructor
         public WifiResultModel()
         {
-            Title = "Wifi results";
+            Title = "No results available, please fill out all fields on the previous page";
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
 
-            AmputationInfo = "Testing";
-            AmputationColor = Color.Purple;
+            AmputationInfo = "";
+            AmputationColor = Color.Transparent;
 
-            RevascInfo = "More Testing";
-            RevascColor = Color.Pink;
+            RevascInfo = "";
+            RevascColor = Color.Transparent;
         }
 
         // constructor that passes in information from question page

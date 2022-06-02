@@ -20,7 +20,7 @@ namespace LimbPreservationTool.Views
         {
             InitializeComponent();
             viewModel = new DataDisplayViewModel();
-            this.BindingContext = viewModel;            
+            this.BindingContext = viewModel;
         }
 
         public void SetWoundData(DBWoundData wd)
@@ -31,11 +31,21 @@ namespace LimbPreservationTool.Views
 
         private void OnDeleteWoundClicked(object sender, EventArgs e)
         {
-            AsyncRunner.Run(WoundDatabase.Database.GetAwaiter().GetResult().DeleteWoundData(viewModel.WoundData));
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                var result = await this.DisplayAlert("Warning!", "Are you sure you want to delete this wound?", "Yes", "No");
 
-            System.Diagnostics.Debug.WriteLine("Deleted Wound Data");
+                if (result)
+                {
+                    AsyncRunner.Run(WoundDatabase.Database.GetAwaiter().GetResult().DeleteWoundData(viewModel.WoundData));
 
-            Navigation.PopAsync();
+                    System.Diagnostics.Debug.WriteLine("Deleted Wound Data");
+                    Navigation.PopAsync();
+
+                }
+            });
+
+            
         }
     }
 }

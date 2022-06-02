@@ -35,7 +35,7 @@
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
                         <Label Text="Select a date below to see individual data points, or view the change in the wound over time underneath" 
-                       FontSize="Subtitle" 
+                       FontSize="Medium" 
                        FontAttributes="Italic"
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 
@@ -44,7 +44,7 @@
                     </StackLayout>
                 </Grid>
 
-                <ScrollView Grid.Row="1" >
+                <ScrollView Grid.Row="1" Padding="10">
                     <ListView x:Name="WoundData"
                     ItemSelected="OnWoundGroupSelected"
                     BackgroundColor="{StaticResource MainBG}"

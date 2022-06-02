@@ -50,7 +50,7 @@
                        Margin="50,10" 
                        TextColor="Black"/>
 
-                    <Label Text="&#x2022; For ischemia, if you don't have it precalculated, you can enter '-1' for the ischemia grade, and instead measure your patient's toe pressure, ankle brachial index, and ankle systolic pressure" 
+                    <Label Text="&#x2022; For ischemia, if you don't have it precalculated, you can enter '-1', and instead measure your patient's toe pressure, ankle brachial index, and ankle systolic pressure" 
                        HorizontalOptions="CenterAndExpand" 
                        FontSize="Subtitle" 
                        HorizontalTextAlignment="Start" 

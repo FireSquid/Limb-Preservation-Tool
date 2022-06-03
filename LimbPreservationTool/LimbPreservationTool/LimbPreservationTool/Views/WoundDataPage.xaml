@@ -36,8 +36,9 @@
                          HeightRequest="2"
                          WidthRequest="200"  
                          Color="SeaGreen"></BoxView>
-                        <Label Text="Select a date below to see individual data points, or view the change in the wound over time underneath" 
-                       FontSize="Medium" 
+                       
+                            <Label Text="Select a date below to see individual data points, or view the change in the wound over time underneath" 
+                       FontSize="Small"       
                        FontAttributes="Italic"
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 

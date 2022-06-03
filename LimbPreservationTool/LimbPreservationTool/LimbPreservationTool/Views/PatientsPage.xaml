@@ -16,7 +16,7 @@
             <StackLayout   BackgroundColor="NavajoWhite">
                 <Label Text="Patient Page" 
                    FontSize="Large" 
-                   Padding="0,100,0,100"
+                   Padding="0,30,0,0"
                    Margin="100,10" 
                    TextColor="Black" 
                    FontAttributes= "Bold"

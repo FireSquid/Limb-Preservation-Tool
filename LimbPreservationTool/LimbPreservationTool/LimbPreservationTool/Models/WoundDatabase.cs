@@ -166,16 +166,25 @@ namespace LimbPreservationTool.Models
                 {
                     var oldData = await GetWoundData(woundData.DataID);
 
-                    if (oldData.Img != woundData.Img)
-                    {
-                        // Make sure to delete old image to avoid filling storage
-                        if (!string.IsNullOrEmpty(oldData.Img) && oldData.PatientID != null)
-                            DeleteImage(oldData.PatientID, oldData.Img);
+                    var saveData = DBWoundData.CopyFrom(woundData);
 
-                        if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null && imageData != null)
+                    if (imageData != null)
+                    {
+                        if (oldData.Img != saveData.Img)
                         {
-                            SaveImage(woundData.PatientID, woundData.Img, imageData);
+                            // Make sure to delete old image to avoid filling storage
+                            if (!string.IsNullOrEmpty(oldData.Img) && oldData.PatientID != null)
+                                DeleteImage(oldData.PatientID, oldData.Img);
+
+                            if (!string.IsNullOrEmpty(saveData.Img) && saveData.PatientID != null && imageData != null)
+                            {
+                                SaveImage(saveData.PatientID, saveData.Img, imageData);
+                            }
                         }
+                    }
+                    else if (!string.IsNullOrEmpty(oldData.Img))
+                    {
+                        saveData.Img = oldData.Img;
                     }
 
                     return await dbConnection.UpdateAsync(woundData);
@@ -375,6 +384,16 @@ namespace LimbPreservationTool.Models
             data.Date = DateTime.Today.Ticks;
             data.SetWifi(-1, -1, -1);
             data.SetWound(-1, null);
+            return data;
+        }
+
+        public static DBWoundData CopyFrom(DBWoundData other)
+        {
+            DBWoundData data = new DBWoundData();
+            data.DataID = other.DataID;
+            data.Date = other.Date;
+            data.SetWifi(other.Wound, other.Ischemia, other.Infection);
+            data.SetWound(other.Size, other.Img);
             return data;
         }
 

@@ -23,7 +23,10 @@ namespace LimbPreservationTool.ViewModels
 
             SaveCanvas = new Renderers.NormalRenderer();
 
-            ImageOptionsAreVisible = true;
+            if (App.unexaminedImage != null)
+            {
+                ImageOptionsAreVisible = true;
+            }            
 
             System.Diagnostics.Debug.WriteLine("End Constructor");
         }
@@ -62,6 +65,7 @@ namespace LimbPreservationTool.ViewModels
             if (App.unexaminedImage == null)
             {
                 WoundData.Img = null;
+                saveSKImage = null;
                 return;
             }
 
@@ -118,6 +122,8 @@ namespace LimbPreservationTool.ViewModels
 
             await db.SetWoundData(saveData, saveSKImage);
 
+            App.unexaminedImage = null;
+            saveSKImage = null;
 
             System.Diagnostics.Debug.WriteLine($"Finished Saving Data");
         }

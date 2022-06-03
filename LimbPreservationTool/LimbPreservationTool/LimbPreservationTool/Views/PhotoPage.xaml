@@ -74,7 +74,7 @@
                        
 
                         <Button x:Name="ExamineBtn" 
-                        Grid.Row="4" 
+                        Grid.Row="3" 
                         Margin="50, 0" 
                         Text="Examine this Picture"
                         Command="{Binding ExaminePhotoCommand,  Source={ StaticResource SharedPhotoViewModel} }"

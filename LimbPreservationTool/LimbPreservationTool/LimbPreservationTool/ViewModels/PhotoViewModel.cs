@@ -45,6 +45,11 @@ namespace LimbPreservationTool.ViewModels
             EnablePicture();
         }
 
+        public void SetPhotoPage(PhotoPage pp)
+        {
+            photoPage = pp;
+        }
+
         private async Task SaveWoundData()
         {
             DisableSave();
@@ -99,6 +104,10 @@ namespace LimbPreservationTool.ViewModels
             catch
             {
                 System.Diagnostics.Debug.WriteLine("Image Decoding Failed");
+                if (photoPage != null)
+                {
+                    photoPage.PhotoErrorAlert();
+                }
                 return false;
             }
             Console.WriteLine(original.Width + "x" + original.Height);
@@ -369,6 +378,7 @@ namespace LimbPreservationTool.ViewModels
 
         private bool saveDataAllowed = false;
 
+        private PhotoPage photoPage;
 
     }
 }

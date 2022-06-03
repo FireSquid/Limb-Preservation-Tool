@@ -93,6 +93,9 @@
     <TabBar>
         <ShellContent Route="WifiDescPage" ContentTemplate="{DataTemplate local:WifiDescPage}" />
     </TabBar>
+    <TabBar>
+        <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
+    </TabBar>
     
     
     <TabBar Title="PatientSelect">

@@ -210,10 +210,15 @@ namespace LimbPreservationTool.Models
             {
                 if (!woundDict.ContainsKey(data.WoundGroup))
                 {
-                    woundDict.Add(data.WoundGroup, new List<DBWoundData>());
-                    
+                    woundDict.Add(data.WoundGroup, new List<DBWoundData>());                    
                 }
+
                 woundDict[data.WoundGroup].Add(data);
+            }
+
+            foreach (var woundDataList in woundDict.Values)
+            {
+                woundDataList.Sort(new WoundDataDateComparer());
             }
 
             return woundDict;
@@ -449,6 +454,14 @@ namespace LimbPreservationTool.Models
         public TaskAwaiter<T> GetAwaiter()
         {
             return instance.Value.GetAwaiter();
+        }
+    }
+
+    internal class WoundDataDateComparer : IComparer<DBWoundData>
+    {
+        public int Compare(DBWoundData A, DBWoundData B)
+        {
+            return A.Date.CompareTo(B.Date);
         }
     }
 }

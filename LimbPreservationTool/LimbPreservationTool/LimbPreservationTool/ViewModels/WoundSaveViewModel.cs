@@ -116,16 +116,19 @@ namespace LimbPreservationTool.ViewModels
             saveData.Infection  = (WoundData.Infection >= 0)    ? WoundData.Infection   : existingData.Infection;
 
             saveData.Size   = (WoundData.Size >= 0)                               ? WoundData.Size    : existingData.Size;
-            System.Diagnostics.Debug.WriteLine($"{saveData} - {WoundData} - {existingData}");
-            System.Diagnostics.Debug.WriteLine($"{saveData.Img} - {WoundData.Img} - {existingData.Img}");
-            saveData.Img    = (WoundData.Img != null && WoundData.Img.Length > 0) ? WoundData.Img     : existingData.Img;
+            saveData.Img    = (!string.IsNullOrEmpty(WoundData.Img))              ? WoundData.Img     : existingData.Img;
+
+            System.Diagnostics.Debug.WriteLine($"Saving to group {saveData.WoundGroup} - and patient {saveData.PatientID}");
 
             await db.SetWoundData(saveData, saveSKImage);
+
+            System.Diagnostics.Debug.WriteLine("Cleaning Leftover Data");
 
             App.unexaminedImage = null;
             saveSKImage = null;
 
-            db.dataHolder = DBWoundData.Create().SetBase(db.dataHolder.PatientID, db.dataHolder.WoundGroup);
+            db.dataHolder.ResetDetail();
+            WoundData.ResetDetail();
 
             System.Diagnostics.Debug.WriteLine($"Finished Saving Data");
         }
@@ -214,8 +217,9 @@ namespace LimbPreservationTool.ViewModels
             {
                 SetProperty(ref _woundData, value);
 
-                if (WoundData != null && WoundData.WoundGroup.Length > 0)
+                if (WoundData != null && !string.IsNullOrEmpty(WoundData.WoundGroup))
                 {
+                    System.Diagnostics.Debug.WriteLine($"Setting Wound Group to {WoundData.WoundGroup}");
                     WoundGroupName = WoundData.WoundGroup;
                 }
             }

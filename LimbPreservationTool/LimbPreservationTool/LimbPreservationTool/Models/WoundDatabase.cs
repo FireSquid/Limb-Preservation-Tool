@@ -182,12 +182,12 @@ namespace LimbPreservationTool.Models
                             }
                         }
                     }
-                    else if (!string.IsNullOrEmpty(oldData.Img))
+                    else
                     {
                         saveData.Img = oldData.Img;
                     }
 
-                    return await dbConnection.UpdateAsync(woundData);
+                    return await dbConnection.UpdateAsync(saveData);
                 }
                 catch (Exception)
                 {

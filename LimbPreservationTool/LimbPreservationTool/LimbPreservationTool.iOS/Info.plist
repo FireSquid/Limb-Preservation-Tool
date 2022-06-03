@@ -46,7 +46,5 @@
 	</dict>
 	<key>Custom Property</key>
 	<string></string>
-	<key>XSAppIconAssets</key>
-	<string>Assets.xcassets/Bandage.appiconset</string>
 </dict>
 </plist>

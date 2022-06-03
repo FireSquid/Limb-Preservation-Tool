@@ -41,7 +41,7 @@
                        HorizontalTextAlignment="Start" 
                        Margin="50,10" 
                        TextColor="Black"/>
-                    <Label Text="&#x2022; Place your object of known size at the top left of the photo" 
+                    <Label Text="&#x2022; Ensure object of known size is smaller than wound area" 
                        FontSize="Subtitle" 
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Start" 

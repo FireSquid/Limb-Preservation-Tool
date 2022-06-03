@@ -14,27 +14,32 @@ namespace LimbPreservationTool.ViewModels
         // default constructor
         public WifiResultModel()
         {
-            Title = "Wifi results";
-            TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
+            Title = "No results available, please fill out all fields on the previous page";
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
-            AboutCommand = new Command(async () => await AboutPageOpen());
+            BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
 
-            AmputationInfo = "Testing";
-            AmputationColor = Color.Purple;
+            AmputationInfo = "";
+            AmputationColor = Color.Transparent;
 
-            RevascInfo = "More Testing";
-            RevascColor = Color.Pink;
+            RevascInfo = "";
+            RevascColor = Color.Transparent;
         }
 
         // constructor that passes in information from question page
         public WifiResultModel(string ampInfo, string revInfo, Color ampColor, Color revColor)
         {
             Title = "Wifi results";
-            TakeNewPhotoCommand = new Command(async () => await TakeNewPhoto());
             EnterAdditionalInfoCommand = new Command(async () => await EnterAdditionalWifiInfo());
-            AboutCommand = new Command(async () => await AboutPageOpen());
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
+            if (ampInfo == "VeryLow")
+            {
+                ampInfo = "Very Low";
+            }
 
+            if (revInfo == "VeryLow")
+            {
+                revInfo = "Very Low";
+            }
             AmputationInfo = $"Your estimate risk for amputation at 1 year is: \n" + ampInfo;
             AmputationColor = ampColor;
 
@@ -42,26 +47,14 @@ namespace LimbPreservationTool.ViewModels
             RevascColor = revColor;
         }
 
-        async Task TakeNewPhoto()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(PhotoPage)}");
-        }
-
         async Task EnterAdditionalWifiInfo()
         {
             await Shell.Current.GoToAsync($"//{nameof(WifiPage)}");
         }
 
-        async Task AboutPageOpen()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
-        }
-
-        public ICommand TakeNewPhotoCommand { get; }
-
         public ICommand EnterAdditionalInfoCommand { get; }
 
-        public ICommand AboutCommand { get; }
+        public ICommand SaveWifiData { get; }
 
         public ICommand BacktoHome { get; }
 

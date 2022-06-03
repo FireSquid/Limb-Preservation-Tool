@@ -9,6 +9,7 @@ using LimbPreservationTool.Views;
 
 using System.Collections.Generic;
 using System.Text;
+using LimbPreservationTool.Models;
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -32,12 +33,27 @@ namespace LimbPreservationTool.ViewModels
 
         public WifiViewModel()
         {
+            ClearStartInfo();
             WifiStatus = "Please Enter The Information Below";
             WifiColor = Color.Black;
-            CalculateWiFICommand = new Command(ClickWifiSubmit);
+            CalculateWiFICommand = new Command(async () => await ClickWifiSubmit());
+            BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
+
         }
 
-        void ClickWifiSubmit(object obj)
+        public void ClearStartInfo()
+        {
+            WoundGrade = "";
+            InfectionGrade = "";
+            IschemiaGrade = "";
+            ToePressureGrade = "";
+            AnkleBrachialIndex = "";
+            AnkleSystolicPressure = "";
+            SaveDateInternal = DateTime.Parse("1/1/2022");
+
+        }
+
+        async Task ClickWifiSubmit()
         {
             // convert user input from string
             int woundGrade;
@@ -56,6 +72,7 @@ namespace LimbPreservationTool.ViewModels
             catch (Exception ex)
             {
                 WifiStatus = $"Please fill out all fields";
+                WifiColor = Color.Red;
                 Console.WriteLine(ex.Message);
                 return;
             }
@@ -80,7 +97,7 @@ namespace LimbPreservationTool.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        WifiStatus = $"Please fill out all fields";
+                        WifiStatus = $"Please fill out all fields. Keep in mind, grades should fall within a range of 0-3, unless you need your ischemia grade calculated with further tests";
                         Console.WriteLine(ex.Message);
                         return;
                     }
@@ -88,9 +105,17 @@ namespace LimbPreservationTool.ViewModels
                 }
             }
 
+
+
             // calculate and output risk
             amputationRisk = calculateAmputationRisk(woundGrade, infectionGrade, ischemiaGrade, amputationRisk);
             revascularizationRisk = calculateRevascularizationRisk(woundGrade, infectionGrade, ischemiaGrade, revascularizationRisk);
+
+            // Keep reference to wifi data
+            var db = (WoundDatabase.Database).GetAwaiter().GetResult();
+            if (db.dataHolder == null)
+                db.dataHolder = DBWoundData.Create(Guid.Empty);
+            db.dataHolder.SetWifi(woundGrade, infectionGrade, ischemiaGrade);
 
             Color ampColor = Color.Black;
             Color revascColor = Color.Black;
@@ -129,7 +154,10 @@ namespace LimbPreservationTool.ViewModels
                 revascColor = Color.Red;
             }
 
-            App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
+
+            await App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
+
+            ClearStartInfo();
         }
 
 
@@ -148,8 +176,12 @@ namespace LimbPreservationTool.ViewModels
         private string ischemiaGradeString;
         public string IschemiaGrade { get => ischemiaGradeString; set => SetProperty(ref ischemiaGradeString, value); }
 
+        private DateTime saveDateString;
+        public DateTime SaveDateInternal { get => saveDateString; set => SetProperty(ref saveDateString, value); }
+
         // grades to calculate ischemia
         private string toePressureGradeString;
+        public ICommand BacktoHome { get; }
         public string ToePressureGrade { get => toePressureGradeString; set => SetProperty(ref toePressureGradeString, value); }
 
         private string ankleBrachialIndexString;
@@ -158,7 +190,26 @@ namespace LimbPreservationTool.ViewModels
         private string ankleSystolicPressureString;
         public string AnkleSystolicPressure { get => ankleSystolicPressureString; set => SetProperty(ref ankleSystolicPressureString, value); }
 
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            //lets the Entry be empty
+            if (string.IsNullOrEmpty(e.NewTextValue)) return;
+
+            if (!int.TryParse(e.NewTextValue, out int value))
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+
+            int checkRange = 0;
+            checkRange = int.Parse(e.NewTextValue);
+            if (checkRange > 3 || checkRange < -1)
+            {
+                ((Entry)sender).Text = e.OldTextValue;
+            }
+        }
+
         // function to validate that each grade falls within ranges we calculate for
+
         private static bool validateGrades(int woundGrade, int infectionGrade, int ischemiaGrade)
         {
             bool woundGradeValid = (woundGrade > -1) && (woundGrade < 4);
@@ -192,7 +243,7 @@ namespace LimbPreservationTool.ViewModels
             {
                 ischemiaGrade = 0;
             }
-            else if ((toePressure >40) && (toePressure < 59))
+            else if ((toePressure > 40) && (toePressure < 59))
             {
                 ischemiaGrade = 1;
             }
@@ -271,7 +322,7 @@ namespace LimbPreservationTool.ViewModels
                 {
                     ampScore = Amputation.Low;
                 }
-                else if ((woundGrade == 1)  && (infectionGrade == 0))
+                else if ((woundGrade == 1) && (infectionGrade == 0))
                 {
                     ampScore = Amputation.Low;
                 }

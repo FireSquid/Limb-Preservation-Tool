@@ -10,19 +10,21 @@ using Xamarin.Essentials;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
+using LimbPreservationTool.ViewModels;
 
 namespace LimbPreservationTool.Models
 {
     public class Scan : SplittableHttpContent, IFetchableHttpContent
     {
-        public String patientID { get; set; }
-        public String date { get; set; }
-        public Stream imageStream { get; set; }
+        public String PatientID { get; set; }
+        public String Date { get; set; }
+        public Stream ImageStream { get; set; }
 
         public override List<HttpRequestMessage> ToHttpList()
         {
             var ms = new MemoryStream();
-            imageStream.CopyTo(ms);
+            ImageStream.CopyTo(ms);
             List<byte[]> contentchunks = Split(ms.ToArray(), 100000);
             List<HttpRequestMessage> messages = new List<HttpRequestMessage>();
 
@@ -40,7 +42,7 @@ namespace LimbPreservationTool.Models
 
                     Method = HttpMethod.Post,
 
-                    RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
+                    RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + PatientID + "&date=" + Date),
                     //RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                     Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8, "application/json")
                     //Content = new ByteArrayContent(cc);
@@ -58,14 +60,14 @@ namespace LimbPreservationTool.Models
         {
 
             var content = new Dictionary<string, string> {
-                    {"patientID",patientID },
-                    {"date", date },
+                    {"patientID",PatientID },
+                    {"date", Date },
             };
             HttpRequestMessage request = new HttpRequestMessage
             {
 
                 Method = HttpMethod.Get,
-                RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + patientID + "&date=" + date),
+                RequestUri = new Uri("http://ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze?patientID=" + PatientID + "&date=" + Date),
                 //RequestUri = new Uri("http://miwpro.local:5000/analyze?patientID=" + patientID + "&date=" + date),
                 //Content = new StringContent(JsonConvert.SerializeObject(content), System.Text.Encoding.UTF8)
             };
@@ -75,7 +77,7 @@ namespace LimbPreservationTool.Models
         public static async Task<Scan> Decode(HttpResponseMessage m)
         {
             Scan s = new Scan();
-            s.imageStream = await m.Content.ReadAsStreamAsync();
+            s.ImageStream = await m.Content.ReadAsStreamAsync();
             return s;
         }
 
@@ -87,7 +89,7 @@ namespace LimbPreservationTool.Models
     public class Doctor
     {
         private static Doctor instance;
-        readonly String ID;
+        public String ID;
         readonly String password;
         readonly HttpClient client;
 
@@ -120,15 +122,22 @@ namespace LimbPreservationTool.Models
             instance = null;
         }
 
+
+
         public async Task<Stream> Examine(Stream imageStream)
         {
+            WoundDatabase DB = (await WoundDatabase.Database);
+            Guid patientID = DB.dataHolder.PatientID;
+            DBPatient patient = await DB.GetPatient(patientID);
+
             Console.WriteLine("-------------Examining");
             Console.WriteLine("-------------Created Stream");
             Scan scan = new Scan()
             {
-                patientID = "123456789",
-                date = DateTime.Now.ToString().Replace(' ', '_').Replace('/', '-'),
-                imageStream = imageStream
+                PatientID = patient.PatientName,
+                Date = DateTime.Now.ToString().Replace(' ', '_').Replace('/', '-'),
+
+                ImageStream = imageStream
             };
             Console.WriteLine("-------------Created Scan");
 
@@ -140,7 +149,21 @@ namespace LimbPreservationTool.Models
                 Console.WriteLine("-------------Sending Scan");
                 await Client.GetInstance().SendRequestChunksAsync(scan);
                 HttpResponseMessage scanResult = await Client.GetInstance().GetRequestAsync(scan);
-                Console.WriteLine("-------------Received Result");
+                float woundSizeResult = -1;
+                IEnumerable<string> headerValues;
+                if (scanResult.Headers.TryGetValues("wound_size_hdr", out headerValues))
+                {
+                    foreach (var headerValue in headerValues)
+                    {
+                        if (float.TryParse(headerValue, out woundSizeResult))
+                            break;
+                    }
+                    var db = (WoundDatabase.Database).GetAwaiter().GetResult();
+                    if (db.dataHolder == null)
+                        db.dataHolder = DBWoundData.Create(Guid.Empty);
+                    db.dataHolder.SetWound(woundSizeResult, null);
+                }
+                Console.WriteLine($"-------------Received Result - Wound Size: {woundSizeResult}");
                 Scan result = await Scan.Decode(scanResult);
                 Console.WriteLine("-------------Decoded Result");
 
@@ -149,25 +172,18 @@ namespace LimbPreservationTool.Models
 
                 watch.Stop();
 
-                Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds } ms");
+                Console.WriteLine($"Execution Time: {watch.ElapsedMilliseconds} ms");
 
-                return result.imageStream;
+                return result.ImageStream;
             }
             catch (Exception e)
             {
                 Console.Write(e.Message);
+
+                await App.Current.MainPage.DisplayAlert("Error", "Server Is Down", "OK");
             }
             return Stream.Null;
         }
-
-        //public void LookUpRecentScore(String patientID)
-        //{
-
-        //    //Scan scan = new Scan() { patientID = "12345678910", date = "1970-01-01 10:00:00", image = image };
-        //    //string jsonScan = JsonConvert.SerializeObject(scan);
-        //    //var client = new HttpClient();
-        //    //HttpResponseMessage response = await client.PostAsync(new Uri("http://ec2-user@ec2-184-169-147-75.us-west-1.compute.amazonaws.com:5000/analyze"), new StringContent(jsonScan));
-        //}
 
     }
 

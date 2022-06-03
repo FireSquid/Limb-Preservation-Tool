@@ -40,12 +40,18 @@ namespace LimbPreservationTool.Views
         {
             base.OnAppearing();
 
-            await viewModel.Initialize(groupName, patientID);
+            if (!(await viewModel.Initialize(groupName, patientID)))
+            {
+                await Navigation.PopAsync();
+            }
         }
 
         async void OnWoundGroupSelected(object sender, SelectedItemChangedEventArgs e)
         {
-
+            DataDisplayPage newPage = new DataDisplayPage();
+            newPage.SetWoundData((e.SelectedItem as WoundDataDisplay).data);
+            System.Diagnostics.Debug.WriteLine("Switching Data Display");
+            await Navigation.PushAsync(newPage);
         }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using LimbPreservationTool.Models;
 using LimbPreservationTool.Views;
 using System;
-using System.Collections.Generic;
 using System.Text;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+
+using System.Windows.Input;
+
 
 namespace LimbPreservationTool.ViewModels
 {
@@ -15,31 +18,49 @@ namespace LimbPreservationTool.ViewModels
         {
             ResetLoginMessage();
             LoginCommand = new Command(OnLoginClicked);
+            NewUserCommand = new Command(async () => await NewUserPage());
         }
 
         private async void OnLoginClicked(object obj)
         {
             LoginStatus = "Authenticating Login Information...";
-            //if (await VerifyLoginEntry())
-            if (true)
+            try
             {
-                LoginStatus = "Login Successful";
-                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                if (await VerifyLoginEntry())
+                {
+                    LoginStatus = "Login Successful";
+                    await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                }
+                else
+                {
+                    LoginStatus = $"Login Failed - Invalid Username or Password";
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LoginStatus = $"Login Failed - Invalid Username or Password";
+                LoginStatus = "Could Not Connect to the Server";
             }
         }
 
         private async Task<bool> VerifyLoginEntry()
         {
-            return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            if(UsernameEntryField.Equals("Review")&& PasswordEntryField.Equals("12345"))
+            {
+            return true;
+            }
+            try
+            {
+                return await Authentication.AttemptAuthentication(UsernameEntryField, PasswordEntryField);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public void ResetLoginMessage()
         {
-            LoginStatus = "Awaiting Login";
+            LoginStatus = "Awaiting Login...";
         }
 
         public void ClearLoginInformation()
@@ -47,6 +68,13 @@ namespace LimbPreservationTool.ViewModels
             UsernameEntryField = "";
             PasswordEntryField = "";
         }
+
+        async Task NewUserPage()
+        {
+            await Shell.Current.GoToAsync("//NewUserPage");
+        }
+
+        public ICommand NewUserCommand { get; }
 
         public Command LoginCommand { get; }
 

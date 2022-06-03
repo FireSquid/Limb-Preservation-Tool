@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using SkiaSharp;
 
 namespace LimbPreservationTool.Models
 {
@@ -32,6 +34,8 @@ namespace LimbPreservationTool.Models
         {
             dbConnection = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             dbConnection.EnableWriteAheadLoggingAsync();
+
+            dataHolder = DBWoundData.Create(Guid.Empty);
         }
 
         public Task<List<DBPatient>> GetPatientsList()
@@ -91,6 +95,8 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> DeletePatient(DBPatient patient)
         {
+            await DeletePatientsWoundData(patient);
+
             return await dbConnection.DeleteAsync(patient);
         }
 
@@ -109,47 +115,80 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> DeleteWoundData(DBWoundData woundData)
         {
-            return await dbConnection.DeleteAsync<int>(woundData.DataID);
+            // Delete associated image
+            if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null)
+                DeleteImage(woundData.PatientID, woundData.Img);
+
+            return await dbConnection.DeleteAsync(woundData);
         }
 
-        public async Task<bool> CheckDuplicateData(DBWoundData woundData)
+        public async Task DeletePatientsWoundData(DBPatient patient)
+        {
+            var woundData = await dbConnection.Table<DBWoundData>().Where(data => data.PatientID.Equals(patient.PatientID)).ToListAsync();
+
+            foreach (var wound in woundData)
+            {
+                // Delete associated images
+                if (!string.IsNullOrEmpty(wound.Img) && wound.PatientID != null)
+                    DeleteImage(wound.PatientID, wound.Img);
+
+                await dbConnection.DeleteAsync(wound);
+            }
+        }
+
+        public async Task<DBWoundData> CheckDuplicateData(DBWoundData woundData)
         {
             try
             {
-                await dbConnection.Table<DBWoundData>().Where(data => (
+                var result = await dbConnection.Table<DBWoundData>().Where(data => (
                 !data.DataID.Equals(woundData.DataID)
                 && data.Date.Equals(woundData.Date)
                 && data.PatientID.Equals(woundData.PatientID)
                 && data.WoundGroup.Equals(woundData.WoundGroup)
                 )).FirstAsync();
 
-                return true;
+                return result;
             }
             catch (Exception)
             {
-                return false;
+                return null;
             }
         }
 
-        public async Task<int> SetWoundData(DBWoundData woundData)
+        public async Task<int> SetWoundData(DBWoundData woundData, SKImage imageData = null)
         {
-            if (!string.IsNullOrEmpty(woundData.Img) && !StringIsSafe(woundData.Img))
-                throw new NonAlphaNumericInsertException(woundData.Img, "DBWoundData");
             if (!string.IsNullOrEmpty(woundData.WoundGroup) && !StringIsSafe(woundData.WoundGroup))
                 throw new NonAlphaNumericInsertException(woundData.WoundGroup, "DBWoundData");
 
-            if (!(await CheckDuplicateData(woundData)))
-            { 
+            if ((await CheckDuplicateData(woundData)) == null)
+            {
                 try
                 {
-                    await GetWoundData(woundData.DataID);
+                    var oldData = await GetWoundData(woundData.DataID);
+
+                    if (oldData.Img != woundData.Img)
+                    {
+                        // Make sure to delete old image to avoid filling storage
+                        if (!string.IsNullOrEmpty(oldData.Img) && oldData.PatientID != null)
+                            DeleteImage(oldData.PatientID, oldData.Img);
+
+                        if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null && imageData != null)
+                        {
+                            SaveImage(woundData.PatientID, woundData.Img, imageData);
+                        }
+                    }
 
                     return await dbConnection.UpdateAsync(woundData);
                 }
-                catch(Exception)
+                catch (Exception)
                 {
+                    if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null && imageData != null)
+                    {
+                        SaveImage(woundData.PatientID, woundData.Img, imageData);
+                    }
+
                     return await dbConnection.InsertAsync(woundData);
-                }                
+                }
             }
             else
             {
@@ -171,16 +210,21 @@ namespace LimbPreservationTool.Models
             {
                 if (!woundDict.ContainsKey(data.WoundGroup))
                 {
-                    woundDict.Add(data.WoundGroup, new List<DBWoundData>());
-                    
+                    woundDict.Add(data.WoundGroup, new List<DBWoundData>());                    
                 }
+
                 woundDict[data.WoundGroup].Add(data);
+            }
+
+            foreach (var woundDataList in woundDict.Values)
+            {
+                woundDataList.Sort(new WoundDataDateComparer());
             }
 
             return woundDict;
         }
 
-        public static bool StringIsSafe(string str)
+        public static bool StringIsSafe(string str) // Checks if string can safely be inserted into the database (stricter than necessary)
         {
             return str.All(c => {
                 return (char.IsLetterOrDigit(c) || char.IsWhiteSpace(c));
@@ -189,14 +233,94 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> DeleteAllPatients()
         {
+            throw new NotImplementedException("DeleteAllPatients needs to delete image files before it can be used");// Make sure to delete all stored images before removing this
+
             return await dbConnection.DeleteAllAsync<DBPatient>();
         }
 
         public async Task<int> DeleteAllWoundData()
         {
+            throw new NotImplementedException("DeleteAllWoundData needs to delete image files before it can be used");// Make sure to delete all stored images before removing this
+
             return await dbConnection.DeleteAllAsync<DBWoundData>();
         }
+
+        public async Task<List<DBPatient>> GetClosestPatient(string tgtName)
+        {
+            return await GetPatientsList();
+        }
+
+        public static int LevenshteinDist(string source, string target)
+        {
+            string rSource = String.Concat(source.ToLower().Where((c) => !char.IsWhiteSpace(c)));
+            string rTarget = String.Concat(target.ToLower().Where((c) => !char.IsWhiteSpace(c)));
+
+            string strA = rSource.Substring(0, Math.Min(rSource.Length, rTarget.Length));
+            string strB = rTarget.Substring(0, Math.Min(rTarget.Length, rSource.Length));
+
+            int[,] dists = new int[strA.Length + 1, strB.Length + 1];
+
+            for (int i = 0; i <= strA.Length; i++) dists[i, 0] = i;
+            for (int i = 0; i <= strB.Length; i++) dists[0, i] = i;
+
+            for (int b = 1; b <= strB.Length; b++)
+                for (int a = 1; a <= strA.Length; a++)
+                {
+                    int subCost = (strA[a - 1] == strB[b - 1]) ? 0 : 1;
+
+                    dists[a, b] = new int[] {
+                        dists[a - 1, b] + 1,
+                        dists[a, b - 1] + 1,
+                        dists[a - 1, b - 1] + subCost
+                    }.Min();
+                }
+
+            return dists[strA.Length, strB.Length];
+        }
+
+        public static void DeleteImage(Guid patientID, string imgName)
+        {
+            string deletePath = Constants.GetImagePath(patientID, imgName);
+            System.Diagnostics.Debug.WriteLine($"Deleting {deletePath}");
+            File.Delete(deletePath);
+            System.Diagnostics.Debug.WriteLine($"Finished Deleting");
+        }
+
+        public static void SaveImage(Guid patientID, string imgName, SKImage saveImage)
+        {
+            string savePath = Constants.GetImagePath(patientID, imgName);
+            System.Diagnostics.Debug.WriteLine($"Saving to {savePath}");
+
+            using (FileStream imgFileStream = new FileStream(savePath, FileMode.Create))
+            {                
+                using (var imgStream = saveImage.Encode(SKEncodedImageFormat.Png, 100).AsStream())
+                {
+                    System.Diagnostics.Debug.WriteLine("Started Writing");
+                    imgStream.CopyTo(imgFileStream);
+                }                
+            }
+            System.Diagnostics.Debug.WriteLine($"Finished Saving");
+        }
+
+        public static bool LoadImage(Guid patientID, string imgName, out Stream imgStream)
+        {
+            string loadPath = Constants.GetImagePath(patientID, imgName);
+            System.Diagnostics.Debug.WriteLine($"Loading {loadPath}");
+
+            if (!File.Exists(loadPath))
+            {
+                System.Diagnostics.Debug.WriteLine($"Error: Could not locate the image file.");
+                imgStream = Stream.Null;
+                return false;
+            }
+
+            imgStream = File.OpenRead(loadPath);
+            return true;
+        }
+
+        public DBWoundData dataHolder { get; set; }
     }
+
 
     [Table("DBWoundData")]
     public class DBWoundData
@@ -239,6 +363,8 @@ namespace LimbPreservationTool.Models
             DBWoundData data = new DBWoundData();
             data.DataID = Guid.NewGuid();
             data.Date = DateTime.Today.Ticks;
+            data.SetWifi(-1, -1, -1);
+            data.SetWound(-1, null);
             return data;
         }
 
@@ -247,6 +373,8 @@ namespace LimbPreservationTool.Models
             DBWoundData data = new DBWoundData();
             data.DataID = dataID;
             data.Date = DateTime.Today.Ticks;
+            data.SetWifi(-1, -1, -1);
+            data.SetWound(-1, null);
             return data;
         }
 
@@ -307,7 +435,6 @@ namespace LimbPreservationTool.Models
             dbPatient.PatientID = id;
             return dbPatient;
         }
-
     }
 
     internal class AsyncLazy<T>
@@ -327,6 +454,14 @@ namespace LimbPreservationTool.Models
         public TaskAwaiter<T> GetAwaiter()
         {
             return instance.Value.GetAwaiter();
+        }
+    }
+
+    internal class WoundDataDateComparer : IComparer<DBWoundData>
+    {
+        public int Compare(DBWoundData A, DBWoundData B)
+        {
+            return A.Date.CompareTo(B.Date);
         }
     }
 }

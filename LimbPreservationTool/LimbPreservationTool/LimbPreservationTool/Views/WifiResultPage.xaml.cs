@@ -29,5 +29,11 @@ namespace LimbPreservationTool.Views
             viewModel = new WifiResultModel(ampInfo, revInfo, ampColor, revColor);
             this.BindingContext = viewModel;
         }
+
+        private void OnSaveWifiData(object sender, EventArgs e)
+        {
+            var savePage = new WoundSavePage();
+            Navigation.PushAsync(savePage);
+        }
     }
 }

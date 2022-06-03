@@ -4,7 +4,11 @@
              x:Class="LimbPreservationTool.Views.AboutPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             >
 
     <ContentPage.BindingContext>
         <vm:AboutViewModel />
@@ -43,7 +47,7 @@
                          Padding="30,24,30,24" 
                          Spacing="10">
                 <Label Text="About this App" 
-                       FontSize="30" 
+                       FontSize="Large" 
                        Margin="50,30" 
                        TextColor="Black" 
                        FontAttributes= "Bold"

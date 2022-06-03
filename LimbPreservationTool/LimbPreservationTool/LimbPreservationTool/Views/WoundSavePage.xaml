@@ -1,0 +1,230 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LimbPreservationTool.Views.WoundSavePage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels" 
+             xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             >
+
+    <ContentPage.BindingContext>
+        <vm:WoundSaveViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid BackgroundColor="NavajoWhite">
+        <ScrollView BackgroundColor="NavajoWhite">
+            <StackLayout>            
+                <!--
+                <Label Text="Patient" 
+                       FontSize="Large" 
+                       Margin="50,10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalOptions="Center" />
+                <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+                -->
+                <Label Text="{Binding PatientName}" 
+                       FontSize="Title" 
+                       Margin="50,10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" />
+                <StackLayout IsVisible="{Binding WoundGroupIsVisible}">
+                    <BoxView Margin="20,5" 
+                             HeightRequest="1" 
+                             Color="Gray" />
+                    <Label  Text="Wound" 
+                            FontSize="Large" 
+                            Margin="50,10" 
+                            TextColor="Black" 
+                            FontAttributes= "Bold"
+                            HorizontalOptions="CenterAndExpand" 
+                            HorizontalTextAlignment="Center" 
+                            VerticalOptions="Center" />
+                    <BoxView    VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                HeightRequest="2"
+                                WidthRequest="200"  
+                                Color="SeaGreen"></BoxView>
+                    <Label  Text="Add a new wound for this patient, or select an existing wound below" 
+                            FontSize="Subtitle" 
+                            FontAttributes="Italic"
+                            HorizontalOptions="CenterAndExpand" 
+                            HorizontalTextAlignment="Center" 
+                            Margin="50,10" 
+                            TextColor="Black"/>
+                    <Entry  Placeholder="Enter Wound Name..." 
+                            PlaceholderColor="SlateGray" 
+                            Margin="50,10" 
+                            BackgroundColor="WhiteSmoke" 
+                            TextColor="{Binding WoundGroupNameColor}" 
+                            xct:CornerRadiusEffect.CornerRadius="10" 
+                            Keyboard="Plain" 
+                            Text="{Binding WoundGroupName}"/>
+                    <Button Margin="50,5" Text="Save to New Wound"
+                            IsEnabled="{Binding WoundSaveButtonEnabled}"
+                            Clicked="OnSaveWoundGroupClicked"
+                            xct:ShadowEffect.Color="Black"
+                            xct:ShadowEffect.OffsetY="0"
+                            xct:ShadowEffect.Opacity="0.9"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            xct:ShadowEffect.Radius="10"
+                            IsVisible="{Binding WoundGroupsAreVisible}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
+                    <Label  Text="Or Select an Existing Wound..."
+                            VerticalOptions="Center"
+                            FontSize="Medium" 
+                            FontAttributes="Italic"
+                            HorizontalOptions="CenterAndExpand" 
+                            HorizontalTextAlignment="Center" 
+                            TextColor="Black"
+                            Margin="50,20"
+                            IsVisible="{Binding WoundGroupsAreVisible}"/>
+                    <ListView x:Name="WoundGroups"
+                                Margin="0"
+                                BackgroundColor="Transparent"
+                                ItemSelected="OnWoundGroupSelected"
+                                ItemsSource="{Binding WoundGroupsList}"
+                                IsVisible="{Binding WoundGroupsAreVisible}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout   Margin="20,0"
+                                        Orientation="Horizontal"
+                                        BackgroundColor="WhiteSmoke"
+                                        HorizontalOptions="FillAndExpand">
+                                        <Label  Text="{Binding Name}"
+                                                TextColor="Black"
+                                                VerticalTextAlignment="Center"
+                                                Padding="5"
+                                                FontSize="Medium"
+                                                HorizontalOptions="StartAndExpand" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding FinalIsVisible}">
+                    <BoxView Margin="20,5" 
+                             HeightRequest="1" 
+                             Color="Gray" />
+                    <Label  Text="Choose Measurement Date" 
+                            FontSize="Large" 
+                            Margin="50,10" 
+                            TextColor="Black" 
+                            FontAttributes= "Bold"
+                            HorizontalOptions="CenterAndExpand" 
+                            HorizontalTextAlignment="Center" 
+                            VerticalOptions="Center" />
+                    <BoxView    VerticalOptions="Center"
+                                HorizontalOptions="Center"
+                                HeightRequest="2"
+                                WidthRequest="200"  
+                                Color="SeaGreen"></BoxView>
+                    <DatePicker Date="{Binding WoundSaveDate}"
+                                Format="D"
+                                Margin="50,20" 
+                                BackgroundColor="WhiteSmoke" 
+                                xct:ShadowEffect.OffsetY="0"
+                                xct:ShadowEffect.Opacity="0.9"
+                                xct:CornerRadiusEffect.CornerRadius="10"
+                                xct:ShadowEffect.Radius="10"
+                                TextColor="Black"/>
+                    <StackLayout IsVisible="{Binding WifiIsVisible}">
+                        <BoxView Margin="20,5" 
+                                 HeightRequest="1" 
+                                 Color="Gray" />
+                        <Label  Text="WIfi Data" 
+                                FontSize="Large" 
+                                Margin="50,10" 
+                                TextColor="Black" 
+                                FontAttributes= "Bold"
+                                HorizontalOptions="CenterAndExpand" 
+                                HorizontalTextAlignment="Center" 
+                                VerticalOptions="Center" />
+                        <BoxView    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    HeightRequest="2"
+                                    WidthRequest="200"  
+                                    Color="SeaGreen"></BoxView>
+                        <Label Margin="20,10" 
+                               Text="{Binding WifiWound}" 
+                               FontSize="Subtitle" 
+                               TextColor="Black" />
+                        <Label Margin="20,10" 
+                               Text="{Binding WifiIschemia}" 
+                               FontSize="Subtitle" 
+                               TextColor="Black" />
+                        <Label Margin="20,10" 
+                               Text="{Binding WifiInfection}" 
+                               FontSize="Subtitle" 
+                               TextColor="Black" />
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding SizeIsVisible}">
+                        <BoxView Margin="0,5" 
+                                 HeightRequest="1" 
+                                 Color="Gray" />
+                        <Label Margin="0,10" 
+                               Text="Wound Size" 
+                               FontSize="18" 
+                               HorizontalTextAlignment="Center"
+                               TextColor="Black" />
+                        <Label Margin="0,10" 
+                               Text="{Binding WoundSize}" 
+                               FontSize="14" 
+                               TextColor="Black" />
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding ImageOptionsAreVisible}"
+                                 RadioButtonGroup.GroupName="{Binding ResolutionGroup}"
+                                 RadioButtonGroup.SelectedValue="{Binding ResolutionSelection}">
+                        <BoxView Margin="0,5" 
+                                 HeightRequest="1" 
+                                 Color="Gray" />
+                        <Label Text="Size of Image to Save" FontAttributes="Italic" TextColor="Black"/>
+                        <RadioButton Content="Don't Save Image" Value="DSI" TextColor="Black"/>
+                        <RadioButton Content="480p" Value="480" TextColor="Black"/>
+                        <RadioButton Content="720p" Value="720" TextColor="Black"/>
+                        <RadioButton Content="1080p" Value="1080" TextColor="Black"/>
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding ImageIsVisible}">
+                        
+                        <Label Text="Preview" FontAttributes="Italic" TextColor="Black"/>
+                        <Image Source="{Binding SaveImageSource}" 
+                               HeightRequest="{Binding ImageHeight}"/>
+                    </StackLayout>
+                    <StackLayout IsVisible="{Binding ConfirmButtonVisible}">
+                        <BoxView Margin="20,5" 
+                                 HeightRequest="1" 
+                                 Color="Gray" />
+                        <Button Margin="50, 0" 
+                                Text="Save Wound Data"
+                                xct:ShadowEffect.OffsetY="0"
+                                xct:ShadowEffect.Opacity="0.9"
+                                xct:CornerRadiusEffect.CornerRadius="10"
+                                xct:ShadowEffect.Radius="10" 
+                                
+                                Clicked="OnConfirmSaveDataClicked"
+                                BackgroundColor="{StaticResource Primary}"
+                                TextColor="White" />
+                        <BoxView Margin="0,5" 
+                                 HeightRequest="1" 
+                                 Color="NavajoWhite" />
+                    </StackLayout>
+                </StackLayout>            
+            </StackLayout>
+        </ScrollView>
+       </Grid>
+    </ContentPage.Content>
+</ContentPage>

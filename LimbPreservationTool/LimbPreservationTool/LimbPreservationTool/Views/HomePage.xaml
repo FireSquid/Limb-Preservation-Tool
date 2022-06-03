@@ -96,14 +96,14 @@
                             Command="{Binding AboutCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />
-                    <Button Margin="50,10" Text="Log Out"
+                    <!-- <Button Margin="50,10" Text="Log Out"
                             xct:ShadowEffect.OffsetY="0"
                             xct:ShadowEffect.Opacity="0.9"
                             xct:CornerRadiusEffect.CornerRadius="10"
                             xct:ShadowEffect.Radius="5" 
                             Command="{Binding LogOutCommand}"
                             BackgroundColor="{StaticResource Primary}"
-                            TextColor="White" />
+                            TextColor="White" /> -->
 
 
                 </StackLayout>

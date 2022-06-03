@@ -87,6 +87,7 @@
                         Margin="50, 0" 
                         Text="Save Picture and Wound Size"
                         Clicked="OnSaveWifiData" 
+                        Command="{Binding SaveWoundDataCommand, Source={StaticResource SharedPhotoViewModel}}" 
                         xct:CornerRadiusEffect.CornerRadius="10"           
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White" 

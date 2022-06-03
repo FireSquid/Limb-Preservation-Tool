@@ -47,7 +47,9 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task SaveWoundData()
         {
-            await Shell.Current.GoToAsync($"//{nameof(WoundSavePage)}");
+            DisableSave();
+
+            //await Shell.Current.GoToAsync($"//{nameof(WoundSavePage)}");
         }
 
         public async Task<bool> TakePhoto()
@@ -152,11 +154,13 @@ namespace LimbPreservationTool.ViewModels
             EnablePicture();
 
             var db = (WoundDatabase.Database).GetAwaiter().GetResult();
-            if (db.dataHolder.Size > 0)
+            if (db.dataHolder.Size <= 0)
             {
-                EnableSave();
+                await App.Current.MainPage.DisplayAlert("Error","CV Algorithm Failed,try to allow more clarity","OK");
+                return false;
             }
 
+            EnableSave();
             return true;
             //EraseAll();
         }
@@ -292,6 +296,7 @@ namespace LimbPreservationTool.ViewModels
 
         void DisableSave()
         {
+            Console.WriteLine("Save disabling");
             saveDataAllowed = false;
             OnPropertyChanged("SaveDataAllowed");
         }

@@ -4,7 +4,6 @@
              x:Class="LimbPreservationTool.Views.PatientsPage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
-             Shell.NavBarIsVisible="True"
              >
 
 

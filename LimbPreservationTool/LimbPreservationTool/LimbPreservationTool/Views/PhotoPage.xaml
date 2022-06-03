@@ -71,8 +71,14 @@
                             </Button>
                         </Grid>
 
+                        <Label Text="Is the object of known size larger than the wound?"/>
+                        <RadioButton Content="Yes" 
+                                     IsChecked="True"/>
+                        <RadioButton Content="No"
+                                     CheckedChanged ="OnTFRadioButtonCheckedChanged"/>
+
                         <Button x:Name="ExamineBtn" 
-                        Grid.Row="3" 
+                        Grid.Row="4" 
                         Margin="50, 0" 
                         Text="Examine this Picture"
                         Command="{Binding ExaminePhotoCommand,  Source={ StaticResource SharedPhotoViewModel} }"

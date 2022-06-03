@@ -35,20 +35,14 @@
             </StackLayout>
             <ScrollView Margin="3, 20, 3, 0">
                 <StackLayout>
-                    <Label Text="&#x2022; Make sure to have your camera completely parallel to the wound" 
-                       FontSize="Subtitle" 
-                       HorizontalOptions="CenterAndExpand" 
-                       HorizontalTextAlignment="Start" 
-                       Margin="50,10" 
-                       TextColor="Black"/>
-                    <Label Text="&#x2022; Ensure object of known size is smaller than wound area" 
+                        <Label Text="&#x2022; Make sure to have your camera completely parallel to the wound" 
                        FontSize="Subtitle" 
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Start" 
                        Margin="50,10" 
                        TextColor="Black"/>
 
-                    <Label Text="&#x2022; Use the 'Highlight Detail' button to highlight both the object of known size, and the wound" 
+                        <Label Text="&#x2022; Use the 'Highlight Detail' button to highlight both the object of known size, and the wound" 
                        HorizontalOptions="CenterAndExpand" 
                        FontSize="Subtitle" 
                        HorizontalTextAlignment="Start" 

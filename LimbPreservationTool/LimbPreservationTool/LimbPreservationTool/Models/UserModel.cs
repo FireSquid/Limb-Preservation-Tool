@@ -19,6 +19,7 @@ namespace LimbPreservationTool.Models
     {
         public String patientID { get; set; }
         public String date { get; set; }
+        public bool isSmaller { get; set; }
         public Stream imageStream { get; set; }
 
         public override List<HttpRequestMessage> ToHttpList()
@@ -122,6 +123,12 @@ namespace LimbPreservationTool.Models
             instance = null;
         }
 
+        public void OnTFRadioButtonCheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            RadioButton button = sender as RadioButton;
+            isSmaller = button;
+        }
+
         public async Task<Stream> Examine(Stream imageStream)
         {
             WoundDatabase DB = (await WoundDatabase.Database);
@@ -134,6 +141,7 @@ namespace LimbPreservationTool.Models
             {
                 patientID = patient.PatientName,
                 date = DateTime.Now.ToString().Replace(' ', '_').Replace('/', '-'),
+                isSmaller = 
                 imageStream = imageStream
             };
             Console.WriteLine("-------------Created Scan");

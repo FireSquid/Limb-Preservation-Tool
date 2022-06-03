@@ -70,7 +70,8 @@
     <AppExtensionDebugBundleId />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>hnet.com-image.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -214,8 +215,5 @@
       <Project>{DAAD750B-AB34-417D-A98F-A9971755BD08}</Project>
       <Name>LimbPreservationTool</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="hnet.com-image.ico" />
   </ItemGroup>
 </Project>

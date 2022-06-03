@@ -12,10 +12,24 @@ namespace LimbPreservationTool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        LoginViewModel viewModel;
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
+            viewModel = new LoginViewModel();
+            this.BindingContext = viewModel;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            viewModel.ResetLoginMessage();
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            viewModel.ClearLoginInformation();
         }
     }
 }

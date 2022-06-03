@@ -10,9 +10,9 @@
     
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/
     -->
-
     <Shell.Resources>
         <ResourceDictionary>
+
             <Style x:Key="BaseStyle" TargetType="Element">
                 <Setter Property="Shell.BackgroundColor" Value="{StaticResource Primary}" />
                 <Setter Property="Shell.ForegroundColor" Value="White" />
@@ -73,21 +73,6 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <!-- 
-        When the Flyout is visible this defines the content to display in the flyout.
-        FlyoutDisplayOptions="AsMultipleItems" will create a separate flyout item for each child element    
-        https://docs.microsoft.com/dotnet/api/xamarin.forms.shellgroupitem.flyoutdisplayoptions?view=xamarin-forms
-    -->
-    <FlyoutItem Title="About" Icon="icon_about.png">
-        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
-    </FlyoutItem>
-    <FlyoutItem Title="Browse" Icon="icon_feed.png">
-        <ShellContent Route="ItemsPage" ContentTemplate="{DataTemplate local:ItemsPage}" />
-    </FlyoutItem>
-
-    <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
-    <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Clicked="OnMenuItemClicked">
-    </MenuItem>
 
     <!--
         TabBar lets you define content that won't show up in a flyout menu. When this content is active
@@ -99,6 +84,56 @@
     <TabBar>
         <ShellContent Route="LoginPage" ContentTemplate="{DataTemplate local:LoginPage}" />
     </TabBar>
+    <TabBar Title="Home">
+        <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
+    </TabBar>
+    <TabBar>
+        <ShellContent Route="WifiPage" ContentTemplate="{DataTemplate local:WifiPage}" />
+    </TabBar>
+    <TabBar>
+        <ShellContent Route="WifiDescPage" ContentTemplate="{DataTemplate local:WifiDescPage}" />
+    </TabBar>
+    <TabBar>
+        <ShellContent Route="NewUserPage" ContentTemplate="{DataTemplate local:NewUserPage}" />
+    </TabBar>
+    
+    
+    <TabBar Title="PatientSelect">
+        <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
+    </TabBar>
+    <TabBar Icon="icon_feed.png">
+        <ShellContent Route="HighlightPage" ContentTemplate="{DataTemplate local:HighlightPage}" />
+    </TabBar>
+    <TabBar Title="Save">
+        <ShellContent Route="WoundSavePage" ContentTemplate="{DataTemplate local:WoundSavePage}" />
+    </TabBar>
+    <TabBar Title="Result">
+        <ShellContent Route="WifiResultPage" ContentTemplate="{DataTemplate local:WifiResultPage}" />
+    </TabBar>
+    
+    <MenuItem Text="Home"  IconImageSource="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnHomeItemClicked">
+    </MenuItem>
+    <MenuItem Text="Switch Patient" Icon="icon_feed.png" StyleClass="MenuItemLayoutStyle" Clicked="OnPatientsItemClicked">
+    </MenuItem>
+    <FlyoutItem Title="Wounds" Icon="icon_feed.png">
+        <ShellContent Route="WoundGroupPage" ContentTemplate="{DataTemplate local:WoundGroupPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Take a Photo" Icon="icon_feed.png">
+        <ShellContent Route="PhotoDescPage" ContentTemplate="{DataTemplate local:PhotoDescPage}" />
+    </FlyoutItem>
+    <FlyoutItem Title="Take a Photo_hidden" Icon="icon_feed.png" FlyoutItemIsVisible="False">
+        <ShellContent Route="PhotoPage" ContentTemplate="{DataTemplate local:PhotoPage}" />
+    </FlyoutItem>
+    <MenuItem Text="WifiTool" IconImageSource="icon_feed.png"  StyleClass="MenuItemLayoutStyle" Clicked="OnWifiItemClicked">
+    </MenuItem>
+    <FlyoutItem Title="About this App" Icon="icon_feed.png">
+        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    </FlyoutItem>    
+
+
+    <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
+
+
 
     <!-- Optional Templates 
     // These may be provided inline as below or as separate classes.

@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:skia="clr-namespace:SkiaSharp.Views.Forms;assembly=SkiaSharp.Views.Forms"
+             x:Class="LimbPreservationTool.Views.PhotoPage"
+			Shell.NavBarIsVisible="{Binding PictureInputAllowed  , Source={StaticResource SharedPhotoViewModel}}" 
+						 >
+
+
+    <ContentPage.BindingContext>
+        <Binding Source="{StaticResource SharedPhotoViewModel}" />
+
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <!--<ScrollView>
+            <StackLayout>
+            </StackLayout>
+        </ScrollView>-->
+        <ScrollView VerticalOptions="Fill" BackgroundColor= "{StaticResource MainBG}">
+            <AbsoluteLayout>
+                <StackLayout>
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1* "/>
+                            <RowDefinition Height="7.5*"/>
+                            <RowDefinition Height="0.75* "/>
+                            <RowDefinition Height="1* "/>
+                            <RowDefinition Height="1* "/>
+                        </Grid.RowDefinitions>
+
+                        <Button x:Name="CameraBtn" 
+                        Grid.Row="0" 
+                        Margin="50,10" 
+                        Text="Take a Picture"
+                        xct:ShadowEffect.Color="Black"
+                        xct:ShadowEffect.OffsetY="0"
+                        xct:ShadowEffect.Opacity="0.9"
+                        xct:CornerRadiusEffect.CornerRadius="10"
+                        xct:ShadowEffect.Radius="10"
+                        Command="{Binding TakePhotoCommand, Source={StaticResource SharedPhotoViewModel}}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" 
+					    IsEnabled="{Binding PictureInputAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
+					    />
+
+                        <Grid Grid.Row="1">
+                            <!--<Image Grid.Row="1" Source="{Binding LastPhoto}" />-->
+                            <customcontrols:NormalCanvas  x:Name = "scanCanvas"   
+										          Renderer="{Binding Canvas , Source={ StaticResource SharedPhotoViewModel} }" 
+											      Size="{Binding CanvasSize,  Source={ StaticResource SharedPhotoViewModel} }" 
+                                                          
+											      >
+                            </customcontrols:NormalCanvas>
+                            <Grid.Effects >
+                            </Grid.Effects>
+                        </Grid>
+
+                        <Grid Grid.Row= "2">
+                            <Button x:Name = "HighLightBtn"   
+                            Text="Hightlight Detail"
+                                    Margin="50,0"
+                            xct:CornerRadiusEffect.CornerRadius="10"
+                            Command="{Binding HighlightCommand,  Source={ StaticResource SharedPhotoViewModel} }"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+					        IsEnabled="{Binding HighlightInputAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
+						    >
+                            </Button>
+                        </Grid>
+
+                       
+
+                        <Button x:Name="ExamineBtn" 
+                        Grid.Row="4" 
+                        Margin="50, 0" 
+                        Text="Examine this Picture"
+                        Command="{Binding ExaminePhotoCommand,  Source={ StaticResource SharedPhotoViewModel} }"
+                        xct:CornerRadiusEffect.CornerRadius="10"           
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" 
+					    IsEnabled="{Binding ExamineInputAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
+										    />
+
+                        <Button x:Name="SaveBtn" 
+                        Grid.Row="4" 
+                        Margin="50, 0" 
+                        Text="Save Picture and Wound Size"
+                        Clicked="OnSaveWifiData" 
+                        Command="{Binding SaveWoundDataCommand, Source={StaticResource SharedPhotoViewModel}}" 
+                        xct:CornerRadiusEffect.CornerRadius="10"           
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" 
+					    IsEnabled="{Binding SaveDataAllowed,  Source={ StaticResource SharedPhotoViewModel} }"
+										    />
+                    </Grid>
+
+                </StackLayout >
+
+                <StackLayout
+                         x:Name="aiLayout"
+                         IsVisible= "{Binding PictureInputAllowed  , Source={StaticResource SharedPhotoViewModel}, Converter={StaticResource InvertedBoolConverter}}" 
+                         AbsoluteLayout.LayoutBounds="0,0,1,1"
+                         AbsoluteLayout.LayoutFlags="All"
+                         BackgroundColor="Gray" Opacity="0.5">
+                    <ActivityIndicator
+                             x:Name="ai"
+                             
+                             IsRunning= "{Binding PictureInputAllowed  , Source={StaticResource SharedPhotoViewModel}, Converter={StaticResource InvertedBoolConverter}}" 
+                             HorizontalOptions="CenterAndExpand"
+                             VerticalOptions="CenterAndExpand"
+                             Color="Yellow"/>
+                    <Label Text="Examing Picture, Do not quit the app." 
+                            TextColor="Black"
+                             VerticalOptions="CenterAndExpand"
+                             HorizontalOptions="CenterAndExpand"
+											     />
+                </StackLayout>
+
+            </AbsoluteLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

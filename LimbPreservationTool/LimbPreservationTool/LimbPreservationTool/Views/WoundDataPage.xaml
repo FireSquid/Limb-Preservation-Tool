@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
+             x:Class="LimbPreservationTool.Views.WoundDataPage"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+              ios:Page.UseSafeArea="false"
+             >
+
+
+    <ContentPage.Content>
+        <Grid BackgroundColor="{StaticResource MainBG}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height ="2*"/>
+                    <RowDefinition Height ="3*"/>
+                    <RowDefinition Height ="5*"/>
+
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" 
+                    BackgroundColor="{StaticResource MainBG}"
+                      >
+                    <StackLayout>
+                        <Label Text="Wound Info Page" 
+                       FontSize="Large" 
+                       Margin="50,10" 
+                       TextColor="Black" 
+                       FontAttributes= "Bold"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       VerticalOptions="CenterAndExpand" />
+                        <BoxView VerticalOptions="Center"
+                         HorizontalOptions="Center"
+                         HeightRequest="2"
+                         WidthRequest="200"  
+                         Color="SeaGreen"></BoxView>
+                       
+                            <Label Text="Select a date below to see individual data points, or view the change in the wound over time underneath" 
+                       FontSize="Small"       
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
+                    </StackLayout>
+                </Grid>
+
+                <ScrollView Grid.Row="1" Padding="10">
+                    <ListView x:Name="WoundData"
+                    ItemSelected="OnWoundGroupSelected"
+                    BackgroundColor="{StaticResource MainBG}"
+                    ItemsSource="{Binding WoundDataListSource}"
+                      HeightRequest="1"
+                    >
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout    Margin="20,0"
+                                        Orientation="Horizontal"
+                                                 
+                                        BackgroundColor="WhiteSmoke"
+                                        HorizontalOptions="FillAndExpand">
+                                        <Label  Text="{Binding dateString}"
+                                    VerticalTextAlignment="Center"
+                                    TextColor="Black"
+                                                FontSize="Medium"
+                                                
+                                    Padding="5"
+                                    HorizontalOptions="StartAndExpand" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+                <Grid Grid.Row="2" BackgroundColor="{StaticResource MainBG}">
+                    <StackLayout>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width=".75*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width=".75*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="Previous" BackgroundColor="SeaGreen" Grid.Column="0" Text="&lt;" FontSize="Large" FontAttributes="Bold" Margin="20,0" HorizontalOptions="Start" Command="{Binding PreviousChartCommand}"/>
+                            <Label Grid.Column="1" Text="{Binding CurrentSectionName}" FontSize="Large" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" VerticalTextAlignment="Center" HorizontalOptions="Center"/>
+                            <Button x:Name="Next" BackgroundColor="SeaGreen" Grid.Column="2"  Text="&gt;" FontSize="Large" FontAttributes="Bold" Margin="20, 0" HorizontalOptions="End" Command="{Binding NextChartCommand}"/>
+                        </Grid>
+                        <Frame 
+                            BorderColor="White"
+                            Margin="20"
+                            CornerRadius="10"
+                            Opacity=".8"
+                            HasShadow="True"
+                            BackgroundColor="White">
+                            <ScrollView Orientation="Horizontal" VerticalOptions="EndAndExpand">
+                                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200"/>
+                            </ScrollView>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

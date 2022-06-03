@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="LimbPreservationTool.Views.PatientsPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             >
+
+
+    <ContentPage.Content>
+        <Grid BackgroundColor="NavajoWhite" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackLayout   BackgroundColor="NavajoWhite">
+                <Label Text="Patient Page" 
+                   FontSize="Large" 
+                   Padding="0,30,0,0"
+                   Margin="100,10" 
+                   TextColor="Black" 
+                   FontAttributes= "Bold"
+                   HorizontalOptions="CenterAndExpand" 
+                   HorizontalTextAlignment="Center" 
+                   VerticalOptions="CenterAndExpand" />
+                <BoxView VerticalOptions="Center"
+                     HorizontalOptions="Center"
+                     HeightRequest="2"
+                     WidthRequest="200"  
+                     Color="SeaGreen"></BoxView>
+                <Label Text="Please select or add a patient below" 
+                       FontSize="Subtitle" 
+                       FontAttributes="Italic"
+                       HorizontalOptions="CenterAndExpand" 
+                       HorizontalTextAlignment="Center" 
+                       Margin="50,10" 
+                       TextColor="Black"/>
+                <Entry  Placeholder="Search..." 
+                        PlaceholderColor="SlateGray" 
+                        Margin="50,20" 
+                        BackgroundColor="WhiteSmoke" 
+                        TextColor="{Binding PatientNameColor}" 
+                        xct:CornerRadiusEffect.CornerRadius="10" 
+                        Keyboard="Plain" 
+                        Text="{Binding PatientEntry}"/>
+                <ScrollView>
+                    <ListView x:Name="PatientList"
+                            Margin="20"
+                              BackgroundColor="Transparent"
+                            ItemSelected="OnPatientSelected"
+                            ItemsSource="{Binding PatientsListSource}"
+                              
+                              >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Margin="20,0"
+                                             Orientation="Horizontal"
+                                                 BackgroundColor="WhiteSmoke"
+                                             HorizontalOptions="FillAndExpand"
+                                                 HeightRequest="1"
+                                                 >
+                                        <Label Text="{Binding PatientName}"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                               Padding="5"
+                                           FontSize="Medium"
+                                           TextColor="{Binding Path=BindingContext.PatientOptionColor, Source={x:Reference PatientList}}"
+                                           HorizontalOptions="StartAndExpand" />
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </ScrollView>
+                <Button Text="Add New Patient"
+                    Clicked="OnAddNewPatientClicked"
+                    Margin="50,10"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"/>
+                <Button Text="Delete Patient"
+                    Clicked="onToggleDeleteModeClicked"
+                    BackgroundColor="{Binding ToggleDeleteColor}"
+                    TextColor="White"
+                    Margin="50,10"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"/>
+                <Button Text="Back to Home"
+                    Command="{Binding BacktoHome}"
+                    Margin="50, 10"
+                    BackgroundColor="{StaticResource Primary}"
+                    xct:ShadowEffect.Color="Black"
+                    xct:ShadowEffect.OffsetY="0"
+                    xct:ShadowEffect.Opacity="0.9"
+                    xct:CornerRadiusEffect.CornerRadius="10"
+                    xct:ShadowEffect.Radius="10"
+                    TextColor="White" />
+
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

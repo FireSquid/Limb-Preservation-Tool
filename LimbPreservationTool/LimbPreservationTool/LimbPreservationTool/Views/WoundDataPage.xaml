@@ -95,8 +95,8 @@
                             Opacity=".8"
                             HasShadow="True"
                             BackgroundColor="White">
-                            <ScrollView Orientation="Horizontal" VerticalOptions="EndAndExpand">
-                                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200"/>
+                            <ScrollView Orientation="Horizontal" VerticalOptions="Fill" >
+                                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200" WidthRequest="1" />
                             </ScrollView>
                         </Frame>
                     </StackLayout>

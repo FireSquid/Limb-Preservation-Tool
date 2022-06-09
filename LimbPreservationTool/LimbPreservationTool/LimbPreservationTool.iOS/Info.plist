@@ -46,5 +46,7 @@
 	</dict>
 	<key>Custom Property</key>
 	<string></string>
+	<key>XSAppIconAssets</key>
+	<string>Assets.xcassets/AppIcon.appiconset</string>
 </dict>
 </plist>

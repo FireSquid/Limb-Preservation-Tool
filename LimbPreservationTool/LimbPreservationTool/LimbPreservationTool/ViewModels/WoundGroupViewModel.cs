@@ -20,6 +20,8 @@ namespace LimbPreservationTool.ViewModels
 
         public async Task Initialize(DBPatient patient)
         {
+            System.Diagnostics.Debug.WriteLine("Initializing Wound Group View");
+
             Title = patient.PatientName;
 
             WoundDatabase db = await WoundDatabase.Database;
@@ -30,6 +32,8 @@ namespace LimbPreservationTool.ViewModels
             {
                 System.Diagnostics.Debug.WriteLine($"{patient.PatientName} Group: {woundGroup.Key} - {woundGroup.Value.Count}");
             }
+
+            System.Diagnostics.Debug.WriteLine("Finished Initialization");
         }
 
         private List<KeyValuePair<string, List<DBWoundData>>> _woundGroupSource;

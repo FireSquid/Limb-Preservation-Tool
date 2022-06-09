@@ -38,7 +38,7 @@
                         PlaceholderColor="SlateGray" 
                         Margin="50,20" 
                         BackgroundColor="WhiteSmoke" 
-                        TextColor="{Binding PatientNameColor}" 
+                        TextColor="Black" 
                         xct:CornerRadiusEffect.CornerRadius="10" 
                         Keyboard="Plain" 
                         Text="{Binding PatientEntry}"/>

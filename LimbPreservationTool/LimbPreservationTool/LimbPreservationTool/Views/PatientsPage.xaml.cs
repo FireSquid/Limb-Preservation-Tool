@@ -60,6 +60,7 @@ namespace LimbPreservationTool.Views
                 {
                     (await WoundDatabase.Database).dataHolder.PatientID = patient.PatientID;
 
+                    MessagingCenter.Send(this, "popModalToHome");
                     await Navigation.PopModalAsync();
                 }
                  ((ListView)sender).SelectedItem = null;

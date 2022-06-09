@@ -26,6 +26,7 @@ namespace LimbPreservationTool.ViewModels
             if (await VerifyUserCreation())
             {
                 CreationStatus = $"New User Created!";
+                WoundDatabase.Database.GetAwaiter().GetResult().currentUser = Username;
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
             else

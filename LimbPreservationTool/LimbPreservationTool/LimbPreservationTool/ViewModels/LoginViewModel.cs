@@ -40,7 +40,8 @@ namespace LimbPreservationTool.ViewModels
             }
             catch (Exception ex)
             {
-                LoginStatus = "Could Not Connect to the Server";
+                LoginStatus = $"Could Not Connect to the Server";
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
 

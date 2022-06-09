@@ -4,12 +4,15 @@
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms" 
              x:Class="LimbPreservationTool.Views.WoundDataPage"
              xmlns:vm="clr-namespace:LimbPreservationTool.ViewModels"
+             xmlns:customcontrols="clr-namespace:LimbPreservationTool.CustomControls"
              xmlns:ios ="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
               ios:Page.UseSafeArea="false"
              >
 
-
-    <ContentPage.Content>
+    <ContentPage.BindingContext>
+        <vm:WoundDataViewModel/>
+    </ContentPage.BindingContext>
+        <ContentPage.Content>
         <Grid BackgroundColor="{StaticResource MainBG}">
             <Grid>
                 <Grid.RowDefinitions>
@@ -96,7 +99,8 @@
                             HasShadow="True"
                             BackgroundColor="White">
                             <ScrollView Orientation="Horizontal" VerticalOptions="Fill" >
-                                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200" WidthRequest="1" />
+                                <microcharts:ChartView x:Name="LineChart" Chart="{Binding WoundEntryChart} " HeightRequest="200" WidthRequest="{Binding EntryLength}" />
+
                             </ScrollView>
                         </Frame>
                     </StackLayout>

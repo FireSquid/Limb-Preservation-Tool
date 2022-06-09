@@ -19,8 +19,8 @@ namespace LimbPreservationTool.Views
         public WifiResultPage()
         {
             InitializeComponent();
-            viewModel = new WifiResultModel();
-            this.BindingContext = viewModel;
+           // viewModel = new WifiResultModel();
+            //      this.BindingContext = viewModel;
         }
 
         public WifiResultPage(string ampInfo, string revInfo, Color ampColor, Color revColor)

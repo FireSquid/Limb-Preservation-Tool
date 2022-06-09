@@ -21,17 +21,18 @@ namespace LimbPreservationTool.ViewModels
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
 
             PatientDeleteMode = false;
+            HomeButtonEnabled = WoundDatabase.Database.GetAwaiter().GetResult().dataHolder.PatientID != Guid.Empty;
         }
 
         public ICommand BacktoHome { get; }
 
         public async Task Initialize()
         {
+            System.Diagnostics.Debug.WriteLine("Initializing Patient View");
             WoundDatabase db = await WoundDatabase.Database;
 
             /* CAUTION - Clears Entire Database
-            await db.DeleteAllWoundData();
-            await db.DeleteAllPatients();
+            await db.ClearDatabase();
             */
 
             /*
@@ -53,10 +54,13 @@ namespace LimbPreservationTool.ViewModels
             */
 
             PatientsListSource = PatientsList;
+
+            System.Diagnostics.Debug.WriteLine("Finished Initializing");
         }
 
         public async Task UpdatePatientList()
         {
+            System.Diagnostics.Debug.WriteLine("Updating Patient List");
             if (PatientEntry != null)
             {
                 System.Diagnostics.Debug.WriteLine($"Updating List");
@@ -68,6 +72,7 @@ namespace LimbPreservationTool.ViewModels
             {
                 PatientsListSource = await (await WoundDatabase.Database).GetPatientsList();
             }
+            System.Diagnostics.Debug.WriteLine("Finished Updating Patient List");
         }
 
         public void ToggleDeleteMode()
@@ -106,7 +111,6 @@ namespace LimbPreservationTool.ViewModels
         public Color ToggleDeleteColor { get => _toggleDeleteColor; set => SetProperty(ref _toggleDeleteColor, value); }
 
         private bool _patientDeleteMode;
-
         public bool PatientDeleteMode { 
             get => _patientDeleteMode; 
             private set {
@@ -114,5 +118,8 @@ namespace LimbPreservationTool.ViewModels
                 UpdatePatientOptionColor(value);
             } 
         }
+
+        private bool _homeButtonEnabled;
+        public bool HomeButtonEnabled { get => _homeButtonEnabled; set => SetProperty(ref _homeButtonEnabled, value); }
     }
 }

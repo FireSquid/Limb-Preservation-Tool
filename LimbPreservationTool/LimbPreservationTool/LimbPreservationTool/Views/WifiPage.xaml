@@ -41,6 +41,7 @@
                          Color="SeaGreen"></BoxView>
                 <Label Text="{Binding WifiStatus ,Source ={StaticResource SharedWifiViewModel}}" 
                        FontSize="Subtitle" 
+                       x:Name="instructionText" 
                        FontAttributes="Italic"
                        HorizontalOptions="CenterAndExpand" 
                        HorizontalTextAlignment="Center" 

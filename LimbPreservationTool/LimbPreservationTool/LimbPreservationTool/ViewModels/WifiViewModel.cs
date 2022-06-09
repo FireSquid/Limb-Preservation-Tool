@@ -50,7 +50,15 @@ namespace LimbPreservationTool.ViewModels
             AnkleBrachialIndex = "";
             AnkleSystolicPressure = "";
             SaveDateInternal = DateTime.Parse("1/1/2022");
+            wifiStatus = "Please Enter The Information Below";
+            wifiColor = Color.Black;
 
+        }
+
+        public void updateInstrucText()
+        {
+            WifiStatus = $"Please fill out all tests";
+            WifiColor = Color.Red;
         }
 
         async Task ClickWifiSubmit()
@@ -154,6 +162,9 @@ namespace LimbPreservationTool.ViewModels
                 revascColor = Color.Red;
             }
 
+            WifiStatus = $"Please Enter The Information Below";
+            WifiColor = Color.Black;
+
 
             await App.Current.MainPage.Navigation.PushAsync(new WifiResultPage(amputationRisk.ToString(), revascularizationRisk.ToString(), ampColor, revascColor));
 
@@ -195,9 +206,22 @@ namespace LimbPreservationTool.ViewModels
             //lets the Entry be empty
             if (string.IsNullOrEmpty(e.NewTextValue)) return;
 
+            var temp = e.NewTextValue.ToCharArray();
+
+            for (int i = 0; i < temp.Length; i++)
+            {
+                if (string.Equals(temp[i], '.') || string.Equals(temp[i], ','))
+                {
+                    e.NewTextValue.Remove(e.NewTextValue.Length - 1);
+                    return;
+                }
+            }
+            //}
+
             if (!int.TryParse(e.NewTextValue, out int value))
             {
                 ((Entry)sender).Text = e.OldTextValue;
+                return;
             }
 
             int checkRange = 0;
@@ -442,7 +466,7 @@ namespace LimbPreservationTool.ViewModels
         }
 
 
-        private string wifiStatus;
+        public string wifiStatus;
         public string WifiStatus { get => wifiStatus; private set => SetProperty(ref wifiStatus, value); }
 
         private string testText;

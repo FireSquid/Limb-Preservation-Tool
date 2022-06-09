@@ -23,9 +23,31 @@ namespace LimbPreservationTool.ViewModels
 
         private async void OnCreateUserClicked(object obj)
         {
+            if (string.IsNullOrWhiteSpace(Username))
+            {
+                CreationStatus = "Username field cannot be empty";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(Password))
+            {
+                CreationStatus = "Password field cannot be empty";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                CreationStatus = "Name field cannot be empty";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(Email))
+            {
+                CreationStatus = "Email field cannot be empty";
+                return;
+            }
+
             if (await VerifyUserCreation())
             {
                 CreationStatus = $"New User Created!";
+                WoundDatabase.Database.GetAwaiter().GetResult().currentUser = Username;
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
             else
@@ -37,6 +59,7 @@ namespace LimbPreservationTool.ViewModels
         private async Task<bool> VerifyUserCreation()
         {
             CreationStatus = $"Verifying...";
+
             return await NewUser.AttemptCreation(Username, Password, Name, Email);
         }
 
@@ -46,16 +69,16 @@ namespace LimbPreservationTool.ViewModels
         }
 
         private string usernameString;
-        public string Username { get => usernameString; set => SetProperty(ref usernameString, value); }
+        public string Username { get => usernameString; set => SetProperty(ref usernameString, value.Trim()); }
 
         private string passwordString;
-        public string Password { get => passwordString; set => SetProperty(ref passwordString, value); }
+        public string Password { get => passwordString; set => SetProperty(ref passwordString, value.Trim()); }
 
         private string nameString;
-        public string Name { get => nameString; set => SetProperty(ref nameString, value); }
+        public string Name { get => nameString; set => SetProperty(ref nameString, value.Trim()); }
 
         private string emailString;
-        public string Email { get => emailString; set => SetProperty(ref emailString, value); }
+        public string Email { get => emailString; set => SetProperty(ref emailString, value.Trim()); }
 
         private string creationStatus;
         public string CreationStatus { get => creationStatus; private set => SetProperty(ref creationStatus, value); }

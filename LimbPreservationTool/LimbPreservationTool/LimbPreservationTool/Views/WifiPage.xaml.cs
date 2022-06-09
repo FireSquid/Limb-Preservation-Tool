@@ -19,15 +19,14 @@ namespace LimbPreservationTool.Views
         public WifiPage()
         {
             InitializeComponent();
-            //viewModel = new WifiViewModel();
-            //this.BindingContext = viewModel;
+            // viewModel = new WifiViewModel();
+            // this.BindingContext = viewModel;
         }
 
         private void woundInfoOn(object sender, EventArgs e)
         {
             woundView.IsVisible = true;
             overlayCover.IsVisible = true;
-
         }
         private void woundInfoOff(object sender, EventArgs e)
         {
@@ -67,9 +66,28 @@ namespace LimbPreservationTool.Views
             //lets the Entry be empty
             if (string.IsNullOrEmpty(e.NewTextValue)) return;
 
+            var temp = e.NewTextValue.ToCharArray();
+
+            for (int i = 0; i < temp.Length; i++)
+            {
+                if (string.Equals(temp[i], '.') || string.Equals(temp[i], ','))
+                {
+                    ((Entry)sender).Text = "";
+                    instructionText.Text = $"Please only enter valid values.  Refer to the previous page for more details.";
+                    instructionText.TextColor = Color.Black;
+                    return;
+                }
+            }
+
             if (!int.TryParse(e.NewTextValue, out int value))
             {
+                // only non numeric character allowed is negative integers
+                if (string.Equals(temp[0], '-'))
+                {
+                    return;
+                }
                 ((Entry)sender).Text = e.OldTextValue;
+                return;
             }
 
             int checkRange = 0;

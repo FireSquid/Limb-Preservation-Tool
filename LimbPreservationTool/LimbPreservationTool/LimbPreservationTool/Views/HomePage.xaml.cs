@@ -14,30 +14,45 @@ namespace LimbPreservationTool.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class HomePage : ContentPage
     {
+        private bool isAppearing = false;
+
         public HomeViewModel viewModel;
         public HomePage()
         {
-
             InitializeComponent();
             viewModel =  new HomeViewModel();
             this.BindingContext = viewModel;
+
+            MessagingCenter.Subscribe<PatientsPage>(this, "popModalToHome", async (sender) => await PageUpdate());
         }
 
         protected override async void OnAppearing()
         {
+            await PageUpdate();
+        }
+
+        private async Task PageUpdate()
+        {
+            if (isAppearing) return;
+            isAppearing = true;
+
             base.OnAppearing();
 
             WoundDatabase DB = (await WoundDatabase.Database);
 
             Guid patientID = DB.dataHolder.PatientID;
 
-            if (patientID == null || patientID == Guid.Empty)
+            if (patientID == Guid.Empty)
             {
                 PatientsPage patientSelectionPage = new PatientsPage();
                 await Navigation.PushModalAsync(patientSelectionPage);
+                isAppearing = false;
+                return;
             }
 
-            viewModel.setPatientName();
+            await viewModel.setPatientName();
+
+            isAppearing = false;
         }
 
         private void OnSwitchPatientClicked(object sender, EventArgs e)

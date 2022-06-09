@@ -53,7 +53,7 @@ namespace LimbPreservationTool.ViewModels
 
         public void CreateNewWound()
         {
-            if (string.IsNullOrEmpty(WoundGroupName) || !WoundDatabase.StringIsSafe(WoundGroupName))
+            if (string.IsNullOrWhiteSpace(WoundGroupName) || !WoundDatabase.StringIsSafe(WoundGroupName))
             {
                 return;
             }
@@ -92,6 +92,11 @@ namespace LimbPreservationTool.ViewModels
 
         public async Task ConfirmSaveData()
         {
+            if (string.IsNullOrWhiteSpace(WoundGroupName) || !WoundDatabase.StringIsSafe(WoundGroupName))
+            {
+                return;
+            }
+
             System.Diagnostics.Debug.WriteLine($"Starting Saving Data");
 
             var db = await WoundDatabase.Database;
@@ -234,9 +239,10 @@ namespace LimbPreservationTool.ViewModels
             get => _woundGroupName;
             set
             {
-                SetProperty(ref _woundGroupName, value);
+                string wgn = value.Trim();
+                SetProperty(ref _woundGroupName, wgn);
 
-                if (WoundData == null || !value.Equals(WoundData.WoundGroup))
+                if (WoundData == null || string.IsNullOrWhiteSpace(wgn) || !wgn.Equals(WoundData.WoundGroup))
                 {
                     AsyncRunner.Run(UpdateWoundGroupList());
                     WoundGroupNameColor = "Black";

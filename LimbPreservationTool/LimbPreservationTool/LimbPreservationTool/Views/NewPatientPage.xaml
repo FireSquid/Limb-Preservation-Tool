@@ -44,8 +44,8 @@
                     />
             
                     
-                <Button Text="Back to Home"
-                    Clicked="OnBackHomeClicked"
+              <Button Text="Back"
+                    Clicked="OnBackClicked"
                     Margin="50, 10"
                     BackgroundColor="{StaticResource Primary}"
                     xct:ShadowEffect.Color="Black"

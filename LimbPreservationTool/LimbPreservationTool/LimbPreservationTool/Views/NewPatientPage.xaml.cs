@@ -25,13 +25,13 @@ namespace LimbPreservationTool.Views
 
         private async void OnCreatePatientClicked(object sender, EventArgs e)
         {
-            await viewModel.CreatePatient();
-            await Navigation.PopModalAsync();
+            if (await viewModel.CreatePatient())
+                await Navigation.PopModalAsync();
         }
 
-        private async void OnBackHomeClicked(object sender, EventArgs e)
+        private async void OnBackClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            await Navigation.PopModalAsync();
         }
     }
 }

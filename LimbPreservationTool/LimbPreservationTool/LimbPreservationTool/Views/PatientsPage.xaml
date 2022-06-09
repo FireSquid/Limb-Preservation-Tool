@@ -38,7 +38,7 @@
                         PlaceholderColor="SlateGray" 
                         Margin="50,20" 
                         BackgroundColor="WhiteSmoke" 
-                        TextColor="{Binding PatientNameColor}" 
+                        TextColor="Black" 
                         xct:CornerRadiusEffect.CornerRadius="10" 
                         Keyboard="Plain" 
                         Text="{Binding PatientEntry}"/>
@@ -92,6 +92,7 @@
                     xct:ShadowEffect.Radius="10"/>
                 <Button Text="Back to Home"
                     Command="{Binding BacktoHome}"
+                    IsEnabled="{Binding HomeButtonEnabled}"
                     Margin="50, 10"
                     BackgroundColor="{StaticResource Primary}"
                     xct:ShadowEffect.Color="Black"

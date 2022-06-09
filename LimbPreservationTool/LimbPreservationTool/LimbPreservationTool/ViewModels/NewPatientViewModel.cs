@@ -15,13 +15,20 @@ namespace LimbPreservationTool.ViewModels
         {
         }
 
-        public async Task CreatePatient()
+        public async Task<bool> CreatePatient()
         {
+            if (string.IsNullOrWhiteSpace(PatientName))
+            {
+                return false;
+            }
+
             await (await WoundDatabase.Database).CreatePatient(PatientName);
+
+            return true;
         }
 
 
         private string _patientName;
-        public string PatientName { get => _patientName; set => SetProperty(ref _patientName, value); }
+        public string PatientName { get => _patientName; set => SetProperty(ref _patientName, value.Trim()); }
     }
 }

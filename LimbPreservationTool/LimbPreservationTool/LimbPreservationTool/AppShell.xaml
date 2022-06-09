@@ -101,6 +101,9 @@
     <TabBar Title="PatientSelect">
         <ShellContent Route="PatientsPage" ContentTemplate="{DataTemplate local:PatientsPage}" />
     </TabBar>
+    <TabBar Title="NewPatient">
+        <ShellContent Route="NewPatientPage" ContentTemplate="{DataTemplate local:NewPatientPage}" />
+    </TabBar>
     <TabBar Icon="icon_feed.png">
         <ShellContent Route="HighlightPage" ContentTemplate="{DataTemplate local:HighlightPage}" />
     </TabBar>

@@ -21,6 +21,7 @@ namespace LimbPreservationTool.ViewModels
             BacktoHome = new Command(async () => await Shell.Current.GoToAsync($"//{nameof(HomePage)}"));
 
             PatientDeleteMode = false;
+            HomeButtonEnabled = WoundDatabase.Database.GetAwaiter().GetResult().dataHolder.PatientID != Guid.Empty;
         }
 
         public ICommand BacktoHome { get; }
@@ -110,7 +111,6 @@ namespace LimbPreservationTool.ViewModels
         public Color ToggleDeleteColor { get => _toggleDeleteColor; set => SetProperty(ref _toggleDeleteColor, value); }
 
         private bool _patientDeleteMode;
-
         public bool PatientDeleteMode { 
             get => _patientDeleteMode; 
             private set {
@@ -118,5 +118,8 @@ namespace LimbPreservationTool.ViewModels
                 UpdatePatientOptionColor(value);
             } 
         }
+
+        private bool _homeButtonEnabled;
+        public bool HomeButtonEnabled { get => _homeButtonEnabled; set => SetProperty(ref _homeButtonEnabled, value); }
     }
 }

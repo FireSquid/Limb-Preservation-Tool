@@ -46,6 +46,11 @@ namespace LimbPreservationTool.Views
 
                         if (result)
                         {
+                            if ((await WoundDatabase.Database).dataHolder.PatientID == patient.PatientID)
+                            {
+                                (await WoundDatabase.Database).dataHolder.PatientID = Guid.Empty;
+                                viewModel.HomeButtonEnabled = false;
+                            }
                             await (await WoundDatabase.Database).DeletePatient(patient);
 
                             await viewModel.UpdatePatientList();

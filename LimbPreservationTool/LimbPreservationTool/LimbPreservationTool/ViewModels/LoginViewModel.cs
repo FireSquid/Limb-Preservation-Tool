@@ -44,9 +44,9 @@ namespace LimbPreservationTool.ViewModels
 
         private async Task<bool> VerifyLoginEntry()
         {
-            if(UsernameEntryField.Equals("Review")&& PasswordEntryField.Equals("12345"))
+            if (UsernameEntryField.Equals("Review")&& PasswordEntryField.Equals("12345"))
             {
-            return true;
+                return true;
             }
             try
             {

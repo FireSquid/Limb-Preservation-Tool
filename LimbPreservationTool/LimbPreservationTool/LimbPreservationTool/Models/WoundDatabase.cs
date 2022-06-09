@@ -157,42 +157,62 @@ namespace LimbPreservationTool.Models
 
         public async Task<int> SetWoundData(DBWoundData woundData, SKImage imageData = null)
         {
-            if (!string.IsNullOrEmpty(woundData.WoundGroup) && !StringIsSafe(woundData.WoundGroup))
-                throw new NonAlphaNumericInsertException(woundData.WoundGroup, "DBWoundData");
+            System.Diagnostics.Debug.WriteLine($"Setting Wound Data");
 
-            if ((await CheckDuplicateData(woundData)) == null)
+            var saveData = DBWoundData.CopyFrom(woundData);
+
+            if (!string.IsNullOrEmpty(saveData.WoundGroup) && !StringIsSafe(saveData.WoundGroup))
+                throw new NonAlphaNumericInsertException(saveData.WoundGroup, "DBWoundData");
+
+            if ((await CheckDuplicateData(saveData)) == null)
             {
                 try
                 {
-                    var oldData = await GetWoundData(woundData.DataID);
+                    System.Diagnostics.Debug.WriteLine("Checking for duplicates");
+                    var oldData = await GetWoundData(saveData.DataID);
 
-                    if (oldData.Img != woundData.Img)
+                    
+
+                    if (imageData != null)
                     {
-                        // Make sure to delete old image to avoid filling storage
-                        if (!string.IsNullOrEmpty(oldData.Img) && oldData.PatientID != null)
-                            DeleteImage(oldData.PatientID, oldData.Img);
-
-                        if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null && imageData != null)
+                        if (oldData.Img != saveData.Img)
                         {
-                            SaveImage(woundData.PatientID, woundData.Img, imageData);
+                            System.Diagnostics.Debug.WriteLine("Handling Image Swap");
+                            // Make sure to delete old image to avoid filling storage
+                            if (!string.IsNullOrEmpty(oldData.Img) && oldData.PatientID != null)
+                                DeleteImage(oldData.PatientID, oldData.Img);
+
+                            if (!string.IsNullOrEmpty(saveData.Img) && saveData.PatientID != null && imageData != null)
+                            {
+                                System.Diagnostics.Debug.WriteLine("Saving New Image");
+                                SaveImage(saveData.PatientID, saveData.Img, imageData);
+                            }
                         }
                     }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Exchanging Img Properties");
+                        saveData.Img = oldData.Img;
+                    }
 
-                    return await dbConnection.UpdateAsync(woundData);
+                    System.Diagnostics.Debug.WriteLine("Updating Wound Entry");
+                    return await dbConnection.UpdateAsync(saveData);
                 }
                 catch (Exception)
                 {
-                    if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null && imageData != null)
+                    if (!string.IsNullOrEmpty(saveData.Img) && saveData.PatientID != null && imageData != null)
                     {
-                        SaveImage(woundData.PatientID, woundData.Img, imageData);
+                        System.Diagnostics.Debug.WriteLine("Saving new Image");
+                        SaveImage(saveData.PatientID, saveData.Img, imageData);
                     }
 
-                    return await dbConnection.InsertAsync(woundData);
+                    System.Diagnostics.Debug.WriteLine($"Inserting Wound Entry - Group {saveData.WoundGroup}");
+                    return await dbConnection.InsertAsync(saveData);
                 }
             }
             else
             {
-                System.Diagnostics.Debug.WriteLine($"Data already exists for the patient {woundData.PatientID} in the group '{woundData.WoundGroup}' on the date {woundData.Date}");
+                System.Diagnostics.Debug.WriteLine($"Data already exists for the patient {saveData.PatientID} in the group '{saveData.WoundGroup}' on the date {saveData.Date}");
 
                 return 0;
             }
@@ -202,7 +222,7 @@ namespace LimbPreservationTool.Models
         {
             List<DBWoundData> patientData = await dbConnection.Table<DBWoundData>().Where(data => data.PatientID.Equals(patientID)).ToListAsync();
 
-            System.Diagnostics.Debug.WriteLine($"Found {patientData.Count} data entries");
+            System.Diagnostics.Debug.WriteLine($"Found {patientData.Count} data entries for {patientID}");
 
             Dictionary<string, List<DBWoundData>> woundDict = new Dictionary<string, List<DBWoundData>>();
 
@@ -375,6 +395,24 @@ namespace LimbPreservationTool.Models
             data.Date = DateTime.Today.Ticks;
             data.SetWifi(-1, -1, -1);
             data.SetWound(-1, null);
+            return data;
+        }
+
+        public void ResetDetail()
+        {
+            SetWifi(-1, -1, -1);
+            SetWound(-1, null);
+        }
+
+        public static DBWoundData CopyFrom(DBWoundData other)
+        {
+            DBWoundData data = new DBWoundData();
+            data.DataID = other.DataID;
+            data.PatientID = other.PatientID;
+            data.Date = other.Date;
+            data.WoundGroup = other.WoundGroup;
+            data.SetWifi(other.Wound, other.Ischemia, other.Infection);
+            data.SetWound(other.Size, other.Img);
             return data;
         }
 

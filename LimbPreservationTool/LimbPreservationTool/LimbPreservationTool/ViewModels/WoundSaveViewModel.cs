@@ -23,7 +23,10 @@ namespace LimbPreservationTool.ViewModels
 
             SaveCanvas = new Renderers.NormalRenderer();
 
-            ImageOptionsAreVisible = true;
+            if (App.unexaminedImage != null)
+            {
+                ImageOptionsAreVisible = true;
+            }            
 
             System.Diagnostics.Debug.WriteLine("End Constructor");
         }
@@ -62,6 +65,7 @@ namespace LimbPreservationTool.ViewModels
             if (App.unexaminedImage == null)
             {
                 WoundData.Img = null;
+                saveSKImage = null;
                 return;
             }
 
@@ -112,14 +116,69 @@ namespace LimbPreservationTool.ViewModels
             saveData.Infection  = (WoundData.Infection >= 0)    ? WoundData.Infection   : existingData.Infection;
 
             saveData.Size   = (WoundData.Size >= 0)                               ? WoundData.Size    : existingData.Size;
-            System.Diagnostics.Debug.WriteLine($"{saveData} - {WoundData} - {existingData}");
-            System.Diagnostics.Debug.WriteLine($"{saveData.Img} - {WoundData.Img} - {existingData.Img}");
-            saveData.Img    = (WoundData.Img != null && WoundData.Img.Length > 0) ? WoundData.Img     : existingData.Img;
+            saveData.Img    = (!string.IsNullOrEmpty(WoundData.Img))              ? WoundData.Img     : existingData.Img;
+
+            System.Diagnostics.Debug.WriteLine($"Saving to group {saveData.WoundGroup} - and patient {saveData.PatientID}");
 
             await db.SetWoundData(saveData, saveSKImage);
 
+            System.Diagnostics.Debug.WriteLine("Cleaning Leftover Data");
+
+            App.unexaminedImage = null;
+            saveSKImage = null;
+
+            db.dataHolder.ResetDetail();
+            WoundData.ResetDetail();
 
             System.Diagnostics.Debug.WriteLine($"Finished Saving Data");
+        }
+
+        public void FinalValueUpdate()
+        {
+            if (!FinalIsVisible)
+            {
+                return;
+            }
+
+            var dh = WoundDatabase.Database.GetAwaiter().GetResult().dataHolder;
+
+            WifiIsVisible = false;
+
+            if (dh.Wound >= 0)
+            {
+                WifiIsVisible = true;
+                WoundData.Wound = dh.Wound;
+                WifiWound = $"Wound Grade: {WoundData.Wound}";
+            }
+            if (dh.Ischemia >= 0)
+            {
+                WifiIsVisible = true;
+                WoundData.Ischemia = dh.Ischemia;
+                WifiIschemia = $"Ischemia Grade: {WoundData.Ischemia}";
+            }
+            if (dh.Infection >= 0)
+            {
+                WifiIsVisible = true;
+                WoundData.Infection = dh.Infection;
+                WifiInfection = $"Infection Grade: {WoundData.Infection}";
+            }
+
+            SizeIsVisible = false;
+
+            if (dh.Size >= 0)
+            {
+                SizeIsVisible = true;
+                WoundData.Size = dh.Size;
+                WoundSize = $"Wound Size: {WoundData.Size} sq. in.";
+            }
+            if (dh.Img != null)
+            {
+                SizeIsVisible = true;
+                WoundData.Img = dh.Img;
+            }
+
+            ConfirmButtonVisible = true;
+            ConfirmButtonVisible = (WifiIsVisible || SizeIsVisible);
         }
 
         private string _patientName;
@@ -158,8 +217,9 @@ namespace LimbPreservationTool.ViewModels
             {
                 SetProperty(ref _woundData, value);
 
-                if (WoundData != null && WoundData.WoundGroup.Length > 0)
+                if (WoundData != null && !string.IsNullOrEmpty(WoundData.WoundGroup))
                 {
+                    System.Diagnostics.Debug.WriteLine($"Setting Wound Group to {WoundData.WoundGroup}");
                     WoundGroupName = WoundData.WoundGroup;
                 }
             }
@@ -203,7 +263,15 @@ namespace LimbPreservationTool.ViewModels
         public bool WoundGroupsAreVisible { get => _woundGroupsAreVisible; set => SetProperty(ref _woundGroupsAreVisible, value); }
 
         private DateTime _woundSaveDate;
-        public DateTime WoundSaveDate { get => _woundSaveDate; set => SetProperty(ref _woundSaveDate, value); }
+        public DateTime WoundSaveDate 
+        { 
+            get => _woundSaveDate; 
+            set
+            {
+                SetProperty(ref _woundSaveDate, value);
+                FinalValueUpdate();
+            }
+        }
 
         private bool _finalIsVisible;
         public bool FinalIsVisible
@@ -212,49 +280,8 @@ namespace LimbPreservationTool.ViewModels
             { 
                 SetProperty(ref _finalIsVisible, value);
 
-                var dh = WoundDatabase.Database.GetAwaiter().GetResult().dataHolder;
-
                 if (value)
-                {
-                    WifiIsVisible = false;
-
-                    if (dh.Wound >= 0)
-                    {
-                        WifiIsVisible = true;
-                        WoundData.Wound = dh.Wound;
-                        WifiWound = $"Wound Grade: {WoundData.Wound}";
-                    }
-                    if (dh.Ischemia >= 0)
-                    {
-                        WifiIsVisible = true;
-                        WoundData.Ischemia = dh.Ischemia;
-                        WifiIschemia = $"Ischemia Grade: {WoundData.Ischemia}";
-                    }
-                    if (dh.Infection >= 0)
-                    {
-                        WifiIsVisible = true;
-                        WoundData.Infection = dh.Infection;
-                        WifiInfection = $"Infection Grade: {WoundData.Infection}";
-                    }
-
-                    SizeIsVisible = false;
-
-                    if (dh.Size >= 0)
-                    {
-                        SizeIsVisible = true;
-                        WoundData.Size = dh.Size;
-                        WoundSize = $"Wound Size: {WoundData.Size} sq. in.";
-                    }
-                    if (dh.Img != null)
-                    {
-                        SizeIsVisible = true;
-                        WoundData.Img = dh.Img;
-                    }
-
-                    ConfirmButtonVisible = true;
-                    ConfirmButtonVisible = (WifiIsVisible || SizeIsVisible);
-                    System.Diagnostics.Debug.WriteLine($"Confirm: {ConfirmButtonVisible} - Wifi: {WifiIsVisible} - Size: {SizeIsVisible}");
-                }
+                    FinalValueUpdate();
             }
         }
 

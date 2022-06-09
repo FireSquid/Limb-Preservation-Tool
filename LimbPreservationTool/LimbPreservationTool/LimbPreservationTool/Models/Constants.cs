@@ -36,5 +36,10 @@ namespace LimbPreservationTool.Models
 
             return Path.Combine(patientDirectory, imgName);
         }
+
+        public static DirectoryInfo GetImageDirectory()
+        {
+            return new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), ImageDirectoryName));
+        }
     }
 }

@@ -17,18 +17,20 @@ namespace LimbPreservationTool.ViewModels
         public LoginViewModel()
         {
             ResetLoginMessage();
-            LoginCommand = new Command(OnLoginClicked);
+            LoginCommand = new Command(async() => await OnLoginClicked());
             NewUserCommand = new Command(async () => await NewUserPage());
         }
 
-        private async void OnLoginClicked(object obj)
+        private async Task OnLoginClicked()
         {
             LoginStatus = "Authenticating Login Information...";
             try
             {
                 if (await VerifyLoginEntry())
                 {
+                    System.Diagnostics.Debug.WriteLine("Successful Login");
                     LoginStatus = "Login Successful";
+                    WoundDatabase.Database.GetAwaiter().GetResult().currentUser = UsernameEntryField;
                     await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
                 }
                 else
@@ -38,7 +40,8 @@ namespace LimbPreservationTool.ViewModels
             }
             catch (Exception ex)
             {
-                LoginStatus = "Could Not Connect to the Server";
+                LoginStatus = $"Could Not Connect to the Server";
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
         }
 
@@ -75,8 +78,7 @@ namespace LimbPreservationTool.ViewModels
         }
 
         public ICommand NewUserCommand { get; }
-
-        public Command LoginCommand { get; }
+        public ICommand LoginCommand { get; }
 
         private string usernameEntryField;
         public string UsernameEntryField { get => usernameEntryField; set => SetProperty(ref usernameEntryField, value); }

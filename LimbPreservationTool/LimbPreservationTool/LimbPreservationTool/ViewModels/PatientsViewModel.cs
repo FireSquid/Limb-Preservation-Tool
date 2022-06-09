@@ -27,11 +27,11 @@ namespace LimbPreservationTool.ViewModels
 
         public async Task Initialize()
         {
+            System.Diagnostics.Debug.WriteLine("Initializing Patient View");
             WoundDatabase db = await WoundDatabase.Database;
 
             /* CAUTION - Clears Entire Database
-            await db.DeleteAllWoundData();
-            await db.DeleteAllPatients();
+            await db.ClearDatabase();
             */
 
             /*
@@ -53,10 +53,13 @@ namespace LimbPreservationTool.ViewModels
             */
 
             PatientsListSource = PatientsList;
+
+            System.Diagnostics.Debug.WriteLine("Finished Initializing");
         }
 
         public async Task UpdatePatientList()
         {
+            System.Diagnostics.Debug.WriteLine("Updating Patient List");
             if (PatientEntry != null)
             {
                 System.Diagnostics.Debug.WriteLine($"Updating List");
@@ -68,6 +71,7 @@ namespace LimbPreservationTool.ViewModels
             {
                 PatientsListSource = await (await WoundDatabase.Database).GetPatientsList();
             }
+            System.Diagnostics.Debug.WriteLine("Finished Updating Patient List");
         }
 
         public void ToggleDeleteMode()

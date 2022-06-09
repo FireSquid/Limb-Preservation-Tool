@@ -29,7 +29,7 @@ namespace LimbPreservationTool.ViewModels
             WoundDatabase DB = (await WoundDatabase.Database);
             Guid patientID = DB.dataHolder.PatientID;
             DBPatient patient = await DB.GetPatient(patientID);
-            Patient = $"Patient Name: {patient.PatientName}";
+            Patient = $"Patient Name: {patient?.PatientName ?? ""}";
         }
 
         async Task ViewPatientsWoundsPage()

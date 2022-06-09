@@ -17,6 +17,12 @@ namespace LimbPreservationTool.Models
         public NonAlphaNumericInsertException(string item, string dbname) : base($"Attempted to insert non-alphanumeric string '{item}' into the database '{dbname}") { }
     }
 
+    [Serializable]
+    class NoValidUserException : Exception
+    {
+        public NoValidUserException() : base("Operation could not be completed because no user was signed in") { }
+    }
+
     internal class WoundDatabase
     {
 
@@ -40,14 +46,19 @@ namespace LimbPreservationTool.Models
 
         public Task<List<DBPatient>> GetPatientsList()
         {
-            return dbConnection.Table<DBPatient>().ToListAsync();
+            if (string.IsNullOrEmpty(currentUser)) throw new NoValidUserException();
+
+            return dbConnection.Table<DBPatient>().Where(patient => patient.OwningUser == currentUser).ToListAsync();
         }
 
         public Task<DBPatient> GetPatient(string name)
         {
+            if (string.IsNullOrEmpty(currentUser)) throw new NoValidUserException();
+            if (string.IsNullOrEmpty(name)) return null;
+
             try
             {
-                return dbConnection.Table<DBPatient>().Where(patient => patient.PatientName.Equals(name)).FirstAsync();
+                return dbConnection.Table<DBPatient>().Where(patient => patient.PatientName.Equals(name) && patient.OwningUser == currentUser).FirstAsync();
             }
             catch (Exception ex)
             {
@@ -57,9 +68,12 @@ namespace LimbPreservationTool.Models
 
         public async Task<DBPatient> GetPatient(Guid id)
         {
+            if (string.IsNullOrEmpty(currentUser)) throw new NoValidUserException();
+            if (id == Guid.Empty) return null;
+
             try
             {
-                return await dbConnection.Table<DBPatient>().Where(patient => patient.PatientID.Equals(id)).FirstAsync();
+                return await dbConnection.Table<DBPatient>().Where(patient => patient.PatientID.Equals(id) && patient.OwningUser == currentUser).FirstAsync();
             }
             catch (Exception ex)
             {
@@ -88,7 +102,7 @@ namespace LimbPreservationTool.Models
             if (string.IsNullOrEmpty(patientName)) throw new ArgumentNullException(nameof(patientName));
             if (!StringIsSafe(patientName)) throw new NonAlphaNumericInsertException(patientName, "dbPatient");
 
-            var newPatient = DBPatient.Create(patientName);
+            var newPatient = DBPatient.Create(patientName, currentUser);
 
             return await dbConnection.InsertAsync(newPatient);
         }
@@ -116,7 +130,7 @@ namespace LimbPreservationTool.Models
         public async Task<int> DeleteWoundData(DBWoundData woundData)
         {
             // Delete associated image
-            if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != null)
+            if (!string.IsNullOrEmpty(woundData.Img) && woundData.PatientID != Guid.Empty)
                 DeleteImage(woundData.PatientID, woundData.Img);
 
             return await dbConnection.DeleteAsync(woundData);
@@ -129,7 +143,7 @@ namespace LimbPreservationTool.Models
             foreach (var wound in woundData)
             {
                 // Delete associated images
-                if (!string.IsNullOrEmpty(wound.Img) && wound.PatientID != null)
+                if (!string.IsNullOrEmpty(wound.Img) && wound.PatientID != Guid.Empty)
                     DeleteImage(wound.PatientID, wound.Img);
 
                 await dbConnection.DeleteAsync(wound);
@@ -164,7 +178,7 @@ namespace LimbPreservationTool.Models
             if (!string.IsNullOrEmpty(saveData.WoundGroup) && !StringIsSafe(saveData.WoundGroup))
                 throw new NonAlphaNumericInsertException(saveData.WoundGroup, "DBWoundData");
 
-            if ((await CheckDuplicateData(saveData)) == null)
+            if ((await CheckDuplicateData(saveData)) is null)
             {
                 try
                 {
@@ -173,7 +187,7 @@ namespace LimbPreservationTool.Models
 
                     
 
-                    if (imageData != null)
+                    if (!(imageData is null))
                     {
                         if (oldData.Img != saveData.Img)
                         {
@@ -251,16 +265,19 @@ namespace LimbPreservationTool.Models
                 });
         }
 
-        public async Task<int> DeleteAllPatients()
+        public async Task<int> ClearDatabase()
         {
-            throw new NotImplementedException("DeleteAllPatients needs to delete image files before it can be used");// Make sure to delete all stored images before removing this
-
+            await DeleteAllWoundData();
+            
             return await dbConnection.DeleteAllAsync<DBPatient>();
         }
 
-        public async Task<int> DeleteAllWoundData()
+        private async Task<int> DeleteAllWoundData()
         {
-            throw new NotImplementedException("DeleteAllWoundData needs to delete image files before it can be used");// Make sure to delete all stored images before removing this
+            foreach (DirectoryInfo imgDir in Constants.GetImageDirectory().EnumerateDirectories())
+            {
+                imgDir.Delete(true);
+            }
 
             return await dbConnection.DeleteAllAsync<DBWoundData>();
         }
@@ -339,6 +356,9 @@ namespace LimbPreservationTool.Models
         }
 
         public DBWoundData dataHolder { get; set; }
+
+
+        public string currentUser;
     }
 
 
@@ -458,19 +478,25 @@ namespace LimbPreservationTool.Models
         [NotNull]
         public string PatientName { get; set; }
 
-        public static DBPatient Create(string name)
+        [Column("owningUser")]
+        [NotNull]
+        public string OwningUser { get; set; }
+
+        public static DBPatient Create(string name, string owner)
         {
             DBPatient dbPatient = new DBPatient();
             dbPatient.PatientName = name;
             dbPatient.PatientID = Guid.NewGuid();
+            dbPatient.OwningUser = owner;
             return dbPatient;
         }
 
-        public static DBPatient Create(Guid id, string name)
+        public static DBPatient Create(Guid id, string name, string owner)
         {
             DBPatient dbPatient = new DBPatient();
             dbPatient.PatientName = name;
             dbPatient.PatientID = id;
+            dbPatient.OwningUser = owner;
             return dbPatient;
         }
     }

@@ -32,7 +32,7 @@ namespace LimbPreservationTool.Views
 
             Guid patientID = DB.dataHolder.PatientID;
             
-            if (patientID != null && patientID != Guid.Empty)
+            if (patientID != Guid.Empty)
             {
                 DBPatient patient = await DB.GetPatient(patientID);
                 await viewModel.Initialize(patient);
